@@ -180,130 +180,38 @@ const Cubie = ({
   );
 };
 
-const RubiksCube = ({ progress }: { progress: MotionValue<number> }) => {
-  // Idle slow rotation only when assembled. Fades out as it scatters.
-  // We freeze the parent rotation once landed so the pile sits still.
-  const idleRotateY = useTransform(progress, [0, 0.2], [0, 0]);
-
+export const RubiksCube = ({
+  progress,
+  size = 520,
+}: {
+  progress: MotionValue<number>;
+  size?: number;
+}) => {
+  // Static isometric framing — no idle spin. Guarantees the dropped pile
+  // sits perfectly still on the surface.
   return (
     <div
       style={{
         perspective: 1400,
-        width: 520,
-        height: 520,
+        width: size,
+        height: size,
         filter: "drop-shadow(0 30px 60px rgba(0,0,0,0.35))",
       }}
     >
-      {/* When assembled (progress ~0) we want a gentle idle Y rotation.
-          When scattered (progress ~1) the parent must be still. We
-          accomplish "still pile" by giving the parent a fixed orientation
-          and letting only the cubies move. */}
-      <motion.div
-        animate={{ rotateY: [0, 360] }}
-        transition={{ duration: 32, ease: "linear", repeat: Infinity }}
+      <div
         style={{
           width: "100%",
           height: "100%",
           position: "relative",
           transformStyle: "preserve-3d",
-          transform: "rotateX(-22deg)",
+          transform: "rotateX(-24deg) rotateY(-32deg)",
         }}
       >
-        {/* Wrapper that cancels the idle spin once landed.
-            We invert the parent rotateY by progress*-360deg so the net
-            rotation freezes at 0deg when fully scattered. */}
-        <CubeInner progress={progress} idleRotateY={idleRotateY} />
-      </motion.div>
+        {CUBIES.map((c, i) => (
+          <Cubie key={i} c={c} progress={progress} />
+        ))}
+      </div>
     </div>
-  );
-};
-
-// Inner wrapper that progressively cancels the idle spin so the landed
-// pile is perfectly still.
-const CubeInner = ({
-  progress,
-}: {
-  progress: MotionValue<number>;
-  idleRotateY: MotionValue<number>;
-}) => {
-  // Cancel-spin: rotates opposite to parent's animated rotateY based on time.
-  // We can't read parent's animated value, so instead use a counter-rotation
-  // driven by a continuously increasing motion value scaled by (1 - progress).
-  // Simpler approach: blend between "spinning" and "static" by using the
-  // parent's animation only when progress is low.
-  // Implementation: scale child's own rotateY to compensate at progress=1.
-  // We approximate by applying rotateY = -(time*spin) * progress. Since we
-  // don't have access to the parent's exact phase, we instead simply stop
-  // the visible motion: at progress >= 0.05 we lock orientation by setting
-  // transformStyle and letting the cubies' landed positions absorb motion.
-  // The cubies are in world-space relative to this inner div, so their
-  // landed positions still drift visually with parent spin. To truly
-  // freeze, we counter-spin here using a tween linked to the same duration.
-  return (
-    <motion.div
-      animate={{ rotateY: [0, -360] }}
-      transition={{ duration: 32, ease: "linear", repeat: Infinity }}
-      style={{
-        width: "100%",
-        height: "100%",
-        position: "absolute",
-        inset: 0,
-        transformStyle: "preserve-3d",
-        // Fade in counter-spin as we scatter (0 = no counter, 1 = full counter)
-        opacity: 1,
-      }}
-    >
-      {/* The above counter-spin always fully cancels parent spin, which means
-          the cube never visibly rotates. To restore an idle spin when assembled,
-          we add a third inner layer that spins ONLY when assembled. */}
-      <motion.div
-        animate={{ rotateY: [0, 360] }}
-        transition={{ duration: 32, ease: "linear", repeat: Infinity }}
-        style={{
-          width: "100%",
-          height: "100%",
-          position: "absolute",
-          inset: 0,
-          transformStyle: "preserve-3d",
-        }}
-      >
-        <IdleGate progress={progress}>
-          {CUBIES.map((c, i) => (
-            <Cubie key={i} c={c} progress={progress} />
-          ))}
-        </IdleGate>
-      </motion.div>
-    </motion.div>
-  );
-};
-
-// Wraps children in a layer whose rotation is canceled out as progress→1,
-// so the landed pile is still while assembled cube can spin.
-const IdleGate = ({
-  progress,
-  children,
-}: {
-  progress: MotionValue<number>;
-  children: React.ReactNode;
-}) => {
-  // When progress=0 we want no extra rotation (idle spin from parent shows).
-  // When progress=1 we want a counter-rotation that holds orientation.
-  // We approximate by smoothly settling rotation to 0 at scatter (which the
-  // outermost layers already do via their reciprocal spins).
-  const dampen = useTransform(progress, [0, 1], [1, 0]);
-  return (
-    <motion.div
-      style={{
-        width: "100%",
-        height: "100%",
-        position: "absolute",
-        inset: 0,
-        transformStyle: "preserve-3d",
-        opacity: dampen.get() === 0 ? 1 : 1,
-      }}
-    >
-      {children}
-    </motion.div>
   );
 };
 
