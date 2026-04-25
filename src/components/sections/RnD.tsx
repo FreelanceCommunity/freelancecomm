@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { useMotionValue } from "framer-motion";
 import { revealContainer, revealItem } from "@/lib/motion";
-import { RubiksCube } from "./Hero";
 
 const items = [
   {
