@@ -2,41 +2,47 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { heroContainer, heroItem } from "@/lib/motion";
 
-/* ---------- Rubik's Cube ---------- */
-/* A 3x3x3 cube made of 27 cubies. On scroll, each cubie animates to a
-   scattered position. Scrolling back reverses the animation. */
+/* ---------- Rubik's Cube ----------
+   27 cubies. On scroll, they "fall" outward and land on a flat surface
+   (all Y values clamped to a ground line). No idle motion once landed.
+*/
 
 const FACE_COLORS: Record<string, string> = {
-  // Classic Rubik's palette but tuned to feel premium (slightly muted)
-  R: "#C9304A", // right  - red
-  L: "#E58E26", // left   - orange
-  U: "#F5F2EC", // up     - cream/white
-  D: "#E2C97E", // down   - gold
-  F: "#1F8A4C", // front  - green
-  B: "#1F4FAA", // back   - blue
+  R: "#C9304A",
+  L: "#E58E26",
+  U: "#F5F2EC",
+  D: "#E2C97E",
+  F: "#1F8A4C",
+  B: "#1F4FAA",
 };
 
-type Cubie = {
+export type CubieData = {
   x: -1 | 0 | 1;
   y: -1 | 0 | 1;
   z: -1 | 0 | 1;
-  // scatter offsets (px-ish in 3D space)
-  sx: number;
-  sy: number;
-  sz: number;
-  rx: number;
-  ry: number;
-  rz: number;
+  // landed (resting) transform
+  landedX: number;
+  landedY: number; // all positive — sitting on the ground line
+  landedZ: number;
+  landedRX: number; // small tilt — lying flat-ish
+  landedRY: number; // free spin OK
+  landedRZ: number; // small tilt
 };
 
 const seed = (i: number) => {
-  // deterministic pseudo-random
   const x = Math.sin(i * 9301 + 49297) * 233280;
   return x - Math.floor(x);
 };
 
-const buildCubies = (): Cubie[] => {
-  const arr: Cubie[] = [];
+const CUBIE = 56;
+const GAP = 4;
+const STEP = CUBIE + GAP;
+// Ground line in local 3D space (positive Y = down). Cube center is at 0,
+// so this puts the resting surface a bit below the cube's natural bottom.
+const GROUND_Y = STEP * 1.6;
+
+export const buildCubies = (): CubieData[] => {
+  const arr: CubieData[] = [];
   let i = 0;
   for (let x = -1; x <= 1; x++) {
     for (let y = -1; y <= 1; y++) {
@@ -46,21 +52,27 @@ const buildCubies = (): Cubie[] => {
         const r3 = seed(i + 3);
         const r4 = seed(i + 4);
         const r5 = seed(i + 5);
-        const r6 = seed(i + 6);
-        // scatter outward + random offset
-        const dirX = x === 0 ? (r1 - 0.5) * 2 : x;
-        const dirY = y === 0 ? (r2 - 0.5) * 2 : y;
-        const dirZ = z === 0 ? (r3 - 0.5) * 2 : z;
+        // Spread horizontally across the surface
+        const spread = 220 + r1 * 220;
+        const angle = r2 * Math.PI * 2;
+        const landedX = Math.cos(angle) * spread * (0.5 + r3 * 0.6);
+        const landedZ = Math.sin(angle) * spread * (0.5 + r4 * 0.6);
+        // Sit on the ground line, with a small stack jitter
+        const landedY = GROUND_Y - r5 * 6;
+        // Lying-flat rotation: small X/Z tilt, free Y spin
+        const tiltX = (r3 - 0.5) * 24;
+        const tiltZ = (r4 - 0.5) * 24;
+        const spin = (r5 - 0.5) * 360;
         arr.push({
           x: x as -1 | 0 | 1,
           y: y as -1 | 0 | 1,
           z: z as -1 | 0 | 1,
-          sx: dirX * (180 + r4 * 220),
-          sy: dirY * (180 + r5 * 220),
-          sz: dirZ * (140 + r6 * 180),
-          rx: (r4 - 0.5) * 360,
-          ry: (r5 - 0.5) * 360,
-          rz: (r6 - 0.5) * 360,
+          landedX,
+          landedY,
+          landedZ,
+          landedRX: tiltX,
+          landedRY: spin,
+          landedRZ: tiltZ,
         });
         i++;
       }
@@ -70,23 +82,26 @@ const buildCubies = (): Cubie[] => {
 };
 
 const CUBIES = buildCubies();
-const CUBIE = 56; // px
-const GAP = 4;
-const STEP = CUBIE + GAP;
 
-const Cubie = ({ c, progress }: { c: Cubie; progress: MotionValue<number> }) => {
+const Cubie = ({
+  c,
+  progress,
+}: {
+  c: CubieData;
+  progress: MotionValue<number>;
+}) => {
   const baseX = c.x * STEP;
   const baseY = c.y * STEP;
   const baseZ = c.z * STEP;
 
-  const tx = useTransform(progress, [0, 1], [baseX, baseX + c.sx]);
-  const ty = useTransform(progress, [0, 1], [baseY, baseY + c.sy]);
-  const tz = useTransform(progress, [0, 1], [baseZ, baseZ + c.sz]);
-  const rx = useTransform(progress, [0, 1], [0, c.rx]);
-  const ry = useTransform(progress, [0, 1], [0, c.ry]);
-  const rz = useTransform(progress, [0, 1], [0, c.rz]);
+  const tx = useTransform(progress, [0, 1], [baseX, c.landedX]);
+  // Falling arc: ease into the ground (extra easing handled by scroll feel)
+  const ty = useTransform(progress, [0, 1], [baseY, c.landedY]);
+  const tz = useTransform(progress, [0, 1], [baseZ, c.landedZ]);
+  const rx = useTransform(progress, [0, 1], [0, c.landedRX]);
+  const ry = useTransform(progress, [0, 1], [0, c.landedRY]);
+  const rz = useTransform(progress, [0, 1], [0, c.landedRZ]);
 
-  // Compose transform string
   const transform = useTransform(
     [tx, ty, tz, rx, ry, rz] as MotionValue<number>[],
     (v) => {
@@ -119,7 +134,6 @@ const Cubie = ({ c, progress }: { c: Cubie; progress: MotionValue<number> }) => 
         transform,
       }}
     >
-      {/* Front (z = 1) */}
       <div
         style={{
           ...faceStyle,
@@ -127,7 +141,6 @@ const Cubie = ({ c, progress }: { c: Cubie; progress: MotionValue<number> }) => 
           transform: `translateZ(${half}px)`,
         }}
       />
-      {/* Back (z = -1) */}
       <div
         style={{
           ...faceStyle,
@@ -135,7 +148,6 @@ const Cubie = ({ c, progress }: { c: Cubie; progress: MotionValue<number> }) => 
           transform: `translateZ(-${half}px) rotateY(180deg)`,
         }}
       />
-      {/* Right (x = 1) */}
       <div
         style={{
           ...faceStyle,
@@ -143,7 +155,6 @@ const Cubie = ({ c, progress }: { c: Cubie; progress: MotionValue<number> }) => 
           transform: `rotateY(90deg) translateZ(${half}px)`,
         }}
       />
-      {/* Left (x = -1) */}
       <div
         style={{
           ...faceStyle,
@@ -151,7 +162,6 @@ const Cubie = ({ c, progress }: { c: Cubie; progress: MotionValue<number> }) => 
           transform: `rotateY(-90deg) translateZ(${half}px)`,
         }}
       />
-      {/* Top (y = -1 in screen, since Y down) */}
       <div
         style={{
           ...faceStyle,
@@ -159,7 +169,6 @@ const Cubie = ({ c, progress }: { c: Cubie; progress: MotionValue<number> }) => 
           transform: `rotateX(90deg) translateZ(${half}px)`,
         }}
       />
-      {/* Bottom (y = 1) */}
       <div
         style={{
           ...faceStyle,
@@ -171,31 +180,37 @@ const Cubie = ({ c, progress }: { c: Cubie; progress: MotionValue<number> }) => 
   );
 };
 
-const RubiksCube = ({ progress }: { progress: MotionValue<number> }) => {
-  // Slow idle rotation but no vertical bobbing
+export const RubiksCube = ({
+  progress,
+  size = 520,
+}: {
+  progress: MotionValue<number>;
+  size?: number;
+}) => {
+  // Static isometric framing — no idle spin. Guarantees the dropped pile
+  // sits perfectly still on the surface.
   return (
     <div
       style={{
         perspective: 1400,
-        width: 360,
-        height: 360,
+        width: size,
+        height: size,
         filter: "drop-shadow(0 30px 60px rgba(0,0,0,0.35))",
       }}
     >
-      <motion.div
-        animate={{ rotateX: [-22, -22], rotateY: [-30, 330] }}
-        transition={{ duration: 28, ease: "linear", repeat: Infinity }}
+      <div
         style={{
           width: "100%",
           height: "100%",
           position: "relative",
           transformStyle: "preserve-3d",
+          transform: "rotateX(-24deg) rotateY(-32deg)",
         }}
       >
         {CUBIES.map((c, i) => (
           <Cubie key={i} c={c} progress={progress} />
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 };
@@ -215,7 +230,6 @@ const Hero = () => {
     target: sectionRef,
     offset: ["start start", "end start"],
   });
-  // Map 0→1 across the hero scroll. Reversing scroll naturally rewinds.
   const scatter = useTransform(scrollYProgress, [0, 0.9], [0, 1]);
 
   return (
@@ -274,7 +288,6 @@ const Hero = () => {
           </motion.div>
         </div>
 
-        {/* Stats */}
         <motion.div
           variants={heroItem}
           className="mt-12 grid grid-cols-2 gap-6 border-t border-dark/10 pt-8 md:grid-cols-4"
@@ -290,7 +303,6 @@ const Hero = () => {
         </motion.div>
       </motion.div>
 
-      {/* Scroll indicator */}
       <div className="absolute inset-x-0 bottom-4 z-20 flex flex-col items-center gap-2">
         <span className="font-mono-tag text-[10px] text-dark/50">Scroll</span>
         <div className="h-10 w-px bg-gradient-to-b from-gold to-transparent" />
