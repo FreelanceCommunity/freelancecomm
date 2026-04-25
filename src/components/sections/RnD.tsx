@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useMotionValue } from "framer-motion";
 import { revealContainer, revealItem } from "@/lib/motion";
+import { RubiksCube } from "./Hero";
 
 const items = [
   {
@@ -54,9 +56,8 @@ const Terminal = () => {
   }, [charIdx, lineIdx, done]);
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0B0B0B] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)]">
-      {/* window chrome */}
-      <div className="flex items-center gap-2 border-b border-white/10 bg-[#141414] px-4 py-3">
+    <div className="overflow-hidden rounded-2xl border border-dark/10 bg-cream shadow-[0_30px_80px_-30px_rgba(20,20,20,0.25)]">
+      <div className="flex items-center gap-2 border-b border-dark/10 bg-cement px-4 py-3">
         <span className="h-3 w-3 rounded-full bg-[#FF5F57]" />
         <span className="h-3 w-3 rounded-full bg-[#FEBC2E]" />
         <span className="h-3 w-3 rounded-full bg-[#28C840]" />
@@ -64,17 +65,16 @@ const Terminal = () => {
           ~/research — bash — 80×24
         </span>
       </div>
-      {/* body */}
-      <div className="px-5 py-5 font-mono text-[13px] leading-relaxed text-cream/90">
+      <div className="px-5 py-5 font-mono text-[13px] leading-relaxed text-dark/90">
         {bootLines.slice(0, lineIdx).map((l, i) => (
           <div
             key={i}
             className={
               l.startsWith(">")
-                ? "text-gold"
+                ? "text-gold-deep"
                 : l.includes("[ok]")
-                  ? "text-green-400/90"
-                  : "text-cream/90"
+                  ? "text-green-700"
+                  : "text-dark/80"
             }
           >
             {l}
@@ -83,14 +83,14 @@ const Terminal = () => {
         <div
           className={
             (bootLines[lineIdx] ?? "").startsWith(">")
-              ? "text-gold"
+              ? "text-gold-deep"
               : (bootLines[lineIdx] ?? "").includes("[ok]")
-                ? "text-green-400/90"
-                : "text-cream/90"
+                ? "text-green-700"
+                : "text-dark/80"
           }
         >
           {(bootLines[lineIdx] ?? "").slice(0, charIdx)}
-          <span className="cursor-blink ml-0.5 text-gold">▍</span>
+          <span className="cursor-blink ml-0.5 text-gold-deep">▍</span>
         </div>
       </div>
     </div>
@@ -112,10 +112,9 @@ const CodeWindow = ({
       data-cursor-hover
       whileHover={{ y: -6 }}
       transition={{ duration: 0.5, ease: easePremium }}
-      className="overflow-hidden rounded-2xl border border-white/10 bg-[#0F0F0F] shadow-[0_20px_60px_-20px_rgba(0,0,0,0.7)]"
+      className="overflow-hidden rounded-2xl border border-dark/10 bg-cream shadow-[0_20px_60px_-30px_rgba(20,20,20,0.25)]"
     >
-      {/* window chrome */}
-      <div className="flex items-center justify-between border-b border-white/10 bg-[#161616] px-4 py-2.5">
+      <div className="flex items-center justify-between border-b border-dark/10 bg-cement px-4 py-2.5">
         <div className="flex items-center gap-2">
           <span className="h-2.5 w-2.5 rounded-full bg-[#FF5F57]" />
           <span className="h-2.5 w-2.5 rounded-full bg-[#FEBC2E]" />
@@ -124,41 +123,40 @@ const CodeWindow = ({
         <span className="font-mono-tag text-[10px] tracking-widest text-muted-foreground">
           {it.file}
         </span>
-        <span className="font-mono-tag text-[10px] tracking-widest text-gold">
+        <span className="font-mono-tag text-[10px] tracking-widest text-gold-deep">
           0{index + 1}
         </span>
       </div>
 
       <div className="p-7">
-        <span className="inline-block rounded-full border border-gold/30 px-3 py-1 font-mono-tag text-[10px] text-gold">
+        <span className="inline-block rounded-full border border-gold/40 px-3 py-1 font-mono-tag text-[10px] text-gold-deep">
           {it.tag}
         </span>
-        <h3 className="mb-3 mt-6 font-display-bold text-lg leading-snug text-cream">
+        <h3 className="mb-3 mt-6 font-display-bold text-lg leading-snug text-dark">
           {it.title}
         </h3>
         <p className="font-body text-sm leading-relaxed text-muted-foreground">
           {it.desc}
         </p>
 
-        {/* fake code preview */}
-        <div className="mt-6 rounded-lg border border-white/5 bg-black/40 p-3 font-mono text-[11px] leading-relaxed">
-          <div className="text-muted-foreground">
-            <span className="text-[#C792EA]">const</span>{" "}
-            <span className="text-[#82AAFF]">research</span> = {"{"}
+        <div className="mt-6 rounded-lg border border-dark/10 bg-cement/60 p-3 font-mono text-[11px] leading-relaxed">
+          <div className="text-dark/70">
+            <span className="text-[#7C3AED]">const</span>{" "}
+            <span className="text-[#1D4ED8]">research</span> = {"{"}
           </div>
-          <div className="pl-4 text-muted-foreground">
-            status: <span className="text-green-400">"active"</span>,
+          <div className="pl-4 text-dark/70">
+            status: <span className="text-green-700">"active"</span>,
           </div>
-          <div className="pl-4 text-muted-foreground">
-            owner: <span className="text-gold">"freelanccomm"</span>,
+          <div className="pl-4 text-dark/70">
+            owner: <span className="text-gold-deep">"freelanccomm"</span>,
           </div>
-          <div className="text-muted-foreground">{"}"}</div>
+          <div className="text-dark/70">{"}"}</div>
         </div>
 
-        <div className="mt-6 flex items-center justify-between border-t border-white/5 pt-4 font-mono-tag text-[10px]">
+        <div className="mt-6 flex items-center justify-between border-t border-dark/10 pt-4 font-mono-tag text-[10px]">
           <div>
             <span className="text-muted-foreground">Status: </span>
-            <span className="text-green-400">● Active</span>
+            <span className="text-green-700">● Active</span>
           </div>
           <div className="flex items-center gap-1 text-muted-foreground">
             <span className="h-1 w-1 rounded-full bg-gold" />
@@ -171,18 +169,40 @@ const CodeWindow = ({
   );
 };
 
+/* Static dropped pile — uses the same RubiksCube but locked to "scattered". */
+const DroppedPile = () => {
+  const fixed = useMotionValue(1);
+  return (
+    <div className="relative h-[280px] w-full overflow-hidden">
+      {/* Floor shadow */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-6 mx-auto h-10 w-3/4 rounded-[50%]"
+        style={{
+          background:
+            "radial-gradient(ellipse at center, rgba(20,20,20,0.18), transparent 70%)",
+          filter: "blur(6px)",
+        }}
+      />
+      <div className="absolute inset-0 flex items-end justify-center pb-4">
+        <RubiksCube progress={fixed} size={420} />
+      </div>
+    </div>
+  );
+};
+
 const RnD = () => (
   <section
     id="rnd"
-    className="relative overflow-hidden bg-[#0A0A0A] py-28 lg:py-36"
+    className="relative overflow-hidden bg-cream py-28 lg:py-36"
   >
-    {/* Subtle grid backdrop — full computer feel */}
+    {/* Subtle grid backdrop */}
     <div
       aria-hidden
-      className="pointer-events-none absolute inset-0 opacity-[0.07]"
+      className="pointer-events-none absolute inset-0 opacity-[0.05]"
       style={{
         backgroundImage:
-          "linear-gradient(hsl(var(--cream)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--cream)) 1px, transparent 1px)",
+          "linear-gradient(hsl(var(--dark)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--dark)) 1px, transparent 1px)",
         backgroundSize: "44px 44px",
         maskImage:
           "radial-gradient(ellipse at center, black 50%, transparent 85%)",
@@ -207,19 +227,30 @@ const RnD = () => (
     >
       <motion.div
         variants={revealItem}
-        className="flex flex-col items-start justify-between gap-10 md:flex-row md:items-end"
+        className="grid grid-cols-1 items-end gap-10 lg:grid-cols-12"
       >
-        <div>
-          <p className="font-mono-tag text-[11px] text-gold">// R&D</p>
-          <h2 className="mt-4 font-display text-4xl leading-[1.05] text-cream sm:text-5xl lg:text-6xl">
+        <div className="lg:col-span-5">
+          <p className="font-mono-tag text-[11px] text-gold-deep">// R&D</p>
+          <h2 className="mt-4 font-display text-4xl leading-[1.05] text-dark sm:text-5xl lg:text-6xl">
             What we're
             <br />
             exploring <span className="text-gold-gradient">→</span>
           </h2>
+          <p className="mt-6 max-w-md font-body text-sm leading-relaxed text-muted-foreground">
+            Pieces from the cube above land here — fragments of ideas we're
+            actively prototyping in the studio.
+          </p>
         </div>
-        <div className="w-full max-w-xl">
-          <Terminal />
-        </div>
+
+        {/* Dropped pile visual */}
+        <motion.div variants={revealItem} className="lg:col-span-7">
+          <DroppedPile />
+        </motion.div>
+      </motion.div>
+
+      {/* Terminal */}
+      <motion.div variants={revealItem} className="mt-12 max-w-2xl">
+        <Terminal />
       </motion.div>
 
       <div className="mt-16 grid grid-cols-1 gap-5 lg:grid-cols-3">
