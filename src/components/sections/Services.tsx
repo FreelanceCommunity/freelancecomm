@@ -1,58 +1,201 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { revealContainer, revealItem } from "@/lib/motion";
 
 const services = [
-  { num: "01", title: "Web Design & Dev", desc: "Pixel-perfect, performant websites built for conversion and delight." },
-  { num: "02", title: "Mobile Apps", desc: "Cross-platform apps that feel native and work beautifully." },
-  { num: "03", title: "Brand Identity", desc: "Visual systems that tell your story with clarity and confidence." },
-  { num: "04", title: "Motion & Animation", desc: "Micro-interactions and transitions that make interfaces come alive." },
-  { num: "05", title: "AI Integration", desc: "Embedding intelligence into products — chatbots, automations, workflows." },
-  { num: "06", title: "SEO & Growth", desc: "Organic strategies that bring the right eyes to your product." },
+  {
+    num: "01",
+    title: "Web Design & Dev",
+    desc: "Pixel-perfect, performant websites built for conversion and delight.",
+    deliverables: ["Design System", "Next-gen Stack", "Edge Performance", "CMS Integration"],
+  },
+  {
+    num: "02",
+    title: "Mobile Apps",
+    desc: "Cross-platform apps that feel native and work beautifully.",
+    deliverables: ["iOS & Android", "Offline-first", "Push & Realtime", "App Store Launch"],
+  },
+  {
+    num: "03",
+    title: "Brand Identity",
+    desc: "Visual systems that tell your story with clarity and confidence.",
+    deliverables: ["Logo & Marks", "Type System", "Colour & Tone", "Brand Guidelines"],
+  },
+  {
+    num: "04",
+    title: "Motion & Animation",
+    desc: "Micro-interactions and transitions that make interfaces come alive.",
+    deliverables: ["UI Motion", "Lottie Pipelines", "Scroll Stories", "Product Films"],
+  },
+  {
+    num: "05",
+    title: "AI Integration",
+    desc: "Embedding intelligence into products — chatbots, automations, workflows.",
+    deliverables: ["LLM Pipelines", "RAG Systems", "Agent Workflows", "Voice Interfaces"],
+  },
+  {
+    num: "06",
+    title: "SEO & Growth",
+    desc: "Organic strategies that bring the right eyes to your product.",
+    deliverables: ["Tech SEO Audit", "Content Engine", "Schema & Speed", "Analytics Stack"],
+  },
 ];
 
-const Services = () => (
-  <section id="services" className="bg-cream py-28 lg:py-36">
-    <motion.div
-      variants={revealContainer}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-80px" }}
-      className="mx-auto max-w-7xl px-6 lg:px-10"
-    >
-      <motion.div variants={revealItem} className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
-        <div>
-          <p className="font-mono-tag text-[11px] text-gold">// What We Do</p>
-          <h2 className="mt-4 font-display text-4xl leading-[1] text-dark sm:text-5xl lg:text-6xl">
-            Our Services
-          </h2>
-        </div>
-        <p className="max-w-[240px] font-body text-sm leading-relaxed text-muted-foreground">
-          A focused set of disciplines, executed with depth. We pick what to do well, and decline the rest.
-        </p>
-      </motion.div>
+const easePremium = [0.16, 1, 0.3, 1] as const;
 
-      <div className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {services.map((s) => (
-          <motion.div
-            key={s.num}
-            variants={revealItem}
-            data-cursor-hover
-            className="group cursor-none rounded-2xl border border-dark/10 p-8 transition-all duration-[400ms] ease-premium hover:bg-dark"
-          >
-            <div className="font-mono-tag text-sm font-bold text-gold">{s.num}</div>
-            <div className="mt-6 border-t border-dark/10 pt-6 transition-colors duration-[400ms] group-hover:border-gold/30">
-              <h3 className="font-display-bold text-xl text-dark transition-colors duration-[400ms] group-hover:text-cream">
-                {s.title}
-              </h3>
-              <p className="mt-3 font-body text-sm leading-relaxed text-muted-foreground transition-colors duration-[400ms] group-hover:text-cream/70">
-                {s.desc}
-              </p>
-            </div>
-          </motion.div>
-        ))}
+const Services = () => {
+  const [active, setActive] = useState<number | null>(null);
+
+  return (
+    <section id="services" className="relative overflow-hidden bg-cream py-28 lg:py-36">
+      {/* Vertical wordmark accent */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-6 top-1/2 hidden -translate-y-1/2 select-none lg:block"
+        style={{ writingMode: "vertical-rl" }}
+      >
+        <span
+          className="bg-wordmark"
+          style={{ fontSize: "clamp(80px, 9vw, 140px)" }}
+        >
+          SERVICES
+        </span>
       </div>
-    </motion.div>
-  </section>
-);
+
+      <motion.div
+        variants={revealContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-80px" }}
+        className="mx-auto max-w-7xl px-6 lg:px-10"
+      >
+        <motion.div
+          variants={revealItem}
+          className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end"
+        >
+          <div>
+            <p className="font-mono-tag text-[11px] text-gold">// What We Do</p>
+            <h2 className="mt-4 font-display text-4xl leading-[1] text-dark sm:text-5xl lg:text-6xl">
+              Six disciplines.
+              <br />
+              <span className="text-gold-gradient">One studio.</span>
+            </h2>
+          </div>
+          <p className="max-w-[260px] font-body text-sm leading-relaxed text-muted-foreground">
+            Hover any row to expand. We pick what to do well, and decline the rest.
+          </p>
+        </motion.div>
+
+        {/* Stacked expanding rows */}
+        <motion.div
+          variants={revealItem}
+          className="mt-16 border-t border-dark/15"
+          onMouseLeave={() => setActive(null)}
+        >
+          {services.map((s, i) => {
+            const isActive = active === i;
+            return (
+              <motion.div
+                key={s.num}
+                data-cursor-hover
+                onMouseEnter={() => setActive(i)}
+                onClick={() => setActive(isActive ? null : i)}
+                className="group relative cursor-none border-b border-dark/15"
+                initial={false}
+              >
+                {/* Animated dark fill */}
+                <motion.div
+                  aria-hidden
+                  className="absolute inset-0 origin-left bg-dark"
+                  initial={false}
+                  animate={{ scaleX: isActive ? 1 : 0 }}
+                  transition={{ duration: 0.7, ease: easePremium }}
+                  style={{ transformOrigin: "left" }}
+                />
+
+                <div className="relative grid grid-cols-12 items-center gap-4 px-2 py-7 sm:py-9">
+                  {/* Number */}
+                  <motion.div
+                    className="col-span-2 font-mono-tag text-xs"
+                    animate={{ color: isActive ? "hsl(var(--gold))" : "hsl(var(--gold))" }}
+                  >
+                    {s.num}
+                  </motion.div>
+
+                  {/* Title */}
+                  <motion.h3
+                    className="col-span-7 font-display-bold text-2xl sm:text-3xl lg:text-4xl"
+                    animate={{
+                      color: isActive ? "hsl(var(--cream))" : "hsl(var(--dark))",
+                      x: isActive ? 16 : 0,
+                    }}
+                    transition={{ duration: 0.6, ease: easePremium }}
+                  >
+                    {s.title}
+                  </motion.h3>
+
+                  {/* Plus / arrow */}
+                  <motion.div
+                    className="col-span-3 flex items-center justify-end font-mono-tag text-xs"
+                    animate={{
+                      color: isActive ? "hsl(var(--cream))" : "hsl(var(--dark))",
+                    }}
+                  >
+                    <motion.span
+                      animate={{ rotate: isActive ? 45 : 0 }}
+                      transition={{ duration: 0.5, ease: easePremium }}
+                      className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-current text-base"
+                    >
+                      +
+                    </motion.span>
+                  </motion.div>
+                </div>
+
+                {/* Expanded detail */}
+                <AnimatePresence initial={false}>
+                  {isActive && (
+                    <motion.div
+                      key="detail"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.6, ease: easePremium }}
+                      className="relative overflow-hidden"
+                    >
+                      <div className="grid grid-cols-12 gap-4 px-2 pb-10 pt-2">
+                        <div className="col-span-2" />
+                        <p className="col-span-12 max-w-xl font-body text-base leading-relaxed text-cream/80 md:col-span-5">
+                          {s.desc}
+                        </p>
+                        <ul className="col-span-12 grid grid-cols-2 gap-x-6 gap-y-2 md:col-span-5">
+                          {s.deliverables.map((d, di) => (
+                            <motion.li
+                              key={d}
+                              initial={{ opacity: 0, x: -12 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{
+                                delay: 0.15 + di * 0.06,
+                                duration: 0.5,
+                                ease: easePremium,
+                              }}
+                              className="flex items-center gap-2 font-mono-tag text-[11px] text-gold"
+                            >
+                              <span className="h-px w-4 bg-gold" />
+                              {d}
+                            </motion.li>
+                          ))}
+                        </ul>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+      </motion.div>
+    </section>
+  );
+};
 
 export default Services;
