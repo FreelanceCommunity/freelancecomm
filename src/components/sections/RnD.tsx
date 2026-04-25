@@ -206,23 +206,19 @@ const RnD = () => (
         variants={revealItem}
         className="grid grid-cols-1 items-end gap-10 lg:grid-cols-12"
       >
-        <div className="lg:col-span-5">
+        <div className="lg:col-span-7">
           <p className="font-mono-tag text-[11px] text-gold-deep">// R&D</p>
           <h2 className="mt-4 font-display text-4xl leading-[1.05] text-dark sm:text-5xl lg:text-6xl">
             What we're
             <br />
             exploring <span className="text-gold-gradient">→</span>
           </h2>
-          <p className="mt-6 max-w-md font-body text-sm leading-relaxed text-muted-foreground">
-            Pieces from the cube above land here — fragments of ideas we're
-            actively prototyping in the studio.
+          <p className="mt-6 max-w-xl font-body text-sm leading-relaxed text-muted-foreground">
+            Fragments of ideas we're actively prototyping in the studio —
+            small experiments that often turn into the foundations of our next
+            client projects.
           </p>
         </div>
-
-        {/* Dropped pile visual */}
-        <motion.div variants={revealItem} className="lg:col-span-7">
-          <DroppedPile />
-        </motion.div>
       </motion.div>
 
       {/* Terminal */}
