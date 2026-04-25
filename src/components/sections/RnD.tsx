@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { useMotionValue } from "framer-motion";
 import { revealContainer, revealItem } from "@/lib/motion";
-import { RubiksCube } from "./Hero";
 
 const items = [
   {
@@ -169,27 +167,6 @@ const CodeWindow = ({
   );
 };
 
-/* Static dropped pile — uses the same RubiksCube but locked to "scattered". */
-const DroppedPile = () => {
-  const fixed = useMotionValue(1);
-  return (
-    <div className="relative h-[280px] w-full overflow-hidden">
-      {/* Floor shadow */}
-      <div
-        aria-hidden
-        className="absolute inset-x-0 bottom-6 mx-auto h-10 w-3/4 rounded-[50%]"
-        style={{
-          background:
-            "radial-gradient(ellipse at center, rgba(20,20,20,0.18), transparent 70%)",
-          filter: "blur(6px)",
-        }}
-      />
-      <div className="absolute inset-0 flex items-end justify-center pb-4">
-        <RubiksCube progress={fixed} size={420} />
-      </div>
-    </div>
-  );
-};
 
 const RnD = () => (
   <section
@@ -229,23 +206,19 @@ const RnD = () => (
         variants={revealItem}
         className="grid grid-cols-1 items-end gap-10 lg:grid-cols-12"
       >
-        <div className="lg:col-span-5">
+        <div className="lg:col-span-7">
           <p className="font-mono-tag text-[11px] text-gold-deep">// R&D</p>
           <h2 className="mt-4 font-display text-4xl leading-[1.05] text-dark sm:text-5xl lg:text-6xl">
             What we're
             <br />
             exploring <span className="text-gold-gradient">→</span>
           </h2>
-          <p className="mt-6 max-w-md font-body text-sm leading-relaxed text-muted-foreground">
-            Pieces from the cube above land here — fragments of ideas we're
-            actively prototyping in the studio.
+          <p className="mt-6 max-w-xl font-body text-sm leading-relaxed text-muted-foreground">
+            Fragments of ideas we're actively prototyping in the studio —
+            small experiments that often turn into the foundations of our next
+            client projects.
           </p>
         </div>
-
-        {/* Dropped pile visual */}
-        <motion.div variants={revealItem} className="lg:col-span-7">
-          <DroppedPile />
-        </motion.div>
       </motion.div>
 
       {/* Terminal */}
