@@ -51,7 +51,7 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
       <directionalLight position={[4, 6, 4]} intensity={1.1} castShadow />
       <directionalLight position={[-4, 2, -2]} intensity={0.4} color="#E2C97E" />
       <Suspense fallback={null}>
-        <Model scrollMV={scrollMV} />
+        <Model />
         <ContactShadows
           position={[0, -1.55, 0]}
           opacity={0.45}
