@@ -254,7 +254,7 @@ const Hero = () => {
 
       {/* DJ 3D Model */}
       <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-        <div className="h-[80vh] w-full max-w-3xl">
+        <div className="h-[70vh] w-[min(90vw,720px)]">
           <DjModel scrollMV={scatter} />
         </div>
       </div>
