@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { heroContainer, heroItem } from "@/lib/motion";
+import DjModel from "@/components/DjModel";
 
 /* ---------- Rubik's Cube ----------
    27 cubies. On scroll, they "fall" outward and land on a flat surface
@@ -251,12 +252,11 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Rubik's cube */}
-      <div
-        className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center"
-        style={{ marginTop: "-2%" }}
-      >
-        <RubiksCube progress={scatter} />
+      {/* DJ 3D Model */}
+      <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
+        <div className="h-[80vh] w-full max-w-3xl">
+          <DjModel scrollMV={scatter} />
+        </div>
       </div>
 
       {/* Content */}
