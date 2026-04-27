@@ -39,21 +39,17 @@ declare global {
 }
 
 /**
- * Loop sequence:
- *   rollIn  → roll across from off-screen left to the center
- *   settle  → brief Idle pause once centered (smooths Roll → Wave transition)
- *   wave    → wave at the viewer (Punch arm-raise used as a wave)
- *   turn    → quick Idle beat while the character orients to face right
- *   runOut  → run to the right and exit off-screen
+ * Loop sequence (kept intentionally minimal):
+ *   rollIn  → one single roll across from off-screen left to center
+ *   wave    → stand at center and wave at the viewer
+ *   runOut  → run forward to the right and exit off-screen
  *   reset   → invisible off-screen-left reset, then loop
  */
-type Phase = "rollIn" | "settle" | "wave" | "turn" | "runOut" | "reset";
+type Phase = "rollIn" | "wave" | "runOut" | "reset";
 
 const PHASE_DURATIONS: Record<Phase, number> = {
-  rollIn: 2000,
-  settle: 450,
+  rollIn: 1800, // tuned so Roll clip plays once cleanly across the slide
   wave: 1700,
-  turn: 350,
   runOut: 1900,
   reset: 50,
 };
@@ -89,10 +85,8 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
   useEffect(() => {
     const next: Record<Phase, Phase> = {
       reset: "rollIn",
-      rollIn: "settle",
-      settle: "wave",
-      wave: "turn",
-      turn: "runOut",
+      rollIn: "wave",
+      wave: "runOut",
       runOut: "reset",
     };
     const t = setTimeout(() => setPhase(next[phase]), PHASE_DURATIONS[phase]);
@@ -104,9 +98,6 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
     switch (phase) {
       case "rollIn":
         return "Roll";
-      case "settle":
-      case "turn":
-        return "Idle";
       case "wave":
         return "Punch"; // closest to a wave (raises arm)
       case "runOut":
@@ -117,10 +108,8 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
     }
   })();
 
-  // Camera faces RIGHT while moving right (rollIn, runOut) and during wave.
-  // During the brief "turn" beat we flip orientation so the run feels natural.
-  const cameraOrbit =
-    phase === "runOut" ? ORBIT_FACING_LEFT : ORBIT_FACING_RIGHT;
+  // Camera always faces right (character moves left → right the whole loop).
+  const cameraOrbit = ORBIT_FACING_RIGHT;
 
   // Horizontal travel across the hero.
   // -110% = fully off-screen left, 0% = centered, 120% = fully off-screen right.
@@ -135,17 +124,7 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
         opacity: { duration: 0.25, ease: "easeOut" as const },
       },
     },
-    settle: {
-      x: "0%",
-      opacity: 1,
-      transition: { duration: 0.3, ease: "easeOut" as const },
-    },
     wave: {
-      x: "0%",
-      opacity: 1,
-      transition: { duration: 0.3, ease: "easeOut" as const },
-    },
-    turn: {
       x: "0%",
       opacity: 1,
       transition: { duration: 0.3, ease: "easeOut" as const },
