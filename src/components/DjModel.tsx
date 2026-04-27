@@ -39,21 +39,17 @@ declare global {
 }
 
 /**
- * Loop sequence:
- *   rollIn  → roll across from off-screen left to the center
- *   settle  → brief Idle pause once centered (smooths Roll → Wave transition)
- *   wave    → wave at the viewer (Punch arm-raise used as a wave)
- *   turn    → quick Idle beat while the character orients to face right
- *   runOut  → run to the right and exit off-screen
+ * Loop sequence (kept intentionally minimal):
+ *   rollIn  → one single roll across from off-screen left to center
+ *   wave    → stand at center and wave at the viewer
+ *   runOut  → run forward to the right and exit off-screen
  *   reset   → invisible off-screen-left reset, then loop
  */
-type Phase = "rollIn" | "settle" | "wave" | "turn" | "runOut" | "reset";
+type Phase = "rollIn" | "wave" | "runOut" | "reset";
 
 const PHASE_DURATIONS: Record<Phase, number> = {
-  rollIn: 2000,
-  settle: 450,
+  rollIn: 1800, // tuned so Roll clip plays once cleanly across the slide
   wave: 1700,
-  turn: 350,
   runOut: 1900,
   reset: 50,
 };
