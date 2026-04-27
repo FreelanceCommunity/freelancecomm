@@ -252,9 +252,9 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* DJ 3D Model */}
+      {/* DJ 3D Model — travels left → right across the hero */}
       <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-start">
-        <div className="h-[95vh] w-[min(120vw,1100px)] -ml-[8vw]">
+        <div className="h-[60vh] w-full max-w-[700px]">
           <DjModel scrollMV={scatter} />
         </div>
       </div>
