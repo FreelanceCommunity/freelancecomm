@@ -48,8 +48,9 @@ declare global {
 type Phase = "rollIn" | "wave" | "runOut" | "reset";
 
 const PHASE_DURATIONS: Record<Phase, number> = {
-  rollIn: 1800, // tuned so Roll clip plays once cleanly across the slide
-  wave: 1700,
+  // Roll clip is ~1s; play it twice cleanly across the slide
+  rollIn: 2000,
+  wave: 1800,
   runOut: 1900,
   reset: 50,
 };
