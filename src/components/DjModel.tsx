@@ -48,8 +48,9 @@ declare global {
 type Phase = "rollIn" | "wave" | "runOut" | "reset";
 
 const PHASE_DURATIONS: Record<Phase, number> = {
-  rollIn: 1800, // tuned so Roll clip plays once cleanly across the slide
-  wave: 1700,
+  // Roll clip is ~1s; play it twice cleanly across the slide
+  rollIn: 2000,
+  wave: 1800,
   runOut: 1900,
   reset: 50,
 };
@@ -99,7 +100,9 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
       case "rollIn":
         return "Roll";
       case "wave":
-        return "Punch"; // closest to a wave (raises arm)
+        // GLB has no dedicated "Wave" clip — PickUp raises the arm in a
+        // friendly hand-up gesture, the closest non-violent wave we have.
+        return "PickUp";
       case "runOut":
         return "Run";
       case "reset":
