@@ -54,7 +54,7 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
       ref={viewerRef}
       src={djUrl}
       autoplay
-      animation-name="Idle"
+      animation-name="Punch"
       exposure="1.15"
       shadow-intensity="0.75"
       camera-orbit="-35deg 80deg 60%"
