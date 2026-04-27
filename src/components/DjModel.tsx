@@ -38,18 +38,22 @@ declare global {
   }
 }
 
-// Sequence: Roll in from off-screen left → Punch (used as "point") → Idle breathing → loop
-type Phase = "roll" | "point" | "idle";
+// Loop sequence:
+//   rollIn  : character rolls in from off-screen left toward left third of screen
+//   wave    : character waves hi (using "Punch" arm-up gesture as wave)
+//   runOut  : character runs to the right and exits off-screen right
+// Then resets back to off-screen left and the loop repeats.
+type Phase = "rollIn" | "wave" | "runOut";
 
 const PHASE_DURATIONS: Record<Phase, number> = {
-  roll: 2200,   // sliding in across the screen
-  point: 1400,  // punch/point gesture
-  idle: 2600,   // brief idle breathing before looping
+  rollIn: 1800,
+  wave: 1600,
+  runOut: 2200,
 };
 
 const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) => {
   const viewerRef = useRef<ModelViewerElement>(null);
-  const [phase, setPhase] = useState<Phase>("roll");
+  const [phase, setPhase] = useState<Phase>("rollIn");
 
   useEffect(() => {
     const viewer = viewerRef.current;
@@ -65,28 +69,49 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
   // Cycle through phases continuously
   useEffect(() => {
     const t = setTimeout(() => {
-      setPhase((p) => (p === "roll" ? "point" : p === "point" ? "idle" : "roll"));
+      setPhase((p) =>
+        p === "rollIn" ? "wave" : p === "wave" ? "runOut" : "rollIn"
+      );
     }, PHASE_DURATIONS[phase]);
     return () => clearTimeout(t);
   }, [phase]);
 
   const animationName =
-    phase === "roll" ? "Roll" : phase === "point" ? "Punch" : "Idle";
+    phase === "rollIn" ? "Roll" : phase === "wave" ? "Punch" : "Run";
 
-  // During the roll phase the character slides in from far left.
-  // After that it stays anchored at the left side of the hero.
+  // Horizontal travel across the hero. The motion.div is the full hero width;
+  // we slide it from off-screen left → left third → off-screen right.
   const slideVariants = {
-    roll: { x: "-60%", transition: { duration: PHASE_DURATIONS.roll / 1000, ease: [0.22, 0.61, 0.36, 1] as const } },
-    point: { x: "0%", transition: { duration: 0.4, ease: "easeOut" as const } },
-    idle: { x: "0%", transition: { duration: 0.4, ease: "easeOut" as const } },
+    rollIn: {
+      x: "-25%",
+      transition: {
+        duration: PHASE_DURATIONS.rollIn / 1000,
+        ease: [0.22, 0.61, 0.36, 1] as const,
+      },
+    },
+    wave: {
+      x: "-25%",
+      transition: { duration: 0.3, ease: "easeOut" as const },
+    },
+    runOut: {
+      x: "120%",
+      transition: {
+        duration: PHASE_DURATIONS.runOut / 1000,
+        ease: [0.45, 0, 0.55, 1] as const,
+      },
+    },
   };
 
   return (
     <motion.div
       className="h-full w-full"
-      initial={{ x: "-110%" }}
-      animate={phase}
-      variants={slideVariants}
+      // Reset instantly off-screen left whenever we re-enter rollIn phase
+      initial={false}
+      animate={phase === "rollIn" ? ["reset", "rollIn"] : phase}
+      variants={{
+        reset: { x: "-110%", transition: { duration: 0 } },
+        ...slideVariants,
+      }}
     >
       <model-viewer
         ref={viewerRef}
@@ -96,11 +121,11 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
         animation-crossfade-duration="250"
         exposure="1.15"
         shadow-intensity="0.75"
-        camera-orbit="-35deg 80deg 60%"
-        camera-target="0m 1m 0m"
-        field-of-view="16deg"
-        min-camera-orbit="-35deg 80deg 60%"
-        max-camera-orbit="-35deg 80deg 60%"
+        camera-orbit="-35deg 80deg 110%"
+        camera-target="0m 0.9m 0m"
+        field-of-view="28deg"
+        min-camera-orbit="-35deg 80deg 110%"
+        max-camera-orbit="-35deg 80deg 110%"
         interaction-prompt="none"
         disable-zoom
         loading="eager"
