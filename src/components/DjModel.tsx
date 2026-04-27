@@ -100,7 +100,9 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
       case "rollIn":
         return "Roll";
       case "wave":
-        return "Punch"; // closest to a wave (raises arm)
+        // GLB has no dedicated "Wave" clip — PickUp raises the arm in a
+        // friendly hand-up gesture, the closest non-violent wave we have.
+        return "PickUp";
       case "runOut":
         return "Run";
       case "reset":
