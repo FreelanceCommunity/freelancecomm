@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import type { MotionValue } from "framer-motion";
 import "@google/model-viewer";
 import djUrl from "@/assets/dj_music_man.glb?url";
@@ -38,22 +38,41 @@ declare global {
   }
 }
 
-// Loop sequence:
-//   rollIn  : character rolls in from off-screen left toward left third of screen
-//   wave    : character waves hi (using "Punch" arm-up gesture as wave)
-//   runOut  : character runs to the right and exits off-screen right
-// Then resets back to off-screen left and the loop repeats.
-type Phase = "rollIn" | "wave" | "runOut";
+/**
+ * Loop sequence:
+ *   rollIn  → roll across from off-screen left to the center
+ *   settle  → brief Idle pause once centered (smooths Roll → Wave transition)
+ *   wave    → wave at the viewer (Punch arm-raise used as a wave)
+ *   turn    → quick Idle beat while the character orients to face right
+ *   runOut  → run to the right and exit off-screen
+ *   reset   → invisible off-screen-left reset, then loop
+ */
+type Phase = "rollIn" | "settle" | "wave" | "turn" | "runOut" | "reset";
 
 const PHASE_DURATIONS: Record<Phase, number> = {
-  rollIn: 1800,
-  wave: 1600,
-  runOut: 2200,
+  rollIn: 2000,
+  settle: 450,
+  wave: 1700,
+  turn: 350,
+  runOut: 1900,
+  reset: 50,
 };
+
+// Camera orbits — negative azimuth = facing right, positive = facing left.
+// We rotate the camera (not the model) so the character appears to face the
+// direction of travel. Crossfaded by model-viewer for smoothness.
+const ORBIT_FACING_RIGHT = "-35deg 82deg 115%";
+const ORBIT_FACING_LEFT = "35deg 82deg 115%";
 
 const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) => {
   const viewerRef = useRef<ModelViewerElement>(null);
-  const [phase, setPhase] = useState<Phase>("rollIn");
+  const [phase, setPhase] = useState<Phase>("reset");
+
+  // Kick the loop off after first paint
+  useEffect(() => {
+    const t = setTimeout(() => setPhase("rollIn"), 60);
+    return () => clearTimeout(t);
+  }, []);
 
   useEffect(() => {
     const viewer = viewerRef.current;
@@ -66,66 +85,101 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
     return () => viewer.removeEventListener("load", onLoad);
   }, []);
 
-  // Cycle through phases continuously
+  // Phase scheduler
   useEffect(() => {
-    const t = setTimeout(() => {
-      setPhase((p) =>
-        p === "rollIn" ? "wave" : p === "wave" ? "runOut" : "rollIn"
-      );
-    }, PHASE_DURATIONS[phase]);
+    const next: Record<Phase, Phase> = {
+      reset: "rollIn",
+      rollIn: "settle",
+      settle: "wave",
+      wave: "turn",
+      turn: "runOut",
+      runOut: "reset",
+    };
+    const t = setTimeout(() => setPhase(next[phase]), PHASE_DURATIONS[phase]);
     return () => clearTimeout(t);
   }, [phase]);
 
-  const animationName =
-    phase === "rollIn" ? "Roll" : phase === "wave" ? "Punch" : "Run";
+  // Pick the correct clip per phase
+  const animationName = (() => {
+    switch (phase) {
+      case "rollIn":
+        return "Roll";
+      case "settle":
+      case "turn":
+        return "Idle";
+      case "wave":
+        return "Punch"; // closest to a wave (raises arm)
+      case "runOut":
+        return "Run";
+      case "reset":
+      default:
+        return "Idle";
+    }
+  })();
 
-  // Horizontal travel across the hero. The motion.div is the full hero width;
-  // we slide it from off-screen left → left third → off-screen right.
+  // Camera faces RIGHT while moving right (rollIn, runOut) and during wave.
+  // During the brief "turn" beat we flip orientation so the run feels natural.
+  const cameraOrbit =
+    phase === "runOut" ? ORBIT_FACING_LEFT : ORBIT_FACING_RIGHT;
+
+  // Horizontal travel across the hero.
+  // -110% = fully off-screen left, 0% = centered, 120% = fully off-screen right.
   const slideVariants = {
+    reset: { x: "-110%", opacity: 0, transition: { duration: 0 } },
     rollIn: {
-      x: "-25%",
+      x: "0%",
+      opacity: 1,
       transition: {
         duration: PHASE_DURATIONS.rollIn / 1000,
         ease: [0.22, 0.61, 0.36, 1] as const,
+        opacity: { duration: 0.25, ease: "easeOut" as const },
       },
     },
+    settle: {
+      x: "0%",
+      opacity: 1,
+      transition: { duration: 0.3, ease: "easeOut" as const },
+    },
     wave: {
-      x: "-25%",
+      x: "0%",
+      opacity: 1,
+      transition: { duration: 0.3, ease: "easeOut" as const },
+    },
+    turn: {
+      x: "0%",
+      opacity: 1,
       transition: { duration: 0.3, ease: "easeOut" as const },
     },
     runOut: {
       x: "120%",
+      opacity: 1,
       transition: {
         duration: PHASE_DURATIONS.runOut / 1000,
         ease: [0.45, 0, 0.55, 1] as const,
       },
     },
-  };
+  } as const;
 
   return (
     <motion.div
-      className="h-full w-full"
-      // Reset instantly off-screen left whenever we re-enter rollIn phase
-      initial={false}
-      animate={phase === "rollIn" ? ["reset", "rollIn"] : phase}
-      variants={{
-        reset: { x: "-110%", transition: { duration: 0 } },
-        ...slideVariants,
-      }}
+      className="h-full w-full will-change-transform"
+      initial={{ x: "-110%", opacity: 0 }}
+      animate={phase}
+      variants={slideVariants}
     >
       <model-viewer
         ref={viewerRef}
         src={djUrl}
         autoplay
         animation-name={animationName}
-        animation-crossfade-duration="250"
+        animation-crossfade-duration="350"
         exposure="1.15"
         shadow-intensity="0.75"
-        camera-orbit="-35deg 80deg 110%"
+        camera-orbit={cameraOrbit}
         camera-target="0m 0.9m 0m"
         field-of-view="28deg"
-        min-camera-orbit="-35deg 80deg 110%"
-        max-camera-orbit="-35deg 80deg 110%"
+        min-camera-orbit={cameraOrbit}
+        max-camera-orbit={cameraOrbit}
         interaction-prompt="none"
         disable-zoom
         loading="eager"
@@ -136,5 +190,8 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
     </motion.div>
   );
 };
+
+// Keep AnimatePresence import side-effect-free in case of future tree-shaking
+void AnimatePresence;
 
 export default DjModel;
