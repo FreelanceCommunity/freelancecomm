@@ -44,22 +44,18 @@ declare global {
 }
 
 /**
- * Loop sequence (cleaner read):
- *   runIn   → enter from left at a run
- *   jump    → mid-stride parabolic jump (Jump clip if present, else Roll)
- *   runMid  → continue running to center
- *   wave    → stop, raise hand, wave hi (PickUp ≈ arm-raise)
- *   runOut  → run forward to the right and exit off-screen
+ * Loop sequence:
+ *   runIn   → enter from left at a run, stop near center
+ *   breathe → pause for ~2s, idle "catching breath" (subtle body rise/fall)
+ *   runOut  → start running again, exit off the right
  *   reset   → invisible off-screen-left re-arm, then loop
  */
-type Phase = "runIn" | "jump" | "runMid" | "wave" | "runOut" | "reset";
+type Phase = "runIn" | "breathe" | "runOut" | "reset";
 
 const FALLBACK_CLIP_DURATIONS: Record<string, number> = {
-  Roll: 1.0,
-  PickUp: 1.0,
   Run: 1.0,
-  Jump: 1.0,
   Idle: 1.0,
+  PickUp: 1.0,
 };
 
 // Negative azimuth = facing right (direction of travel).
@@ -71,19 +67,15 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
   const [clipDurations, setClipDurations] = useState<Record<string, number>>(
     FALLBACK_CLIP_DURATIONS
   );
-  const [hasJumpClip, setHasJumpClip] = useState(false);
+  const [hasIdle, setHasIdle] = useState(false);
 
   const phaseDurations = useMemo<Record<Phase, number>>(() => {
     const run = (clipDurations.Run ?? 1.0) * 1000;
-    const pickup = (clipDurations.PickUp ?? 1.0) * 1000;
-    const jump = (clipDurations.Jump ?? clipDurations.Roll ?? 1.0) * 1000;
     return {
-      runIn: Math.max(900, run * 1.2),
-      jump: Math.max(700, jump),
-      runMid: Math.max(700, run * 0.9),
-      wave: pickup * 2 + 500,
-      runOut: Math.max(1100, run * 1.6),
-      reset: 50,
+      runIn: Math.max(1400, run * 1.8),
+      breathe: 2000, // ~2 second breather
+      runOut: Math.max(1300, run * 1.7),
+      reset: 60,
     };
   }, [clipDurations]);
 
@@ -93,7 +85,7 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
     return () => clearTimeout(t);
   }, []);
 
-  // Measure real clip durations once available
+  // Measure real clip durations
   useEffect(() => {
     const viewer = viewerRef.current;
     if (!viewer) return;
@@ -106,9 +98,9 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
       }
       if (cancelled) return;
       const names = viewer.availableAnimations ?? [];
-      setHasJumpClip(names.includes("Jump"));
+      setHasIdle(names.includes("Idle"));
       const out: Record<string, number> = { ...FALLBACK_CLIP_DURATIONS };
-      const wanted = ["Roll", "PickUp", "Run", "Jump", "Idle"];
+      const wanted = ["Run", "Idle", "PickUp"];
       const previousName = viewer.getAttribute("animation-name");
       const wasPaused = !!viewer.paused;
       viewer.pause?.();
@@ -142,17 +134,15 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
   useEffect(() => {
     const next: Record<Phase, Phase> = {
       reset: "runIn",
-      runIn: "jump",
-      jump: "runMid",
-      runMid: "wave",
-      wave: "runOut",
+      runIn: "breathe",
+      breathe: "runOut",
       runOut: "reset",
     };
     const t = setTimeout(() => setPhase(next[phase]), phaseDurations[phase]);
     return () => clearTimeout(t);
   }, [phase, phaseDurations]);
 
-  // Pre-arm Run during reset for a clean re-entry
+  // Pre-arm Run during reset
   useEffect(() => {
     const viewer = viewerRef.current;
     if (!viewer) return;
@@ -170,13 +160,10 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
   const animationName = (() => {
     switch (phase) {
       case "runIn":
-      case "runMid":
       case "runOut":
         return "Run";
-      case "jump":
-        return hasJumpClip ? "Jump" : "Roll";
-      case "wave":
-        return "PickUp";
+      case "breathe":
+        return hasIdle ? "Idle" : "PickUp";
       case "reset":
       default:
         return "Run";
@@ -185,35 +172,19 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
 
   const cameraOrbit = ORBIT_FACING_RIGHT;
 
-  // Horizontal positions across the loop
+  // Horizontal slide
   const slideVariants = {
     reset: { x: "-110%", opacity: 0, transition: { duration: 0 } },
     runIn: {
-      x: "-25%",
+      x: "0%",
       opacity: 1,
       transition: {
         duration: phaseDurations.runIn / 1000,
         ease: "linear" as const,
-        opacity: { duration: 0.2, ease: "easeOut" as const },
+        opacity: { duration: 0.25, ease: "easeOut" as const },
       },
     },
-    jump: {
-      x: "-5%",
-      opacity: 1,
-      transition: {
-        duration: phaseDurations.jump / 1000,
-        ease: "linear" as const,
-      },
-    },
-    runMid: {
-      x: "0%",
-      opacity: 1,
-      transition: {
-        duration: phaseDurations.runMid / 1000,
-        ease: "easeOut" as const,
-      },
-    },
-    wave: {
+    breathe: {
       x: "0%",
       opacity: 1,
       transition: { duration: 0.3, ease: "easeOut" as const },
@@ -228,20 +199,18 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
     },
   } as const;
 
-  // Vertical jump arc — only active during the jump phase.
-  const jumpArcVariants = {
+  // Subtle vertical breathing motion during the pause
+  const breatheVariants = {
     reset: { y: "0%" },
     runIn: { y: "0%" },
-    jump: {
-      y: ["0%", "-26%", "0%"],
+    breathe: {
+      y: ["0%", "-1.8%", "0%", "-1.8%", "0%"],
       transition: {
-        duration: phaseDurations.jump / 1000,
-        ease: "easeOut" as const,
-        times: [0, 0.5, 1],
+        duration: phaseDurations.breathe / 1000,
+        ease: "easeInOut" as const,
+        times: [0, 0.25, 0.5, 0.75, 1],
       },
     },
-    runMid: { y: "0%", transition: { duration: 0.2 } },
-    wave: { y: "0%" },
     runOut: { y: "0%" },
   };
 
@@ -255,14 +224,14 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
       <motion.div
         className="h-full w-full will-change-transform"
         animate={phase}
-        variants={jumpArcVariants}
+        variants={breatheVariants}
       >
         <model-viewer
           ref={viewerRef}
           src={djUrl}
           autoplay
           animation-name={animationName}
-          animation-crossfade-duration="200"
+          animation-crossfade-duration="250"
           exposure="1.15"
           shadow-intensity="0.75"
           camera-orbit={cameraOrbit}
