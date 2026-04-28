@@ -120,6 +120,8 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
       }
       if (cancelled) return;
       const names = viewer.availableAnimations ?? [];
+      // eslint-disable-next-line no-console
+      console.log("[DjModel] available animations:", names);
       const out: Record<string, number> = { ...FALLBACK_CLIP_DURATIONS };
       const wanted = ["Roll", "PickUp", "Run", "Idle"];
       const previousName = viewer.getAttribute("animation-name");
