@@ -230,7 +230,7 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
     },
     wave: { y: "0%", transition: { duration: 0.2 } },
     runOut: { y: "0%" },
-  } as const;
+  };
 
   return (
     <motion.div
