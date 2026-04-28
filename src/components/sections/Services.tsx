@@ -87,12 +87,19 @@ const Services = () => {
           </p>
         </motion.div>
 
-        {/* Stacked expanding rows */}
+        {/* Stacked expanding rows + roaming explorer model */}
         <motion.div
           variants={revealItem}
-          className="mt-16 border-t border-dark/15"
+          className="relative mt-16 border-t border-dark/15"
           onMouseLeave={() => setActive(null)}
         >
+          {/* Explorer 3D model — strolls down the left rail and "looks at" each row */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -left-4 top-0 z-0 hidden h-full w-[180px] md:block"
+          >
+            <ExplorerModel stops={services.length} facing="right" />
+          </div>
           {services.map((s, i) => {
             const isActive = active === i;
             return (
