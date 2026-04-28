@@ -44,23 +44,21 @@ declare global {
 }
 
 /**
- * Loop sequence:
- *   jumpIn  → enter from left in a parabolic JUMP arc while playing the
- *             Roll clip (reads as "jump + roll" / a tucked aerial somersault),
- *             landing at center
- *   wave    → raise hand and wave hi (PickUp clip — closest non-violent
- *             arm-raise gesture in this GLB)
+ * Loop sequence (cleaner read):
+ *   runIn   → enter from left at a run
+ *   jump    → mid-stride parabolic jump (Jump clip if present, else Roll)
+ *   runMid  → continue running to center
+ *   wave    → stop, raise hand, wave hi (PickUp ≈ arm-raise)
  *   runOut  → run forward to the right and exit off-screen
  *   reset   → invisible off-screen-left re-arm, then loop
  */
-type Phase = "jumpIn" | "wave" | "runOut" | "reset";
-
-const ROLL_REPETITIONS = 2;
+type Phase = "runIn" | "jump" | "runMid" | "wave" | "runOut" | "reset";
 
 const FALLBACK_CLIP_DURATIONS: Record<string, number> = {
   Roll: 1.0,
   PickUp: 1.0,
   Run: 1.0,
+  Jump: 1.0,
   Idle: 1.0,
 };
 
@@ -73,23 +71,25 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
   const [clipDurations, setClipDurations] = useState<Record<string, number>>(
     FALLBACK_CLIP_DURATIONS
   );
+  const [hasJumpClip, setHasJumpClip] = useState(false);
 
   const phaseDurations = useMemo<Record<Phase, number>>(() => {
-    const roll = (clipDurations.Roll ?? 1.0) * 1000;
-    const pickup = (clipDurations.PickUp ?? 1.0) * 1000;
     const run = (clipDurations.Run ?? 1.0) * 1000;
+    const pickup = (clipDurations.PickUp ?? 1.0) * 1000;
+    const jump = (clipDurations.Jump ?? clipDurations.Roll ?? 1.0) * 1000;
     return {
-      // Jump-and-roll across the entry: 2 full Roll cycles for a clean spin
-      jumpIn: roll * ROLL_REPETITIONS,
-      wave: pickup + 600,
-      runOut: run * 2,
+      runIn: Math.max(900, run * 1.2),
+      jump: Math.max(700, jump),
+      runMid: Math.max(700, run * 0.9),
+      wave: pickup * 2 + 500,
+      runOut: Math.max(1100, run * 1.6),
       reset: 50,
     };
   }, [clipDurations]);
 
   // Kick the loop off after first paint
   useEffect(() => {
-    const t = setTimeout(() => setPhase("jumpIn"), 60);
+    const t = setTimeout(() => setPhase("runIn"), 60);
     return () => clearTimeout(t);
   }, []);
 
@@ -106,8 +106,9 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
       }
       if (cancelled) return;
       const names = viewer.availableAnimations ?? [];
+      setHasJumpClip(names.includes("Jump"));
       const out: Record<string, number> = { ...FALLBACK_CLIP_DURATIONS };
-      const wanted = ["Roll", "PickUp", "Run", "Idle"];
+      const wanted = ["Roll", "PickUp", "Run", "Jump", "Idle"];
       const previousName = viewer.getAttribute("animation-name");
       const wasPaused = !!viewer.paused;
       viewer.pause?.();
@@ -140,8 +141,10 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
   // Phase scheduler
   useEffect(() => {
     const next: Record<Phase, Phase> = {
-      reset: "jumpIn",
-      jumpIn: "wave",
+      reset: "runIn",
+      runIn: "jump",
+      jump: "runMid",
+      runMid: "wave",
       wave: "runOut",
       runOut: "reset",
     };
@@ -149,19 +152,12 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
     return () => clearTimeout(t);
   }, [phase, phaseDurations]);
 
-  // Pre-arm the Roll clip during reset so the seam into jumpIn is glitch-free
+  // Pre-arm Run during reset for a clean re-entry
   useEffect(() => {
     const viewer = viewerRef.current;
     if (!viewer) return;
     if (phase === "reset") {
-      viewer.setAttribute("animation-name", "Roll");
-      try {
-        viewer.currentTime = 0;
-      } catch {
-        /* noop */
-      }
-      void viewer.play?.();
-    } else if (phase === "jumpIn") {
+      viewer.setAttribute("animation-name", "Run");
       try {
         viewer.currentTime = 0;
       } catch {
@@ -173,31 +169,48 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
 
   const animationName = (() => {
     switch (phase) {
-      case "jumpIn":
-        return "Roll"; // tucked aerial somersault during the jump arc
-      case "wave":
-        return "PickUp"; // arm-raise = wave hi
+      case "runIn":
+      case "runMid":
       case "runOut":
         return "Run";
+      case "jump":
+        return hasJumpClip ? "Jump" : "Roll";
+      case "wave":
+        return "PickUp";
       case "reset":
       default:
-        return "Roll"; // pre-armed
+        return "Run";
     }
   })();
 
   const cameraOrbit = ORBIT_FACING_RIGHT;
 
-  // Horizontal slide (X). Y is handled by an inner wrapper so we can layer
-  // a parabolic JUMP arc on top of the linear slide during jumpIn.
+  // Horizontal positions across the loop
   const slideVariants = {
     reset: { x: "-110%", opacity: 0, transition: { duration: 0 } },
-    jumpIn: {
+    runIn: {
+      x: "-25%",
+      opacity: 1,
+      transition: {
+        duration: phaseDurations.runIn / 1000,
+        ease: "linear" as const,
+        opacity: { duration: 0.2, ease: "easeOut" as const },
+      },
+    },
+    jump: {
+      x: "-5%",
+      opacity: 1,
+      transition: {
+        duration: phaseDurations.jump / 1000,
+        ease: "linear" as const,
+      },
+    },
+    runMid: {
       x: "0%",
       opacity: 1,
       transition: {
-        duration: phaseDurations.jumpIn / 1000,
-        ease: "linear" as const,
-        opacity: { duration: 0.2, ease: "easeOut" as const },
+        duration: phaseDurations.runMid / 1000,
+        ease: "easeOut" as const,
       },
     },
     wave: {
@@ -215,20 +228,20 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
     },
   } as const;
 
-  // Vertical jump arc — only active during jumpIn. Two arcs (one per Roll
-  // cycle) so the silhouette reads clearly as "jump → land → jump → land".
-  // y values are CSS units (negative = up). Keyframes are evenly spaced.
+  // Vertical jump arc — only active during the jump phase.
   const jumpArcVariants = {
     reset: { y: "0%" },
-    jumpIn: {
-      y: ["0%", "-22%", "0%", "-22%", "0%"],
+    runIn: { y: "0%" },
+    jump: {
+      y: ["0%", "-26%", "0%"],
       transition: {
-        duration: phaseDurations.jumpIn / 1000,
+        duration: phaseDurations.jump / 1000,
         ease: "easeOut" as const,
-        times: [0, 0.25, 0.5, 0.75, 1],
+        times: [0, 0.5, 1],
       },
     },
-    wave: { y: "0%", transition: { duration: 0.2 } },
+    runMid: { y: "0%", transition: { duration: 0.2 } },
+    wave: { y: "0%" },
     runOut: { y: "0%" },
   };
 
