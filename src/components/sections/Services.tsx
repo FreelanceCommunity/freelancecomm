@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { revealContainer, revealItem } from "@/lib/motion";
+import ExplorerModel from "@/components/ExplorerModel";
 
 const services = [
   {
