@@ -233,6 +233,13 @@ const Hero = () => {
   });
   const scatter = useTransform(scrollYProgress, [0, 0.9], [0, 1]);
 
+  // Parallax for the neural network panel
+  const neuralScale = useTransform(scrollYProgress, [0, 1], [1, 1.18]);
+  const neuralY = useTransform(scrollYProgress, [0, 1], [0, -90]);
+  const neuralX = useTransform(scrollYProgress, [0, 1], [0, 28]);
+  const neuralRotate = useTransform(scrollYProgress, [0, 1], [0, -2.5]);
+  const neuralOpacity = useTransform(scrollYProgress, [0, 0.7, 1], [1, 0.85, 0.55]);
+
   return (
     <section
       ref={sectionRef}
