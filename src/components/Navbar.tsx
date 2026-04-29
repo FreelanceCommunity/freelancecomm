@@ -34,7 +34,7 @@ const Navbar = () => {
       }`}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-10">
-        <a href="#" className="font-display-bold text-xl text-dark">
+        <a href="#" className="font-display-bold text-2xl text-dark">
           freelanccomm<span className="text-gold">.in</span>
         </a>
 
@@ -43,7 +43,7 @@ const Navbar = () => {
             <li key={l.href}>
               <a
                 href={l.href}
-                className="font-body text-sm text-dark/70 transition-colors duration-300 hover:text-dark"
+                className="font-body text-base text-dark/70 transition-colors duration-300 hover:text-dark"
               >
                 {l.label}
               </a>
@@ -53,7 +53,7 @@ const Navbar = () => {
 
         <a
           href="#contact"
-          className="rounded-full bg-gold px-5 py-2.5 font-display-bold text-sm text-dark transition-all duration-300 hover:bg-gold-light hover:-translate-y-0.5"
+          className="rounded-full bg-gold px-6 py-3 font-display-bold text-base text-dark transition-all duration-300 hover:bg-gold-light hover:-translate-y-0.5"
         >
           Let's Talk →
         </a>

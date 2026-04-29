@@ -18,15 +18,15 @@ const About = () => (
       className="mx-auto grid max-w-7xl grid-cols-1 gap-16 px-6 md:grid-cols-2 lg:px-10"
     >
       <motion.div variants={revealItem}>
-        <p className="font-mono-tag text-[11px] text-gold">// About Us</p>
-        <h2 className="mt-6 font-display text-4xl leading-[1.05] text-cream sm:text-5xl lg:text-6xl">
+        <p className="font-mono-tag text-sm text-gold">// About Us</p>
+        <h2 className="mt-6 font-display text-5xl leading-[1.02] text-cream sm:text-6xl lg:text-7xl xl:text-8xl">
           A crew of
           <br />
           <span className="text-gold-gradient">obsessive</span>
           <br />
           builders.
         </h2>
-        <p className="mt-8 max-w-xs font-body text-sm leading-relaxed text-muted-foreground">
+        <p className="mt-8 max-w-md font-body text-base leading-relaxed text-muted-foreground sm:text-lg">
           We're a tight-knit freelance collective from Salem, India. No bloat, no middlemen — just a focused team that obsesses over craft, ships fast, and delivers work you're proud to show.
         </p>
       </motion.div>
@@ -36,13 +36,13 @@ const About = () => (
           <div
             key={m.name}
             data-cursor-hover
-            className="group flex items-center justify-between rounded-xl border-l-2 border-transparent bg-darkcard px-6 py-5 transition-all duration-300 hover:border-gold hover:bg-darkcard-hover"
+            className="group flex items-center justify-between rounded-xl border-l-2 border-transparent bg-darkcard px-6 py-6 transition-all duration-300 hover:border-gold hover:bg-darkcard-hover"
           >
             <div>
-              <div className="font-display-bold text-lg text-cream">{m.name}</div>
-              <div className="font-mono-tag text-[10px] text-gold">{m.role}</div>
+              <div className="font-display-bold text-xl text-cream sm:text-2xl">{m.name}</div>
+              <div className="mt-1 font-mono-tag text-xs text-gold">{m.role}</div>
             </div>
-            <p className="max-w-[140px] text-right font-body text-sm text-muted-foreground">
+            <p className="max-w-[180px] text-right font-body text-sm text-muted-foreground sm:text-base">
               {m.line}
             </p>
           </div>

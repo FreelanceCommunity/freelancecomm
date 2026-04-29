@@ -75,14 +75,14 @@ const Services = () => {
           className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end"
         >
           <div>
-            <p className="font-mono-tag text-[11px] text-gold">// What We Do</p>
-            <h2 className="mt-4 font-display text-4xl leading-[1] text-dark sm:text-5xl lg:text-6xl">
+            <p className="font-mono-tag text-sm text-gold">// What We Do</p>
+            <h2 className="mt-4 font-display text-5xl leading-[1] text-dark sm:text-6xl lg:text-7xl xl:text-8xl">
               Six disciplines.
               <br />
               <span className="text-gold-gradient">One studio.</span>
             </h2>
           </div>
-          <p className="max-w-[260px] font-body text-sm leading-relaxed text-muted-foreground">
+          <p className="max-w-[300px] font-body text-base leading-relaxed text-muted-foreground sm:text-lg">
             Hover any row to expand. We pick what to do well, and decline the rest.
           </p>
         </motion.div>
@@ -121,10 +121,10 @@ const Services = () => {
                   style={{ transformOrigin: "left" }}
                 />
 
-                <div className="relative grid grid-cols-12 items-center gap-4 px-2 py-7 sm:py-9">
+                <div className="relative grid grid-cols-12 items-center gap-4 px-2 py-8 sm:py-11">
                   {/* Number */}
                   <motion.div
-                    className="col-span-2 font-mono-tag text-xs"
+                    className="col-span-2 font-mono-tag text-sm"
                     animate={{ color: isActive ? "hsl(var(--gold))" : "hsl(var(--gold))" }}
                   >
                     {s.num}
@@ -132,7 +132,7 @@ const Services = () => {
 
                   {/* Title */}
                   <motion.h3
-                    className="col-span-7 font-display-bold text-2xl sm:text-3xl lg:text-4xl"
+                    className="col-span-7 font-display-bold text-3xl sm:text-4xl lg:text-5xl xl:text-6xl"
                     animate={{
                       color: isActive ? "hsl(var(--cream))" : "hsl(var(--dark))",
                       x: isActive ? 16 : 0,
@@ -144,7 +144,7 @@ const Services = () => {
 
                   {/* Plus / arrow */}
                   <motion.div
-                    className="col-span-3 flex items-center justify-end font-mono-tag text-xs"
+                    className="col-span-3 flex items-center justify-end font-mono-tag text-sm"
                     animate={{
                       color: isActive ? "hsl(var(--cream))" : "hsl(var(--dark))",
                     }}
@@ -152,7 +152,7 @@ const Services = () => {
                     <motion.span
                       animate={{ rotate: isActive ? 45 : 0 }}
                       transition={{ duration: 0.5, ease: easePremium }}
-                      className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-current text-base"
+                      className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-current text-lg"
                     >
                       +
                     </motion.span>
@@ -170,12 +170,12 @@ const Services = () => {
                       transition={{ duration: 0.6, ease: easePremium }}
                       className="relative overflow-hidden"
                     >
-                      <div className="grid grid-cols-12 gap-4 px-2 pb-10 pt-2">
+                      <div className="grid grid-cols-12 gap-4 px-2 pb-12 pt-2">
                         <div className="col-span-2" />
-                        <p className="col-span-12 max-w-xl font-body text-base leading-relaxed text-cream/80 md:col-span-5">
+                        <p className="col-span-12 max-w-xl font-body text-lg leading-relaxed text-cream/80 md:col-span-5">
                           {s.desc}
                         </p>
-                        <ul className="col-span-12 grid grid-cols-2 gap-x-6 gap-y-2 md:col-span-5">
+                        <ul className="col-span-12 grid grid-cols-2 gap-x-6 gap-y-3 md:col-span-5">
                           {s.deliverables.map((d, di) => (
                             <motion.li
                               key={d}
@@ -186,7 +186,7 @@ const Services = () => {
                                 duration: 0.5,
                                 ease: easePremium,
                               }}
-                              className="flex items-center gap-2 font-mono-tag text-[11px] text-gold"
+                              className="flex items-center gap-2 font-mono-tag text-xs text-gold"
                             >
                               <span className="h-px w-4 bg-gold" />
                               {d}

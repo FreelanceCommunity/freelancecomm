@@ -16,15 +16,15 @@ const Star = () => (
 );
 
 const Card = ({ r }: { r: typeof reviews[number] }) => (
-  <div className="w-[340px] flex-shrink-0 rounded-2xl border border-white/5 bg-darkcard p-7">
+  <div className="w-[380px] flex-shrink-0 rounded-2xl border border-white/5 bg-darkcard p-8 sm:w-[420px]">
     <div className="mb-5 flex gap-1">
       {Array.from({ length: 5 }).map((_, i) => (
         <Star key={i} />
       ))}
     </div>
-    <p className="mb-6 font-body text-sm leading-relaxed text-cream/80">"{r.quote}"</p>
-    <div className="font-display-bold text-sm text-cream">{r.name}</div>
-    <div className="mt-0.5 font-mono-tag text-[10px] text-gold">{r.co}</div>
+    <p className="mb-6 font-body text-base leading-relaxed text-cream/80 sm:text-lg">"{r.quote}"</p>
+    <div className="font-display-bold text-lg text-cream">{r.name}</div>
+    <div className="mt-1 font-mono-tag text-xs text-gold">{r.co}</div>
   </div>
 );
 
@@ -38,8 +38,8 @@ const Reviews = () => (
       className="mx-auto max-w-7xl px-6 lg:px-10"
     >
       <motion.div variants={revealItem}>
-        <p className="font-mono-tag text-[11px] text-gold">// Testimonials</p>
-        <h2 className="mt-4 font-display text-4xl leading-[1.05] text-cream sm:text-5xl lg:text-6xl">
+        <p className="font-mono-tag text-sm text-gold">// Testimonials</p>
+        <h2 className="mt-4 font-display text-5xl leading-[1.02] text-cream sm:text-6xl lg:text-7xl xl:text-8xl">
           What clients
           <br />
           <span className="text-gold-gradient">say about us</span>

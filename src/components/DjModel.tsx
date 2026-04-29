@@ -44,13 +44,15 @@ declare global {
 }
 
 /**
- * Loop sequence:
- *   runIn   → enter from left at a run, stop near center
- *   breathe → pause for ~2s, idle "catching breath" (subtle body rise/fall)
- *   runOut  → start running again, exit off the right
- *   reset   → invisible off-screen-left re-arm, then loop
+ * Hero character story:
+ *   runIn   → sprints in from far left to center
+ *   breathe → stops, hands-on-knees breathing — clearly visible chest rise/fall
+ *   sprintOut → takes off and sprints clean off the right edge
+ *   reset   → invisible re-arm off-screen left, then loop
+ *
+ * Facing always matches direction of travel (right).
  */
-type Phase = "runIn" | "breathe" | "runOut" | "reset";
+type Phase = "runIn" | "breathe" | "sprintOut" | "reset";
 
 const FALLBACK_CLIP_DURATIONS: Record<string, number> = {
   Run: 1.0,
@@ -59,7 +61,7 @@ const FALLBACK_CLIP_DURATIONS: Record<string, number> = {
 };
 
 // Negative azimuth = facing right (direction of travel).
-const ORBIT_FACING_RIGHT = "-35deg 82deg 115%";
+const ORBIT_FACING_RIGHT = "-32deg 82deg 110%";
 
 const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) => {
   const viewerRef = useRef<ModelViewerElement>(null);
@@ -72,16 +74,16 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
   const phaseDurations = useMemo<Record<Phase, number>>(() => {
     const run = (clipDurations.Run ?? 1.0) * 1000;
     return {
-      runIn: Math.max(1400, run * 1.8),
-      breathe: 2000, // ~2 second breather
-      runOut: Math.max(1300, run * 1.7),
-      reset: 60,
+      runIn: Math.max(1700, run * 2.0),
+      breathe: 2400, // clear, visible breathing pause
+      sprintOut: Math.max(1400, run * 1.6),
+      reset: 80,
     };
   }, [clipDurations]);
 
   // Kick the loop off after first paint
   useEffect(() => {
-    const t = setTimeout(() => setPhase("runIn"), 60);
+    const t = setTimeout(() => setPhase("runIn"), 80);
     return () => clearTimeout(t);
   }, []);
 
@@ -135,8 +137,8 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
     const next: Record<Phase, Phase> = {
       reset: "runIn",
       runIn: "breathe",
-      breathe: "runOut",
-      runOut: "reset",
+      breathe: "sprintOut",
+      sprintOut: "reset",
     };
     const t = setTimeout(() => setPhase(next[phase]), phaseDurations[phase]);
     return () => clearTimeout(t);
@@ -160,7 +162,7 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
   const animationName = (() => {
     switch (phase) {
       case "runIn":
-      case "runOut":
+      case "sprintOut":
         return "Run";
       case "breathe":
         return hasIdle ? "Idle" : "PickUp";
@@ -172,52 +174,53 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
 
   const cameraOrbit = ORBIT_FACING_RIGHT;
 
-  // Horizontal slide
+  // Horizontal slide: enter from far left, stop just left-of-center, then exit far right.
   const slideVariants = {
-    reset: { x: "-110%", opacity: 0, transition: { duration: 0 } },
+    reset: { x: "-130%", opacity: 0, transition: { duration: 0 } },
     runIn: {
-      x: "0%",
+      x: "-8%",
       opacity: 1,
       transition: {
         duration: phaseDurations.runIn / 1000,
         ease: "linear" as const,
-        opacity: { duration: 0.25, ease: "easeOut" as const },
+        opacity: { duration: 0.3, ease: "easeOut" as const },
       },
     },
     breathe: {
-      x: "0%",
+      x: "-8%",
       opacity: 1,
-      transition: { duration: 0.3, ease: "easeOut" as const },
+      transition: { duration: 0.2 },
     },
-    runOut: {
-      x: "120%",
+    sprintOut: {
+      x: "135%",
       opacity: 1,
       transition: {
-        duration: phaseDurations.runOut / 1000,
-        ease: "linear" as const,
+        duration: phaseDurations.sprintOut / 1000,
+        ease: [0.55, 0, 0.85, 0.4] as const, // accelerate as he takes off
       },
     },
   } as const;
 
-  // Subtle vertical breathing motion during the pause
+  // Clear breathing — bigger chest rise/fall + slight scale to read at small sizes.
   const breatheVariants = {
-    reset: { y: "0%" },
-    runIn: { y: "0%" },
+    reset: { y: "0%", scale: 1 },
+    runIn: { y: "0%", scale: 1 },
     breathe: {
-      y: ["0%", "-1.8%", "0%", "-1.8%", "0%"],
+      y: ["0%", "-3.5%", "0%", "-3.5%", "0%"],
+      scale: [1, 1.025, 1, 1.025, 1],
       transition: {
         duration: phaseDurations.breathe / 1000,
         ease: "easeInOut" as const,
         times: [0, 0.25, 0.5, 0.75, 1],
       },
     },
-    runOut: { y: "0%" },
+    sprintOut: { y: "0%", scale: 1 },
   };
 
   return (
     <motion.div
       className="h-full w-full will-change-transform"
-      initial={{ x: "-110%", opacity: 0 }}
+      initial={{ x: "-130%", opacity: 0 }}
       animate={phase}
       variants={slideVariants}
     >
@@ -225,18 +228,19 @@ const DjModel = ({ scrollMV: _scrollMV }: { scrollMV?: MotionValue<number> }) =>
         className="h-full w-full will-change-transform"
         animate={phase}
         variants={breatheVariants}
+        style={{ transformOrigin: "50% 80%" }}
       >
         <model-viewer
           ref={viewerRef}
           src={djUrl}
           autoplay
           animation-name={animationName}
-          animation-crossfade-duration="250"
+          animation-crossfade-duration="280"
           exposure="1.15"
           shadow-intensity="0.75"
           camera-orbit={cameraOrbit}
           camera-target="0m 0.9m 0m"
-          field-of-view="28deg"
+          field-of-view="26deg"
           min-camera-orbit={cameraOrbit}
           max-camera-orbit={cameraOrbit}
           interaction-prompt="none"

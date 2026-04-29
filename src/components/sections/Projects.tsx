@@ -20,8 +20,8 @@ const Projects = () => (
     >
       <motion.div variants={revealItem} className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
         <div>
-          <p className="font-mono-tag text-[11px] text-gold">// Selected Work</p>
-          <h2 className="mt-4 font-display text-4xl leading-[1] text-cream sm:text-5xl lg:text-6xl">
+          <p className="font-mono-tag text-sm text-gold">// Selected Work</p>
+          <h2 className="mt-4 font-display text-5xl leading-[1] text-cream sm:text-6xl lg:text-7xl xl:text-8xl">
             Selected
             <br />
             Projects
@@ -30,7 +30,7 @@ const Projects = () => (
         <a
           href="#"
           data-cursor-hover
-          className="rounded-full border border-gold px-5 py-2.5 font-mono-tag text-xs text-gold transition-all duration-300 hover:bg-gold hover:text-dark"
+          className="rounded-full border border-gold px-6 py-3 font-mono-tag text-sm text-gold transition-all duration-300 hover:bg-gold hover:text-dark"
         >
           View All →
         </a>
@@ -59,15 +59,15 @@ const Projects = () => (
 
             {/* Bottom-left info */}
             <div className="absolute inset-x-6 bottom-6">
-              <p className="font-mono-tag text-xs" style={{ color: p.accent }}>
+              <p className="font-mono-tag text-sm" style={{ color: p.accent }}>
                 {p.category} · {p.year}
               </p>
-              <h3 className="mt-2 font-display-bold text-2xl text-cream">{p.name}</h3>
+              <h3 className="mt-2 font-display-bold text-3xl text-cream sm:text-4xl">{p.name}</h3>
             </div>
 
             {/* Hover overlay */}
             <div className="absolute inset-0 flex items-center justify-center bg-dark/60 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-              <span className="rounded-full border border-cream px-5 py-2.5 font-display-bold text-sm text-cream">
+              <span className="rounded-full border border-cream px-6 py-3 font-display-bold text-base text-cream">
                 View Project →
               </span>
             </div>

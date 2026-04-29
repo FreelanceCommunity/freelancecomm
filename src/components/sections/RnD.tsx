@@ -127,13 +127,13 @@ const CodeWindow = ({
       </div>
 
       <div className="p-7">
-        <span className="inline-block rounded-full border border-gold/40 px-3 py-1 font-mono-tag text-[10px] text-gold-deep">
+        <span className="inline-block rounded-full border border-gold/40 px-3 py-1 font-mono-tag text-xs text-gold-deep">
           {it.tag}
         </span>
-        <h3 className="mb-3 mt-6 font-display-bold text-lg leading-snug text-dark">
+        <h3 className="mb-3 mt-6 font-display-bold text-xl leading-snug text-dark sm:text-2xl">
           {it.title}
         </h3>
-        <p className="font-body text-sm leading-relaxed text-muted-foreground">
+        <p className="font-body text-base leading-relaxed text-muted-foreground">
           {it.desc}
         </p>
 
@@ -207,13 +207,13 @@ const RnD = () => (
         className="grid grid-cols-1 items-end gap-10 lg:grid-cols-12"
       >
         <div className="lg:col-span-7">
-          <p className="font-mono-tag text-[11px] text-gold-deep">// R&D</p>
-          <h2 className="mt-4 font-display text-4xl leading-[1.05] text-dark sm:text-5xl lg:text-6xl">
+          <p className="font-mono-tag text-sm text-gold-deep">// R&D</p>
+          <h2 className="mt-4 font-display text-5xl leading-[1.02] text-dark sm:text-6xl lg:text-7xl xl:text-8xl">
             What we're
             <br />
             exploring <span className="text-gold-gradient">→</span>
           </h2>
-          <p className="mt-6 max-w-xl font-body text-sm leading-relaxed text-muted-foreground">
+          <p className="mt-6 max-w-xl font-body text-base leading-relaxed text-muted-foreground sm:text-lg">
             Fragments of ideas we're actively prototyping in the studio —
             small experiments that often turn into the foundations of our next
             client projects.
