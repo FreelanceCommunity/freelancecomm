@@ -104,9 +104,8 @@ const NeuralNetwork = () => {
     container.addEventListener("mouseleave", onLeave);
 
     const draw = () => {
-      // soft trail / clear
-      ctx.fillStyle = "rgba(11, 11, 13, 0.28)";
-      ctx.fillRect(0, 0, W, H);
+      // Transparent clear + extremely subtle motion trail in cream tone
+      ctx.clearRect(0, 0, W, H);
 
       const cx = W / 2;
       const cy = H / 2;
@@ -117,12 +116,10 @@ const NeuralNetwork = () => {
       for (const n of coreNodes) {
         n.x += n.vx;
         n.y += n.vy;
-        // Pull back to center to keep cluster contained
         const dx = cx - n.x;
         const dy = cy - n.y;
         n.vx += dx * 0.0006;
         n.vy += dy * 0.0006;
-        // Mouse repulsion (very subtle)
         if (mouseRef.current.active) {
           const ddx = n.x - mx;
           const ddy = n.y - my;
@@ -133,13 +130,12 @@ const NeuralNetwork = () => {
             n.vy += (ddy / Math.sqrt(d2 + 0.01)) * f * 0.08;
           }
         }
-        // Damping
         n.vx *= 0.985;
         n.vy *= 0.985;
         n.pulse += n.pulseSpeed;
       }
 
-      // --- Draw chaotic core lines (orange) ---
+      // --- Chaotic core lines (deep ink, low alpha) ---
       ctx.lineWidth = 0.6;
       for (let i = 0; i < coreNodes.length; i++) {
         for (let j = i + 1; j < coreNodes.length; j++) {
@@ -150,8 +146,9 @@ const NeuralNetwork = () => {
           const dist = Math.sqrt(dx * dx + dy * dy);
           const max = Math.min(W, H) * 0.32;
           if (dist < max) {
-            const alpha = (1 - dist / max) * 0.55;
-            ctx.strokeStyle = `rgba(245, 158, 66, ${alpha})`;
+            const alpha = (1 - dist / max) * 0.45;
+            // Dark ink lines so they read on cream
+            ctx.strokeStyle = `rgba(28, 24, 20, ${alpha})`;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
@@ -160,17 +157,16 @@ const NeuralNetwork = () => {
         }
       }
 
-      // --- Draw connections from core to label anchors (cyan/gold mix) ---
-      ctx.lineWidth = 0.5;
+      // --- Connections from core to label anchors (gold) ---
+      ctx.lineWidth = 0.6;
       labelAnchors.forEach((anchor) => {
-        // Connect each anchor to a few nearest core nodes
         const sorted = [...coreNodes]
           .map((n) => ({ n, d: Math.hypot(n.x - anchor.x, n.y - anchor.y) }))
           .sort((a, b) => a.d - b.d)
           .slice(0, 5);
         for (const { n, d } of sorted) {
-          const alpha = Math.max(0.08, 0.5 - d / Math.max(W, H));
-          ctx.strokeStyle = `rgba(255, 184, 92, ${alpha})`;
+          const alpha = Math.max(0.12, 0.55 - d / Math.max(W, H));
+          ctx.strokeStyle = `rgba(196, 142, 38, ${alpha})`;
           ctx.beginPath();
           ctx.moveTo(n.x, n.y);
           ctx.lineTo(anchor.x, anchor.y);
@@ -178,31 +174,29 @@ const NeuralNetwork = () => {
         }
       });
 
-      // --- Draw core node dots ---
+      // --- Core node dots (warm gold) ---
       for (const n of coreNodes) {
         const glow = 0.6 + Math.sin(n.pulse) * 0.4;
-        ctx.fillStyle = `rgba(255, 200, 120, ${0.7 * glow})`;
+        ctx.fillStyle = `rgba(176, 120, 24, ${0.85 * glow})`;
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      // --- Draw anchor "synapse" dots (cyan) ---
+      // --- Anchor "synapse" dots (rich gold glow) ---
       const t = performance.now() * 0.002;
       labelAnchors.forEach((a, i) => {
         const pulse = 0.5 + 0.5 * Math.sin(t + i);
-        // outer glow
-        const grd = ctx.createRadialGradient(a.x, a.y, 0, a.x, a.y, 14);
-        grd.addColorStop(0, `rgba(110, 231, 249, ${0.55 + pulse * 0.35})`);
-        grd.addColorStop(1, "rgba(110, 231, 249, 0)");
+        const grd = ctx.createRadialGradient(a.x, a.y, 0, a.x, a.y, 16);
+        grd.addColorStop(0, `rgba(212, 158, 54, ${0.55 + pulse * 0.35})`);
+        grd.addColorStop(1, "rgba(212, 158, 54, 0)");
         ctx.fillStyle = grd;
         ctx.beginPath();
-        ctx.arc(a.x, a.y, 14, 0, Math.PI * 2);
+        ctx.arc(a.x, a.y, 16, 0, Math.PI * 2);
         ctx.fill();
-        // inner dot
-        ctx.fillStyle = "#7ff0ff";
+        ctx.fillStyle = "#7a4f12";
         ctx.beginPath();
-        ctx.arc(a.x, a.y, 2.6, 0, Math.PI * 2);
+        ctx.arc(a.x, a.y, 2.8, 0, Math.PI * 2);
         ctx.fill();
       });
 
