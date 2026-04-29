@@ -286,6 +286,14 @@ const Hero = () => {
           <motion.div
             variants={heroItem}
             className="md:col-span-5"
+            style={{
+              scale: neuralScale,
+              y: neuralY,
+              x: neuralX,
+              rotate: neuralRotate,
+              opacity: neuralOpacity,
+              willChange: "transform",
+            }}
           >
             <div className="aspect-square w-full md:aspect-[4/5] lg:aspect-square">
               <NeuralNetwork />
