@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { heroContainer, heroItem } from "@/lib/motion";
-import DjModel from "@/components/DjModel";
+import NeuralNetwork from "@/components/NeuralNetwork";
 
 /* ---------- Rubik's Cube ----------
    27 cubies. On scroll, they "fall" outward and land on a flat surface
