@@ -268,17 +268,17 @@ const Hero = () => {
       >
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:items-end">
           <motion.div variants={heroItem}>
-            <p className="font-mono-tag text-[11px] text-gold">
+            <p className="font-mono-tag text-[13px] text-gold sm:text-sm">
               Est. 2022 — Salem, India
             </p>
-            <h1 className="mt-4 font-display-bold text-3xl leading-[1.05] text-dark sm:text-4xl md:text-5xl">
+            <h1 className="mt-5 font-display-bold text-[2.75rem] leading-[1.02] text-dark sm:text-6xl md:text-7xl lg:text-[5.5rem]">
               We build digital products that actually{" "}
               <span className="text-gold-gradient">move people.</span>
             </h1>
           </motion.div>
 
           <motion.div variants={heroItem} className="hidden text-right md:block">
-            <p className="font-display text-4xl leading-[0.95] text-dark/15 lg:text-5xl">
+            <p className="font-display text-5xl leading-[0.95] text-dark/15 lg:text-6xl xl:text-7xl">
               CRAFT.
               <br />
               STRATEGY.
@@ -290,12 +290,12 @@ const Hero = () => {
 
         <motion.div
           variants={heroItem}
-          className="mt-12 grid grid-cols-2 gap-6 border-t border-dark/10 pt-8 md:grid-cols-4"
+          className="mt-14 grid grid-cols-2 gap-6 border-t border-dark/10 pt-10 md:grid-cols-4"
         >
           {stats.map((s) => (
             <div key={s.label}>
-              <div className="font-display-bold text-3xl text-dark">{s.num}</div>
-              <div className="mt-1 font-body text-xs text-muted-foreground">
+              <div className="font-display-bold text-4xl text-dark sm:text-5xl">{s.num}</div>
+              <div className="mt-2 font-body text-sm text-muted-foreground sm:text-base">
                 {s.label}
               </div>
             </div>
@@ -304,7 +304,7 @@ const Hero = () => {
       </motion.div>
 
       <div className="absolute inset-x-0 bottom-4 z-20 flex flex-col items-center gap-2">
-        <span className="font-mono-tag text-[10px] text-dark/50">Scroll</span>
+        <span className="font-mono-tag text-xs text-dark/50">Scroll</span>
         <div className="h-10 w-px bg-gradient-to-b from-gold to-transparent" />
       </div>
     </section>

@@ -27,39 +27,39 @@ const CTA = () => (
       viewport={{ once: true, margin: "-80px" }}
       className="relative z-10 mx-auto max-w-4xl px-6 text-center lg:px-10"
     >
-      <motion.p variants={revealItem} className="font-mono-tag text-[11px] text-gold">
+      <motion.p variants={revealItem} className="font-mono-tag text-sm text-gold">
         // Let's Build
       </motion.p>
       <motion.h2
         variants={revealItem}
-        className="mt-6 font-display text-4xl leading-[1.02] text-dark sm:text-5xl md:text-6xl lg:text-7xl"
+        className="mt-6 font-display text-5xl leading-[1.02] text-dark sm:text-6xl md:text-7xl lg:text-8xl xl:text-[7.5rem]"
       >
         Ready to build
         <br />
         something <span className="text-gold-gradient">great?</span>
       </motion.h2>
-      <motion.p variants={revealItem} className="mx-auto mt-6 max-w-xl font-body text-base text-muted-foreground lg:text-lg">
+      <motion.p variants={revealItem} className="mx-auto mt-8 max-w-xl font-body text-lg text-muted-foreground lg:text-xl">
         Tell us about your project. We'll get back within 24 hours.
       </motion.p>
 
-      <motion.div variants={revealItem} className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+      <motion.div variants={revealItem} className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
         <a
           href="mailto:hello@freelanccomm.in"
           data-cursor-hover
-          className="rounded-full bg-gold px-8 py-4 font-display-bold text-base text-dark transition-all duration-300 hover:-translate-y-0.5 hover:bg-gold-light"
+          className="rounded-full bg-gold px-9 py-4 font-display-bold text-lg text-dark transition-all duration-300 hover:-translate-y-0.5 hover:bg-gold-light"
         >
           Start a Project →
         </a>
         <a
           href="#projects"
           data-cursor-hover
-          className="rounded-full border border-dark/30 px-8 py-4 font-display-bold text-base text-dark transition-all duration-300 hover:bg-dark hover:text-cream"
+          className="rounded-full border border-dark/30 px-9 py-4 font-display-bold text-lg text-dark transition-all duration-300 hover:bg-dark hover:text-cream"
         >
           View Our Work
         </a>
       </motion.div>
 
-      <motion.p variants={revealItem} className="mt-8 font-mono text-xs text-muted-foreground">
+      <motion.p variants={revealItem} className="mt-10 font-mono text-sm text-muted-foreground">
         hello@freelanccomm.in
       </motion.p>
     </motion.div>
