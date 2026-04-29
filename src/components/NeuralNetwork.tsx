@@ -216,25 +216,19 @@ const NeuralNetwork = () => {
   return (
     <div
       ref={containerRef}
-      className="relative h-full w-full overflow-hidden rounded-[28px] border border-dark/15 bg-[#0b0b0d]"
-      style={{
-        boxShadow:
-          "inset 0 0 80px rgba(0,0,0,0.6), 0 30px 80px -30px rgba(0,0,0,0.45)",
-      }}
+      className="relative h-full w-full overflow-hidden"
     >
       <canvas ref={canvasRef} className="absolute inset-0" />
 
       {/* Label cards overlay */}
       <div className="pointer-events-none absolute inset-0">
         {LABELS.map((l, i) => {
-          // Same math as canvas anchors, but in % so HTML scales with container
           const cx = 50;
           const cy = 50;
           const rxPct = Math.cos(l.angle) * l.radius * 100;
           const ryPct = Math.sin(l.angle) * l.radius * 85;
           const left = cx + rxPct;
           const top = cy + ryPct;
-          // Push card outward from anchor
           const offX = Math.cos(l.angle) * 12;
           const offY = Math.sin(l.angle) * 10;
           const isLeft = Math.cos(l.angle) < 0;
@@ -248,11 +242,11 @@ const NeuralNetwork = () => {
                 transform: `translate(${isLeft ? "-100%" : "0"}, -50%)`,
               }}
             >
-              <div className="rounded-md border border-cyan-300/30 bg-black/60 px-2.5 py-1.5 backdrop-blur-sm">
-                <div className="font-mono-tag text-[10px] font-bold tracking-[0.18em] text-cyan-300">
+              <div className="rounded-md border border-gold/40 bg-cream/70 px-2.5 py-1.5 backdrop-blur-sm">
+                <div className="font-mono-tag text-[10px] font-bold tracking-[0.18em] text-gold">
                   {l.title}
                 </div>
-                <div className="mt-0.5 max-w-[140px] font-body text-[10px] leading-tight text-white/70">
+                <div className="mt-0.5 max-w-[140px] font-body text-[10px] leading-tight text-dark/70">
                   {l.desc}
                 </div>
               </div>
@@ -262,13 +256,13 @@ const NeuralNetwork = () => {
       </div>
 
       {/* Top-left HUD label */}
-      <div className="pointer-events-none absolute left-4 top-4 flex items-center gap-2">
-        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-cyan-300" />
-        <span className="font-mono-tag text-[10px] tracking-[0.2em] text-cyan-200/80">
+      <div className="pointer-events-none absolute left-2 top-2 flex items-center gap-2">
+        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-gold" />
+        <span className="font-mono-tag text-[10px] tracking-[0.2em] text-dark/60">
           NEURAL.MESH // LIVE
         </span>
       </div>
-      <div className="pointer-events-none absolute bottom-4 right-4 font-mono-tag text-[10px] tracking-[0.2em] text-white/40">
+      <div className="pointer-events-none absolute bottom-2 right-2 font-mono-tag text-[10px] tracking-[0.2em] text-dark/40">
         v1.0 — INTEGRATED.AI
       </div>
     </div>
