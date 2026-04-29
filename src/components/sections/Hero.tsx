@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { heroContainer, heroItem } from "@/lib/motion";
-import DjModel from "@/components/DjModel";
+import NeuralNetwork from "@/components/NeuralNetwork";
 
 /* ---------- Rubik's Cube ----------
    27 cubies. On scroll, they "fall" outward and land on a flat surface
@@ -252,13 +252,6 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* DJ 3D Model — travels left → right across the hero */}
-      <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-start">
-        <div className="h-[78vh] w-full max-w-[860px]">
-          <DjModel scrollMV={scatter} />
-        </div>
-      </div>
-
       {/* Content */}
       <motion.div
         variants={heroContainer}
@@ -266,8 +259,9 @@ const Hero = () => {
         animate="visible"
         className="relative z-20 mx-auto flex min-h-[calc(100vh-7rem)] max-w-7xl flex-col justify-end px-6 pb-12 lg:px-10"
       >
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:items-end">
-          <motion.div variants={heroItem}>
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:items-end">
+          {/* Left column: heading + stacked CRAFT/STRATEGY/RESULTS */}
+          <motion.div variants={heroItem} className="md:col-span-7">
             <p className="font-mono-tag text-[13px] text-gold sm:text-sm">
               Est. 2022 — Salem, India
             </p>
@@ -275,16 +269,20 @@ const Hero = () => {
               We build digital products that actually{" "}
               <span className="text-gold-gradient">move people.</span>
             </h1>
+
+            <p className="mt-8 font-display text-4xl leading-[0.95] text-dark/15 sm:text-5xl lg:text-6xl">
+              CRAFT.&nbsp;&nbsp;STRATEGY.&nbsp;&nbsp;RESULTS.
+            </p>
           </motion.div>
 
-          <motion.div variants={heroItem} className="hidden text-right md:block">
-            <p className="font-display text-5xl leading-[0.95] text-dark/15 lg:text-6xl xl:text-7xl">
-              CRAFT.
-              <br />
-              STRATEGY.
-              <br />
-              RESULTS.
-            </p>
+          {/* Right column: live neural network */}
+          <motion.div
+            variants={heroItem}
+            className="md:col-span-5"
+          >
+            <div className="aspect-square w-full md:aspect-[4/5] lg:aspect-square">
+              <NeuralNetwork />
+            </div>
           </motion.div>
         </div>
 
