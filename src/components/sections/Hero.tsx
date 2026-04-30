@@ -48,18 +48,18 @@ const Hero = () => {
       {/* Bottom-right large half circle (matches reference) */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -bottom-[260px] right-[-120px] hidden h-[560px] w-[560px] rounded-full border border-gold/30 lg:block"
+        className="pointer-events-none absolute -bottom-[420px] right-[-180px] hidden h-[760px] w-[760px] rounded-full bg-gold/[0.07] lg:block"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute -bottom-[200px] right-[-60px] hidden h-[440px] w-[440px] rounded-full bg-gold/[0.06] lg:block"
+        className="pointer-events-none absolute -bottom-[400px] right-[-160px] hidden h-[720px] w-[720px] rounded-full border border-gold/25 lg:block"
       />
 
       <motion.div
         variants={heroContainer}
         initial="hidden"
         animate="visible"
-        className="relative z-20 mx-auto grid h-[calc(100vh-4rem)] min-h-[540px] max-w-[1280px] grid-cols-1 items-center gap-6 px-5 pb-6 md:grid-cols-12 lg:px-8"
+        className="relative z-20 mx-auto grid h-[calc(100vh-4rem)] min-h-[540px] max-w-7xl grid-cols-1 items-center gap-6 px-6 pb-6 md:grid-cols-12 lg:px-10"
       >
         {/* LEFT — text column */}
         <div className="md:col-span-5 lg:col-span-5">
@@ -145,7 +145,7 @@ const Hero = () => {
         {/* RIGHT — dashboard mockup */}
         <motion.div
           variants={heroItem}
-          className="relative md:col-span-7 lg:col-span-7 md:-mr-4 lg:-mr-6"
+          className="relative md:col-span-7 lg:col-span-7 md:scale-90 lg:scale-95 origin-center"
           style={{
             y: imgY,
             scale: imgScale,
