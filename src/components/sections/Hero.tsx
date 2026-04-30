@@ -20,36 +20,36 @@ const Hero = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen overflow-hidden bg-cream pt-28"
+      className="relative h-screen min-h-[680px] overflow-hidden bg-cream pt-20"
     >
       <div className="grain-overlay absolute inset-0" />
 
       {/* Decorative dotted grid (top-left of text column) */}
       <div
         aria-hidden
-        className="pointer-events-none absolute left-6 top-1/2 hidden h-32 w-32 -translate-y-8 lg:block"
+        className="pointer-events-none absolute left-6 top-1/2 hidden h-24 w-24 -translate-y-8 lg:block"
         style={{
           backgroundImage:
-            "radial-gradient(hsl(var(--gold) / 0.45) 1.5px, transparent 1.5px)",
-          backgroundSize: "14px 14px",
+            "radial-gradient(hsl(var(--gold) / 0.45) 1.25px, transparent 1.25px)",
+          backgroundSize: "12px 12px",
         }}
       />
 
       {/* Decorative arc behind the dashboard */}
       <div
         aria-hidden
-        className="pointer-events-none absolute right-[-10%] top-[14%] hidden h-[640px] w-[640px] rounded-full border border-gold/30 lg:block"
+        className="pointer-events-none absolute right-[-10%] top-[12%] hidden h-[480px] w-[480px] rounded-full border border-gold/30 lg:block"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute right-[-4%] top-[26%] hidden h-[420px] w-[420px] rounded-full border border-dashed border-gold/25 lg:block"
+        className="pointer-events-none absolute right-[-4%] top-[22%] hidden h-[320px] w-[320px] rounded-full border border-dashed border-gold/25 lg:block"
       />
 
       <motion.div
         variants={heroContainer}
         initial="hidden"
         animate="visible"
-        className="relative z-20 mx-auto grid min-h-[calc(100vh-7rem)] max-w-7xl grid-cols-1 items-center gap-12 px-6 pb-16 md:grid-cols-12 lg:px-10"
+        className="relative z-20 mx-auto grid h-[calc(100vh-5rem)] min-h-[600px] max-w-7xl grid-cols-1 items-center gap-8 px-6 pb-10 md:grid-cols-12 lg:px-10"
       >
         {/* LEFT — text column */}
         <div className="md:col-span-6 lg:col-span-6">
@@ -58,8 +58,8 @@ const Hero = () => {
             variants={heroItem}
             className="flex items-center gap-3"
           >
-            <span className="h-px w-10 bg-gold" />
-            <p className="font-mono-tag text-[12px] tracking-[0.28em] text-gold sm:text-[13px]">
+            <span className="h-px w-8 bg-gold" />
+            <p className="font-mono-tag text-[11px] tracking-[0.26em] text-gold">
               Est. 2022 · Salem, IN
             </p>
           </motion.div>
@@ -67,8 +67,8 @@ const Hero = () => {
           {/* Headline */}
           <motion.h1
             variants={heroItem}
-            className="mt-7 font-display-bold uppercase leading-[0.92] text-dark"
-            style={{ fontSize: "clamp(2.75rem, 7.2vw, 6.25rem)" }}
+            className="mt-4 font-display-bold uppercase leading-[0.95] text-dark"
+            style={{ fontSize: "clamp(2rem, 4.6vw, 4rem)" }}
           >
             We build
             <br />
@@ -80,7 +80,7 @@ const Hero = () => {
           {/* Subcopy */}
           <motion.p
             variants={heroItem}
-            className="mt-7 max-w-xl font-body text-base leading-relaxed text-dark/70 sm:text-lg"
+            className="mt-4 max-w-md font-body text-sm leading-relaxed text-dark/70 sm:text-[15px]"
           >
             From idea to production — we design, develop, and launch
             high-performance digital products for startups and businesses.
@@ -89,18 +89,18 @@ const Hero = () => {
           {/* CTAs */}
           <motion.div
             variants={heroItem}
-            className="mt-9 flex flex-wrap items-center gap-4"
+            className="mt-6 flex flex-wrap items-center gap-3"
           >
             <a
               href="#cta"
-              className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-br from-gold-light via-gold to-gold-deep px-7 py-4 font-body text-base font-medium text-dark shadow-[0_18px_40px_-12px_hsl(var(--gold)/0.6)] transition-transform hover:-translate-y-0.5"
+              className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-br from-gold-light via-gold to-gold-deep px-5 py-3 font-body text-sm font-medium text-dark shadow-[0_14px_30px_-12px_hsl(var(--gold)/0.6)] transition-transform hover:-translate-y-0.5"
             >
               Start a Project
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </a>
             <a
               href="#projects"
-              className="inline-flex items-center gap-2 rounded-full border border-dark/25 px-7 py-4 font-body text-base font-medium text-dark transition-colors hover:border-gold hover:text-gold"
+              className="inline-flex items-center gap-2 rounded-full border border-dark/25 px-5 py-3 font-body text-sm font-medium text-dark transition-colors hover:border-gold hover:text-gold"
             >
               View Our Work
             </a>
@@ -109,24 +109,24 @@ const Hero = () => {
           {/* Mini stats */}
           <motion.div
             variants={heroItem}
-            className="mt-10 flex flex-wrap items-center gap-10"
+            className="mt-7 flex flex-wrap items-center gap-8"
           >
-            <div className="flex items-center gap-3">
-              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-gold/15 text-gold">
-                <Users className="h-5 w-5" />
+            <div className="flex items-center gap-2.5">
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gold/15 text-gold">
+                <Users className="h-4 w-4" />
               </span>
               <div>
-                <div className="font-display-bold text-2xl text-dark">50+</div>
-                <div className="font-body text-sm text-dark/60">Happy Clients</div>
+                <div className="font-display-bold text-xl text-dark">50+</div>
+                <div className="font-body text-xs text-dark/60">Happy Clients</div>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-gold/15 text-gold">
-                <Star className="h-5 w-5" />
+            <div className="flex items-center gap-2.5">
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gold/15 text-gold">
+                <Star className="h-4 w-4" />
               </span>
               <div>
-                <div className="font-display-bold text-2xl text-dark">5.0</div>
-                <div className="font-body text-sm text-dark/60">Clutch Rating</div>
+                <div className="font-display-bold text-xl text-dark">5.0</div>
+                <div className="font-body text-xs text-dark/60">Clutch Rating</div>
               </div>
             </div>
           </motion.div>
@@ -171,10 +171,10 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1, duration: 0.7 }}
               style={{ transform: "translateZ(60px)" }}
-              className="absolute -bottom-6 left-4 hidden w-[240px] items-center gap-3 rounded-2xl bg-cream p-3.5 shadow-2xl ring-1 ring-dark/10 sm:flex md:left-6"
+              className="absolute -bottom-5 left-3 hidden w-[200px] items-center gap-2.5 rounded-xl bg-cream p-2.5 shadow-2xl ring-1 ring-dark/10 sm:flex md:left-4"
             >
-              <div className="relative h-14 w-14 shrink-0">
-                <svg viewBox="0 0 36 36" className="h-14 w-14 -rotate-90">
+              <div className="relative h-11 w-11 shrink-0">
+                <svg viewBox="0 0 36 36" className="h-11 w-11 -rotate-90">
                   <circle
                     cx="18"
                     cy="18"
@@ -195,15 +195,15 @@ const Hero = () => {
                     strokeLinecap="round"
                   />
                 </svg>
-                <span className="absolute inset-0 flex items-center justify-center font-display-bold text-sm text-dark">
+                <span className="absolute inset-0 flex items-center justify-center font-display-bold text-[11px] text-dark">
                   85%
                 </span>
               </div>
               <div>
-                <div className="font-display-bold text-sm text-dark">
+                <div className="font-display-bold text-xs text-dark">
                   ProjectAce Platform
                 </div>
-                <div className="font-body text-xs text-dark/60">
+                <div className="font-body text-[10px] text-dark/60">
                   Phase 3 · Development
                 </div>
               </div>
@@ -215,21 +215,21 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.15, duration: 0.7 }}
               style={{ transform: "translateZ(80px)" }}
-              className="absolute -bottom-8 right-2 hidden w-[220px] rounded-2xl bg-dark p-4 text-cream shadow-2xl ring-1 ring-dark/40 sm:block md:right-4"
+              className="absolute -bottom-6 right-2 hidden w-[180px] rounded-xl bg-dark p-3 text-cream shadow-2xl ring-1 ring-dark/40 sm:block md:right-3"
             >
               <div className="flex items-center justify-between">
-                <span className="font-body text-xs text-cream/70">
+                <span className="font-body text-[10px] text-cream/70">
                   Revenue Growth
                 </span>
-                <span className="font-mono-tag text-[10px] text-cream/50">
+                <span className="font-mono-tag text-[9px] text-cream/50">
                   This Year
                 </span>
               </div>
-              <div className="mt-1 font-display-bold text-2xl">₹ 24.8L</div>
-              <div className="mt-0.5 font-body text-[11px] text-gold-light">
+              <div className="mt-0.5 font-display-bold text-lg">₹ 24.8L</div>
+              <div className="mt-0.5 font-body text-[10px] text-gold-light">
                 ↑ 18% vs last year
               </div>
-              <svg viewBox="0 0 200 50" className="mt-2 h-10 w-full">
+              <svg viewBox="0 0 200 50" className="mt-1.5 h-7 w-full">
                 <polyline
                   fill="none"
                   stroke="hsl(var(--gold))"
@@ -244,9 +244,9 @@ const Hero = () => {
       </motion.div>
 
       {/* Scroll indicator — bottom-left like reference */}
-      <div className="absolute bottom-8 left-6 z-20 hidden items-center gap-3 lg:left-10 lg:flex">
-        <span className="flex h-8 w-8 items-center justify-center rounded-full border border-gold/50 text-gold">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+      <div className="absolute bottom-4 left-6 z-20 hidden items-center gap-2.5 lg:left-10 lg:flex">
+        <span className="flex h-7 w-7 items-center justify-center rounded-full border border-gold/50 text-gold">
+          <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
             <path
               d="M6 2v8M2 6l4 4 4-4"
               stroke="currentColor"
@@ -256,7 +256,7 @@ const Hero = () => {
             />
           </svg>
         </span>
-        <span className="font-mono-tag text-[11px] tracking-[0.28em] text-dark/60">
+        <span className="font-mono-tag text-[10px] tracking-[0.26em] text-dark/60">
           Scroll to Explore
         </span>
       </div>
