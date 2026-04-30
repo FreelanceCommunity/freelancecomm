@@ -20,7 +20,7 @@ const Hero = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative h-screen min-h-[680px] overflow-hidden bg-cream pt-20"
+      className="relative h-screen min-h-[600px] overflow-hidden bg-cream pt-16"
     >
       <div className="grain-overlay absolute inset-0" />
 
@@ -38,21 +38,31 @@ const Hero = () => {
       {/* Decorative arc behind the dashboard */}
       <div
         aria-hidden
-        className="pointer-events-none absolute right-[-10%] top-[12%] hidden h-[480px] w-[480px] rounded-full border border-gold/30 lg:block"
+        className="pointer-events-none absolute right-[-8%] top-[10%] hidden h-[420px] w-[420px] rounded-full border border-gold/30 lg:block"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute right-[-4%] top-[22%] hidden h-[320px] w-[320px] rounded-full border border-dashed border-gold/25 lg:block"
+        className="pointer-events-none absolute right-[-2%] top-[20%] hidden h-[280px] w-[280px] rounded-full border border-dashed border-gold/25 lg:block"
+      />
+
+      {/* Bottom-right large half circle (matches reference) */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-[260px] right-[-120px] hidden h-[560px] w-[560px] rounded-full border border-gold/30 lg:block"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-[200px] right-[-60px] hidden h-[440px] w-[440px] rounded-full bg-gold/[0.06] lg:block"
       />
 
       <motion.div
         variants={heroContainer}
         initial="hidden"
         animate="visible"
-        className="relative z-20 mx-auto grid h-[calc(100vh-5rem)] min-h-[600px] max-w-[1400px] grid-cols-1 items-center gap-6 px-6 pb-8 md:grid-cols-12 lg:px-12"
+        className="relative z-20 mx-auto grid h-[calc(100vh-4rem)] min-h-[540px] max-w-[1280px] grid-cols-1 items-center gap-6 px-5 pb-6 md:grid-cols-12 lg:px-8"
       >
         {/* LEFT — text column */}
-        <div className="md:col-span-5 lg:col-span-5 lg:pl-10 xl:pl-16">
+        <div className="md:col-span-5 lg:col-span-5">
           {/* Eyebrow with rule */}
           <motion.div
             variants={heroItem}
@@ -67,8 +77,8 @@ const Hero = () => {
           {/* Headline */}
           <motion.h1
             variants={heroItem}
-            className="mt-4 font-display-bold uppercase leading-[0.95] text-dark"
-            style={{ fontSize: "clamp(2rem, 4.6vw, 4rem)" }}
+            className="mt-3 font-display-bold uppercase leading-[0.95] text-dark"
+            style={{ fontSize: "clamp(1.75rem, 3.8vw, 3.25rem)" }}
           >
             We build
             <br />
@@ -135,7 +145,7 @@ const Hero = () => {
         {/* RIGHT — dashboard mockup */}
         <motion.div
           variants={heroItem}
-          className="relative md:col-span-7 lg:col-span-7 md:-mr-10 lg:-mr-16 xl:-mr-24 md:scale-110 lg:scale-115 origin-right"
+          className="relative md:col-span-7 lg:col-span-7 md:-mr-4 lg:-mr-6"
           style={{
             y: imgY,
             scale: imgScale,
