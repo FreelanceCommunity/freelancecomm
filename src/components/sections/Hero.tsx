@@ -171,10 +171,10 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1, duration: 0.7 }}
               style={{ transform: "translateZ(60px)" }}
-              className="absolute -bottom-6 left-4 hidden w-[240px] items-center gap-3 rounded-2xl bg-cream p-3.5 shadow-2xl ring-1 ring-dark/10 sm:flex md:left-6"
+              className="absolute -bottom-5 left-3 hidden w-[200px] items-center gap-2.5 rounded-xl bg-cream p-2.5 shadow-2xl ring-1 ring-dark/10 sm:flex md:left-4"
             >
-              <div className="relative h-14 w-14 shrink-0">
-                <svg viewBox="0 0 36 36" className="h-14 w-14 -rotate-90">
+              <div className="relative h-11 w-11 shrink-0">
+                <svg viewBox="0 0 36 36" className="h-11 w-11 -rotate-90">
                   <circle
                     cx="18"
                     cy="18"
@@ -195,15 +195,15 @@ const Hero = () => {
                     strokeLinecap="round"
                   />
                 </svg>
-                <span className="absolute inset-0 flex items-center justify-center font-display-bold text-sm text-dark">
+                <span className="absolute inset-0 flex items-center justify-center font-display-bold text-[11px] text-dark">
                   85%
                 </span>
               </div>
               <div>
-                <div className="font-display-bold text-sm text-dark">
+                <div className="font-display-bold text-xs text-dark">
                   ProjectAce Platform
                 </div>
-                <div className="font-body text-xs text-dark/60">
+                <div className="font-body text-[10px] text-dark/60">
                   Phase 3 · Development
                 </div>
               </div>
@@ -215,21 +215,21 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.15, duration: 0.7 }}
               style={{ transform: "translateZ(80px)" }}
-              className="absolute -bottom-8 right-2 hidden w-[220px] rounded-2xl bg-dark p-4 text-cream shadow-2xl ring-1 ring-dark/40 sm:block md:right-4"
+              className="absolute -bottom-6 right-2 hidden w-[180px] rounded-xl bg-dark p-3 text-cream shadow-2xl ring-1 ring-dark/40 sm:block md:right-3"
             >
               <div className="flex items-center justify-between">
-                <span className="font-body text-xs text-cream/70">
+                <span className="font-body text-[10px] text-cream/70">
                   Revenue Growth
                 </span>
-                <span className="font-mono-tag text-[10px] text-cream/50">
+                <span className="font-mono-tag text-[9px] text-cream/50">
                   This Year
                 </span>
               </div>
-              <div className="mt-1 font-display-bold text-2xl">₹ 24.8L</div>
-              <div className="mt-0.5 font-body text-[11px] text-gold-light">
+              <div className="mt-0.5 font-display-bold text-lg">₹ 24.8L</div>
+              <div className="mt-0.5 font-body text-[10px] text-gold-light">
                 ↑ 18% vs last year
               </div>
-              <svg viewBox="0 0 200 50" className="mt-2 h-10 w-full">
+              <svg viewBox="0 0 200 50" className="mt-1.5 h-7 w-full">
                 <polyline
                   fill="none"
                   stroke="hsl(var(--gold))"
@@ -244,9 +244,9 @@ const Hero = () => {
       </motion.div>
 
       {/* Scroll indicator — bottom-left like reference */}
-      <div className="absolute bottom-8 left-6 z-20 hidden items-center gap-3 lg:left-10 lg:flex">
-        <span className="flex h-8 w-8 items-center justify-center rounded-full border border-gold/50 text-gold">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+      <div className="absolute bottom-4 left-6 z-20 hidden items-center gap-2.5 lg:left-10 lg:flex">
+        <span className="flex h-7 w-7 items-center justify-center rounded-full border border-gold/50 text-gold">
+          <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
             <path
               d="M6 2v8M2 6l4 4 4-4"
               stroke="currentColor"
@@ -256,7 +256,7 @@ const Hero = () => {
             />
           </svg>
         </span>
-        <span className="font-mono-tag text-[11px] tracking-[0.28em] text-dark/60">
+        <span className="font-mono-tag text-[10px] tracking-[0.26em] text-dark/60">
           Scroll to Explore
         </span>
       </div>
