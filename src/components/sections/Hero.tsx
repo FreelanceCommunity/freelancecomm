@@ -142,27 +142,36 @@ const Hero = () => {
             rotate: imgRotate,
             opacity: imgOpacity,
             willChange: "transform",
+            perspective: 1600,
           }}
         >
-          <div className="relative">
+          {/* Tilted 3D stage so the dashboard sits at an angle like the reference */}
+          <div
+            className="relative"
+            style={{
+              transformStyle: "preserve-3d",
+              transform: "rotateY(-14deg) rotateX(6deg) rotateZ(-2deg)",
+            }}
+          >
             {/* Soft glow behind */}
             <div
               aria-hidden
-              className="absolute -inset-6 -z-10 rounded-[2rem] bg-gradient-to-br from-gold/20 via-transparent to-transparent blur-2xl"
+              className="absolute -inset-6 -z-10 rounded-[2rem] bg-gradient-to-br from-gold/25 via-transparent to-transparent blur-2xl"
             />
             <img
               src={heroDashboard}
               alt="FreelancComm analytics dashboard preview showing project performance, revenue, and client satisfaction metrics"
-              className="w-full rounded-[1.25rem] shadow-[0_40px_80px_-30px_rgba(20,20,20,0.35)] ring-1 ring-dark/10"
+              className="w-full rounded-[1.25rem] shadow-[0_50px_90px_-30px_rgba(20,20,20,0.45)] ring-1 ring-dark/10"
               loading="eager"
             />
 
-            {/* Floating card — bottom-left */}
+            {/* Floating card — overlapping bottom-left of dashboard */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1, duration: 0.7 }}
-              className="absolute -bottom-8 -left-6 hidden w-[260px] rounded-2xl bg-cream p-4 shadow-xl ring-1 ring-dark/10 sm:flex sm:items-center sm:gap-3"
+              style={{ transform: "translateZ(60px)" }}
+              className="absolute -bottom-6 left-4 hidden w-[240px] items-center gap-3 rounded-2xl bg-cream p-3.5 shadow-2xl ring-1 ring-dark/10 sm:flex md:left-6"
             >
               <div className="relative h-14 w-14 shrink-0">
                 <svg viewBox="0 0 36 36" className="h-14 w-14 -rotate-90">
@@ -200,12 +209,13 @@ const Hero = () => {
               </div>
             </motion.div>
 
-            {/* Floating card — bottom-right (Revenue Growth) */}
+            {/* Floating card — overlapping bottom-right (Revenue Growth) */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.15, duration: 0.7 }}
-              className="absolute -bottom-10 -right-4 hidden w-[230px] rounded-2xl bg-dark p-4 text-cream shadow-xl ring-1 ring-dark/30 sm:block"
+              style={{ transform: "translateZ(80px)" }}
+              className="absolute -bottom-8 right-2 hidden w-[220px] rounded-2xl bg-dark p-4 text-cream shadow-2xl ring-1 ring-dark/40 sm:block md:right-4"
             >
               <div className="flex items-center justify-between">
                 <span className="font-body text-xs text-cream/70">
