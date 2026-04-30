@@ -49,10 +49,10 @@ const Hero = () => {
         variants={heroContainer}
         initial="hidden"
         animate="visible"
-        className="relative z-20 mx-auto grid h-[calc(100vh-5rem)] min-h-[600px] max-w-7xl grid-cols-1 items-center gap-8 px-6 pb-10 md:grid-cols-12 lg:px-10"
+        className="relative z-20 mx-auto grid h-[calc(100vh-5rem)] min-h-[600px] max-w-[1400px] grid-cols-1 items-center gap-6 px-6 pb-8 md:grid-cols-12 lg:px-12"
       >
         {/* LEFT — text column */}
-        <div className="md:col-span-6 lg:col-span-6">
+        <div className="md:col-span-5 lg:col-span-5 lg:pl-10 xl:pl-16">
           {/* Eyebrow with rule */}
           <motion.div
             variants={heroItem}
@@ -135,7 +135,7 @@ const Hero = () => {
         {/* RIGHT — dashboard mockup */}
         <motion.div
           variants={heroItem}
-          className="relative md:col-span-6 lg:col-span-6"
+          className="relative md:col-span-7 lg:col-span-7 md:-mr-10 lg:-mr-16 xl:-mr-24 md:scale-110 lg:scale-115 origin-right"
           style={{
             y: imgY,
             scale: imgScale,
