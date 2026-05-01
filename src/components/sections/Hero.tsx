@@ -170,16 +170,16 @@ const Hero = () => {
               style={{ transform: "translateZ(60px)" }}
               className="absolute -bottom-5 left-3 hidden w-[42%] max-w-[220px] min-w-[150px] items-center gap-2 rounded-xl bg-cream p-2 shadow-2xl ring-1 ring-dark/10 sm:flex md:left-4 md:gap-2.5 md:p-2.5"
             >
-              <div className="relative h-11 w-11 shrink-0">
-                <svg viewBox="0 0 36 36" className="h-11 w-11 -rotate-90">
+              <div className="relative h-9 w-9 shrink-0 md:h-11 md:w-11">
+                <svg viewBox="0 0 36 36" className="h-full w-full -rotate-90">
                   <circle cx="18" cy="18" r="15.5" fill="none" stroke="hsl(var(--gold) / 0.2)" strokeWidth="3.5" />
                   <circle cx="18" cy="18" r="15.5" fill="none" stroke="hsl(var(--gold))" strokeWidth="3.5" strokeDasharray="97.4" strokeDashoffset="14.6" strokeLinecap="round" />
                 </svg>
-                <span className="absolute inset-0 flex items-center justify-center font-display-bold text-[11px] text-dark">85%</span>
+                <span className="absolute inset-0 flex items-center justify-center font-display-bold text-[10px] text-dark md:text-[11px]">85%</span>
               </div>
-              <div>
-                <div className="font-display-bold text-xs text-dark">ProjectAce Platform</div>
-                <div className="font-body text-[10px] text-dark/60">Phase 3 · Development</div>
+              <div className="min-w-0">
+                <div className="truncate font-display-bold text-[11px] text-dark md:text-xs">ProjectAce Platform</div>
+                <div className="truncate font-body text-[9px] text-dark/60 md:text-[10px]">Phase 3 · Development</div>
               </div>
             </motion.div>
 
