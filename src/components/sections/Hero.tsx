@@ -1,11 +1,18 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { ArrowRight, Users, Star } from "lucide-react";
 import { heroContainer, heroItem } from "@/lib/motion";
 import heroDashboard from "@/assets/hero-dashboard.png";
 
+const WORDMARKS = ["FREELANCER", "DEVELOPER", "DESIGNER"];
+
 const Hero = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const [wordIdx, setWordIdx] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setWordIdx((i) => (i + 1) % WORDMARKS.length), 2600);
+    return () => clearInterval(id);
+  }, []);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
