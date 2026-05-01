@@ -168,7 +168,7 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1, duration: 0.7 }}
               style={{ transform: "translateZ(60px)" }}
-              className="absolute -bottom-5 left-3 hidden w-[200px] items-center gap-2.5 rounded-xl bg-cream p-2.5 shadow-2xl ring-1 ring-dark/10 sm:flex md:left-4"
+              className="absolute -bottom-5 left-3 hidden w-[42%] max-w-[220px] min-w-[150px] items-center gap-2 rounded-xl bg-cream p-2 shadow-2xl ring-1 ring-dark/10 sm:flex md:left-4 md:gap-2.5 md:p-2.5"
             >
               <div className="relative h-11 w-11 shrink-0">
                 <svg viewBox="0 0 36 36" className="h-11 w-11 -rotate-90">
