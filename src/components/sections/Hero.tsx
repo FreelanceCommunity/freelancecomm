@@ -25,33 +25,45 @@ const Hero = () => {
   return (
     <section
       ref={sectionRef}
-      className="bg-premium-canvas relative h-screen min-h-[620px] overflow-hidden bg-cream pt-20"
+      className="relative h-screen min-h-[620px] overflow-hidden bg-cream pt-20"
     >
-      {/* Faint START wordmark blended in */}
-      <div className="bg-canvas-wordmark">
-        <span>START</span>
+      {/* Radial gold glow — same as Let's Build */}
+      <div
+        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{
+          width: 600,
+          height: 600,
+          background: "radial-gradient(circle, hsl(var(--gold) / 0.10) 0%, transparent 70%)",
+        }}
+      />
+
+      {/* Rotating wordmark — same style as CTA's START, smaller & subtle */}
+      <div className="pointer-events-none absolute inset-x-0 top-24 flex justify-center overflow-hidden">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={WORDMARKS[wordIdx]}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="bg-wordmark whitespace-nowrap"
+            style={{ fontSize: "clamp(60px, 11vw, 160px)" }}
+          >
+            {WORDMARKS[wordIdx]}
+          </motion.div>
+        </AnimatePresence>
       </div>
 
       <div className="grain-overlay absolute inset-0" />
-
-      {/* Bottom-right large half circle (matches reference) */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -bottom-[440px] right-[-200px] hidden h-[780px] w-[780px] rounded-full bg-gold/[0.07] lg:block"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -bottom-[420px] right-[-180px] hidden h-[740px] w-[740px] rounded-full border border-gold/25 lg:block"
-      />
 
       <motion.div
         variants={heroContainer}
         initial="hidden"
         animate="visible"
-        className="relative z-20 mx-auto grid h-[calc(100vh-5rem)] min-h-[540px] max-w-7xl grid-cols-1 items-center gap-8 px-6 pb-6 md:grid-cols-12 lg:px-10"
+        className="relative z-20 mx-auto grid h-[calc(100vh-5rem)] min-h-[540px] max-w-7xl grid-cols-1 items-center gap-6 px-6 pb-6 md:grid-cols-12 lg:px-10"
       >
-        {/* LEFT — text column */}
-        <div className="md:col-span-6 lg:col-span-6">
+        {/* LEFT — text column (narrower) */}
+        <div className="md:col-span-5 lg:col-span-5">
           {/* Eyebrow with rule */}
           <motion.div
             variants={heroItem}
