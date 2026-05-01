@@ -189,13 +189,13 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.15, duration: 0.7 }}
               style={{ transform: "translateZ(80px)" }}
-              className="absolute -bottom-6 right-2 hidden w-[180px] rounded-xl bg-dark p-3 text-cream shadow-2xl ring-1 ring-dark/40 sm:block md:right-3"
+              className="absolute -bottom-6 right-2 hidden w-[38%] max-w-[200px] min-w-[140px] rounded-xl bg-dark p-2.5 text-cream shadow-2xl ring-1 ring-dark/40 sm:block md:right-3 md:p-3"
             >
-              <div className="flex items-center justify-between">
-                <span className="font-body text-[10px] text-cream/70">Revenue Growth</span>
+              <div className="flex items-center justify-between gap-2">
+                <span className="truncate font-body text-[10px] text-cream/70">Revenue Growth</span>
                 <span className="font-mono-tag text-[9px] text-cream/50">This Year</span>
               </div>
-              <div className="mt-0.5 font-display-bold text-lg">₹ 24.8L</div>
+              <div className="mt-0.5 font-display-bold text-base md:text-lg">₹ 24.8L</div>
               <div className="mt-0.5 font-body text-[10px] text-gold-light">↑ 18% vs last year</div>
               <svg viewBox="0 0 200 50" className="mt-1.5 h-7 w-full">
                 <polyline fill="none" stroke="hsl(var(--gold))" strokeWidth="2" points="0,40 20,34 40,36 60,28 80,30 100,22 120,24 140,16 160,18 180,10 200,6" />
