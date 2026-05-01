@@ -43,18 +43,10 @@ const CTA = () => (
       </motion.p>
 
       <motion.div variants={revealItem} className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
-        <a
-          href="mailto:hello@freelanccomm.in"
-          data-cursor-hover
-          className="rounded-full bg-gold px-9 py-4 font-display-bold text-lg text-dark transition-all duration-300 hover:-translate-y-0.5 hover:bg-gold-light"
-        >
+        <a href="mailto:hello@freelanccomm.in" data-cursor-hover className="btn-premium !px-8 !py-4 !text-base">
           Start a Project →
         </a>
-        <a
-          href="#projects"
-          data-cursor-hover
-          className="rounded-full border border-dark/30 px-9 py-4 font-display-bold text-lg text-dark transition-all duration-300 hover:bg-dark hover:text-cream"
-        >
+        <a href="#projects" data-cursor-hover className="btn-ghost-premium !px-8 !py-4 !text-base">
           View Our Work
         </a>
       </motion.div>

@@ -171,29 +171,9 @@ const CodeWindow = ({
 const RnD = () => (
   <section
     id="rnd"
-    className="relative overflow-hidden bg-cream py-28 lg:py-36"
+    className="bg-premium-canvas relative overflow-hidden bg-cream py-28 lg:py-36"
   >
-    {/* Subtle grid backdrop */}
-    <div
-      aria-hidden
-      className="pointer-events-none absolute inset-0 opacity-[0.05]"
-      style={{
-        backgroundImage:
-          "linear-gradient(hsl(var(--dark)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--dark)) 1px, transparent 1px)",
-        backgroundSize: "44px 44px",
-        maskImage:
-          "radial-gradient(ellipse at center, black 50%, transparent 85%)",
-      }}
-    />
-    {/* Soft gold glow */}
-    <div
-      aria-hidden
-      className="pointer-events-none absolute left-1/2 top-1/3 h-[420px] w-[820px] -translate-x-1/2 rounded-full"
-      style={{
-        background:
-          "radial-gradient(closest-side, hsl(var(--gold) / 0.18), transparent 70%)",
-      }}
-    />
+    <div className="bg-canvas-wordmark"><span>EXPLORE</span></div>
 
     <motion.div
       variants={revealContainer}

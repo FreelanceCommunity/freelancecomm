@@ -48,7 +48,8 @@ const Services = () => {
   const [active, setActive] = useState<number | null>(null);
 
   return (
-    <section id="services" className="relative overflow-hidden bg-cream py-28 lg:py-36">
+    <section id="services" className="bg-premium-canvas relative overflow-hidden bg-cream py-28 lg:py-36">
+      <div className="bg-canvas-wordmark"><span>BUILD</span></div>
       {/* Vertical wordmark accent */}
       <div
         aria-hidden
