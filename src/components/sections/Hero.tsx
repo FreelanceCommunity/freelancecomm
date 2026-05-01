@@ -140,7 +140,7 @@ const Hero = () => {
         {/* RIGHT — dashboard mockup, vertically aligned to "Products" → Let's Talk button range */}
         <motion.div
           variants={heroItem}
-          className="relative md:col-span-6 lg:col-span-6"
+          className="relative md:col-span-7 lg:col-span-7"
           style={{ y: imgY, opacity: imgOpacity, perspective: 1600 }}
         >
           <div
