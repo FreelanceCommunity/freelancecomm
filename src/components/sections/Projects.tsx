@@ -27,11 +27,7 @@ const Projects = () => (
             Projects
           </h2>
         </div>
-        <a
-          href="#"
-          data-cursor-hover
-          className="rounded-full border border-gold px-6 py-3 font-mono-tag text-sm text-gold transition-all duration-300 hover:bg-gold hover:text-dark"
-        >
+        <a href="#" data-cursor-hover className="btn-premium">
           View All →
         </a>
       </motion.div>
