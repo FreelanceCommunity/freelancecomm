@@ -17,7 +17,7 @@ const Navbar = () => {
     const onScroll = () => {
       const y = window.scrollY;
       setScrolled(y > 40);
-      if (y > lastY && y > 120) setHidden(true);
+      if (y > lastY && y > 160) setHidden(true);
       else setHidden(false);
       lastY = y;
     };
@@ -27,23 +27,38 @@ const Navbar = () => {
 
   return (
     <motion.header
-      animate={{ y: hidden ? -100 : 0 }}
+      animate={{ y: hidden ? -120 : 0 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled ? "backdrop-blur-xl bg-cream/80 border-b border-dark/5" : ""
-      }`}
+      className="fixed inset-x-0 top-0 z-50 flex justify-center"
     >
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-10">
-        <a href="#" className="font-display-bold text-2xl text-dark">
+      <motion.nav
+        animate={{
+          width: scrolled ? "min(960px, 92%)" : "100%",
+          marginTop: scrolled ? 14 : 0,
+          borderRadius: scrolled ? 999 : 0,
+        }}
+        transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+        className={`relative flex items-center justify-between px-6 py-4 lg:px-10 ${
+          scrolled
+            ? "border border-cream/40 bg-cream/60 shadow-[0_18px_40px_-18px_hsl(var(--dark)/0.18)] backdrop-blur-xl"
+            : "border-b border-cream/30 bg-cream/30 backdrop-blur-md"
+        }`}
+        style={{
+          backgroundImage: scrolled
+            ? "none"
+            : "radial-gradient(80% 100% at 80% 0%, hsl(var(--gold) / 0.10), transparent 70%)",
+        }}
+      >
+        <a href="#" className="font-display-bold text-xl text-dark md:text-2xl">
           freelanccomm<span className="text-gold">.in</span>
         </a>
 
-        <ul className="hidden items-center gap-10 md:flex">
+        <ul className="hidden items-center gap-9 md:flex">
           {links.map((l) => (
             <li key={l.href}>
               <a
                 href={l.href}
-                className="font-body text-base text-dark/70 transition-colors duration-300 hover:text-dark"
+                className="font-body text-[15px] text-dark/75 transition-colors duration-300 hover:text-dark"
               >
                 {l.label}
               </a>
@@ -51,13 +66,10 @@ const Navbar = () => {
           ))}
         </ul>
 
-        <a
-          href="#contact"
-          className="rounded-full bg-gold px-6 py-3 font-display-bold text-base text-dark transition-all duration-300 hover:bg-gold-light hover:-translate-y-0.5"
-        >
+        <a href="#contact" className="btn-premium !py-2.5 !px-5 !text-sm">
           Let's Talk →
         </a>
-      </nav>
+      </motion.nav>
     </motion.header>
   );
 };
