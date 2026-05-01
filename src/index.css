@@ -133,6 +133,114 @@
     letter-spacing: -0.04em;
   }
 
+  /* Premium 3D rectangle button — gold gradient, soft shadow, hover lift + glow */
+  .btn-premium {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.6rem;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: -0.01em;
+    color: hsl(var(--dark));
+    background: linear-gradient(180deg, hsl(var(--gold-light)) 0%, hsl(var(--gold)) 55%, hsl(var(--gold-deep)) 100%);
+    border: 1px solid hsl(var(--gold-deep) / 0.55);
+    border-radius: 0.65rem;
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.55),
+      inset 0 -1px 0 hsl(var(--gold-deep) / 0.4),
+      0 10px 22px -10px hsl(var(--gold) / 0.55),
+      0 2px 4px hsl(var(--dark) / 0.12);
+    transition: transform 0.35s var(--ease-premium), box-shadow 0.35s var(--ease-premium), filter 0.35s var(--ease-premium);
+    will-change: transform;
+  }
+  .btn-premium:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.6),
+      inset 0 -1px 0 hsl(var(--gold-deep) / 0.45),
+      0 18px 36px -12px hsl(var(--gold) / 0.7),
+      0 6px 14px -4px hsl(var(--gold) / 0.45);
+  }
+  .btn-premium:active { transform: translateY(0); }
+
+  .btn-ghost-premium {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.6rem;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: hsl(var(--dark));
+    background: hsl(var(--cream) / 0.6);
+    border: 1px solid hsl(var(--dark) / 0.18);
+    border-radius: 0.65rem;
+    backdrop-filter: blur(6px);
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.6),
+      0 6px 14px -8px hsl(var(--dark) / 0.18);
+    transition: transform 0.35s var(--ease-premium), box-shadow 0.35s var(--ease-premium), border-color 0.35s var(--ease-premium), color 0.35s var(--ease-premium);
+  }
+  .btn-ghost-premium:hover {
+    transform: translateY(-2px);
+    border-color: hsl(var(--gold) / 0.6);
+    color: hsl(var(--gold-deep));
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.7),
+      0 12px 24px -10px hsl(var(--dark) / 0.22);
+  }
+
+  /* Shared premium section background — subtle grid + gold glow + START wordmark */
+  .bg-premium-canvas { position: relative; isolation: isolate; }
+  .bg-premium-canvas::before {
+    content: "";
+    position: absolute; inset: 0; z-index: -2;
+    background-image:
+      linear-gradient(hsl(var(--dark) / 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--dark) / 0.06) 1px, transparent 1px);
+    background-size: 44px 44px;
+    -webkit-mask-image: radial-gradient(ellipse at 60% 40%, black 40%, transparent 85%);
+            mask-image: radial-gradient(ellipse at 60% 40%, black 40%, transparent 85%);
+    pointer-events: none;
+  }
+  .bg-premium-canvas::after {
+    content: "";
+    position: absolute; inset: 0; z-index: -2;
+    background:
+      radial-gradient(60% 50% at 80% 10%, hsl(var(--gold) / 0.18), transparent 70%),
+      radial-gradient(50% 40% at 10% 90%, hsl(var(--gold) / 0.08), transparent 70%);
+    pointer-events: none;
+  }
+  .bg-canvas-wordmark {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .bg-canvas-wordmark > span {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(180px, 28vw, 460px);
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    color: transparent;
+    -webkit-text-stroke: 1px hsl(var(--dark) / 0.05);
+    user-select: none;
+    white-space: nowrap;
+    opacity: 0.6;
+  }
+
   .grain-overlay {
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     opacity: 0.4;
