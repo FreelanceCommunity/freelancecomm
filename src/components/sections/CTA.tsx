@@ -32,7 +32,8 @@ const CTA = () => (
       </motion.p>
       <motion.h2
         variants={revealItem}
-        className="mt-6 font-display text-5xl leading-[1.02] text-dark sm:text-6xl md:text-7xl lg:text-8xl xl:text-[7.5rem]"
+        className="mt-6 font-display leading-[1.02] text-dark"
+        style={{ fontSize: "clamp(2.25rem, 9vw, 7.5rem)" }}
       >
         Ready to build
         <br />
