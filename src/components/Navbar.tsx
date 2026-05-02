@@ -18,18 +18,14 @@ const Navbar = () => {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
-      <nav
-        className={`relative flex w-full items-center justify-between border-y border-x-0 px-6 py-4 transition-all duration-500 lg:px-10 ${
-          scrolled
-            ? "border-dark/10 bg-cream/80 shadow-[0_8px_24px_-12px_hsl(var(--dark)/0.18)] backdrop-blur-xl"
-            : "border-dark/10 bg-cream/60 backdrop-blur-md"
-        }`}
-        style={{
-          backgroundImage:
-            "radial-gradient(80% 120% at 50% 0%, hsl(var(--gold) / 0.12), transparent 70%)",
-        }}
-      >
+    <header
+      className={`sticky top-0 z-50 w-full transition-colors duration-300 ${
+        scrolled
+          ? "bg-cream/90 backdrop-blur-md border-b border-dark/10"
+          : "bg-cream border-b border-transparent"
+      }`}
+    >
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-10">
         <a href="#" className="font-display-bold text-xl text-dark md:text-2xl">
           freelanccomm<span className="text-gold">.in</span>
         </a>
@@ -47,7 +43,10 @@ const Navbar = () => {
           ))}
         </ul>
 
-        <a href="#contact" className="btn-premium !py-2.5 !px-5 !text-sm">
+        <a
+          href="#contact"
+          className="font-display-bold text-sm text-dark border-b-2 border-gold pb-1 hover:text-gold-deep transition-colors"
+        >
           Let's Talk →
         </a>
       </nav>
