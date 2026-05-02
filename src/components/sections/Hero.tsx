@@ -54,7 +54,7 @@ const Hero = () => {
         </AnimatePresence>
       </div>
 
-      {/* Big decorative semi-circle — bottom right */}
+      {/* Big decorative semi-circle — bottom right (filled) */}
       <div
         aria-hidden
         className="pointer-events-none absolute bottom-0 right-0 z-0"
@@ -62,21 +62,11 @@ const Hero = () => {
           width: "min(70vw, 720px)",
           height: "min(35vw, 360px)",
           background:
-            "radial-gradient(ellipse at center top, hsl(var(--gold) / 0.32) 0%, hsl(var(--gold) / 0.16) 40%, transparent 72%)",
+            "linear-gradient(180deg, hsl(var(--gold-light)) 0%, hsl(var(--gold)) 55%, hsl(var(--gold-deep)) 100%)",
           borderTopLeftRadius: "100% 200%",
           borderTopRightRadius: "100% 200%",
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute bottom-0 right-0 z-0"
-        style={{
-          width: "min(70vw, 720px)",
-          height: "min(35vw, 360px)",
-          border: "1.5px solid hsl(var(--gold) / 0.45)",
-          borderBottom: 0,
-          borderTopLeftRadius: "100% 200%",
-          borderTopRightRadius: "100% 200%",
+          boxShadow: "0 -20px 60px -20px hsl(var(--gold) / 0.45)",
+          borderTop: "1.5px solid hsl(var(--gold-deep) / 0.5)",
         }}
       />
 
