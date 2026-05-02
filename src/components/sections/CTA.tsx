@@ -2,20 +2,20 @@ import { motion } from "framer-motion";
 import { revealContainer, revealItem } from "@/lib/motion";
 
 const CTA = () => (
-  <section id="contact" className="relative overflow-hidden bg-cream py-32 lg:py-40">
+  <section id="contact" className="relative overflow-hidden bg-cream py-20 sm:py-28 lg:py-40">
     {/* radial gold glow */}
     <div
       className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
       style={{
-        width: 600,
-        height: 600,
+        width: "min(600px, 90vw)",
+        height: "min(600px, 90vw)",
         background: "radial-gradient(circle, hsl(var(--gold) / 0.10) 0%, transparent 70%)",
       }}
     />
 
     {/* Giant START wordmark */}
-    <div className="pointer-events-none absolute inset-x-0 top-8 flex justify-center">
-      <div className="bg-wordmark" style={{ fontSize: "clamp(80px, 15vw, 180px)" }}>
+    <div className="pointer-events-none absolute inset-x-0 top-6 flex justify-center overflow-hidden sm:top-8">
+      <div className="bg-wordmark" style={{ fontSize: "clamp(60px, 14vw, 180px)" }}>
         START
       </div>
     </div>
@@ -32,7 +32,8 @@ const CTA = () => (
       </motion.p>
       <motion.h2
         variants={revealItem}
-        className="mt-6 font-display text-5xl leading-[1.02] text-dark sm:text-6xl md:text-7xl lg:text-8xl xl:text-[7.5rem]"
+        className="mt-6 font-display leading-[1.02] text-dark"
+        style={{ fontSize: "clamp(2.25rem, 9vw, 7.5rem)" }}
       >
         Ready to build
         <br />

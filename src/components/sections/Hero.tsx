@@ -37,8 +37,8 @@ const Hero = () => {
         }}
       />
 
-      {/* Rotating wordmark — same style as CTA's START, smaller & subtle */}
-      <div className="pointer-events-none absolute inset-x-0 top-24 flex justify-center overflow-hidden">
+      {/* Rotating wordmark — same style as CTA's START */}
+      <div className="pointer-events-none absolute inset-x-0 top-16 flex justify-center overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.div
             key={WORDMARKS[wordIdx]}
@@ -47,12 +47,38 @@ const Hero = () => {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             className="bg-wordmark whitespace-nowrap"
-            style={{ fontSize: "clamp(60px, 11vw, 160px)" }}
+            style={{ fontSize: "clamp(80px, 15vw, 180px)" }}
           >
             {WORDMARKS[wordIdx]}
           </motion.div>
         </AnimatePresence>
       </div>
+
+      {/* Big decorative semi-circle — bottom right */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 right-0 z-0"
+        style={{
+          width: "min(70vw, 720px)",
+          height: "min(35vw, 360px)",
+          background:
+            "radial-gradient(ellipse at center top, hsl(var(--gold) / 0.32) 0%, hsl(var(--gold) / 0.16) 40%, transparent 72%)",
+          borderTopLeftRadius: "100% 200%",
+          borderTopRightRadius: "100% 200%",
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 right-0 z-0"
+        style={{
+          width: "min(70vw, 720px)",
+          height: "min(35vw, 360px)",
+          border: "1.5px solid hsl(var(--gold) / 0.45)",
+          borderBottom: 0,
+          borderTopLeftRadius: "100% 200%",
+          borderTopRightRadius: "100% 200%",
+        }}
+      />
 
       <div className="grain-overlay absolute inset-0" />
 

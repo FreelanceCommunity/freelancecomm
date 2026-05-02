@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { revealContainer, revealItem, easePremium } from "@/lib/motion";
 
 const team = [
@@ -9,21 +9,24 @@ const team = [
   { name: "Kiran S.", role: "Motion Designer", line: "Making things beautifully move.", accent: "#6BA83A", initial: "K" },
   { name: "Divya T.", role: "Brand Strategist", line: "Strategy with a human pulse.", accent: "#C93A5A", initial: "D" },
   { name: "Rohan V.", role: "Product Engineer", line: "Bridging design and systems.", accent: "#3A8AC9", initial: "R" },
-  // Hidden behind "View All"
   { name: "Meera J.", role: "UX Researcher", line: "Insights that shape every pixel.", accent: "#E2C97E", initial: "M" },
   { name: "Vikram N.", role: "AI Engineer", line: "Models that think with the team.", accent: "#9D7DDC", initial: "V" },
   { name: "Sana K.", role: "Content Lead", line: "Words with weight and warmth.", accent: "#5DBB9C", initial: "S" },
 ];
 
-const TeamCard = ({ m }: { m: (typeof team)[number] }) => (
+const PAGE_SIZE = 5;
+const totalPages = Math.ceil(team.length / PAGE_SIZE);
+
+const TeamCard = ({ m, wide = false }: { m: (typeof team)[number]; wide?: boolean }) => (
   <motion.div
     variants={revealItem}
     whileHover={{ y: -6 }}
     transition={{ duration: 0.4, ease: easePremium }}
     data-cursor-hover
-    className="group relative overflow-hidden rounded-2xl bg-darkcard p-7 ring-1 ring-cream/5 transition-colors duration-300 hover:bg-darkcard-hover"
+    className={`group relative overflow-hidden bg-darkcard p-7 ring-1 ring-cream/5 transition-colors duration-300 hover:bg-darkcard-hover ${
+      wide ? "sm:col-span-2" : ""
+    }`}
   >
-    {/* abstract glow */}
     <div
       className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full opacity-20 blur-2xl transition-opacity duration-500 group-hover:opacity-40"
       style={{ backgroundColor: m.accent }}
@@ -35,8 +38,12 @@ const TeamCard = ({ m }: { m: (typeof team)[number] }) => (
 
     <div className="relative flex items-center gap-4">
       <div
-        className="flex h-14 w-14 items-center justify-center rounded-xl font-display-bold text-2xl text-cream"
-        style={{ background: `linear-gradient(135deg, ${m.accent}55, ${m.accent}20)`, border: `1px solid ${m.accent}80` }}
+        className="flex h-14 w-14 items-center justify-center font-display-bold text-2xl text-cream"
+        style={{
+          background: `linear-gradient(135deg, ${m.accent}55, ${m.accent}20)`,
+          borderLeft: `2px solid ${m.accent}`,
+          borderBottom: `2px solid ${m.accent}`,
+        }}
       >
         {m.initial}
       </div>
@@ -58,8 +65,9 @@ const TeamCard = ({ m }: { m: (typeof team)[number] }) => (
 );
 
 const About = () => {
-  const [showAll, setShowAll] = useState(false);
-  const visible = showAll ? team : team.slice(0, 5);
+  const [page, setPage] = useState(0);
+  const start = page * PAGE_SIZE;
+  const visible = team.slice(start, start + PAGE_SIZE);
 
   return (
     <section className="bg-dark py-28 lg:py-36">
@@ -88,26 +96,67 @@ const About = () => {
           </p>
         </motion.div>
 
+        {/* Grid: first card full width, others 2 per row */}
         <motion.div
+          key={page}
           variants={revealItem}
-          className="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
+          className="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2"
         >
-          <AnimatePresence initial={false}>
-            {visible.map((m) => (
-              <TeamCard key={m.name} m={m} />
+          <AnimatePresence mode="wait">
+            {visible.map((m, i) => (
+              <TeamCard key={`${page}-${m.name}`} m={m} wide={i === 0} />
             ))}
           </AnimatePresence>
         </motion.div>
 
-        {team.length > 5 && (
-          <motion.div variants={revealItem} className="mt-12 flex justify-center">
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <motion.div
+            variants={revealItem}
+            className="mt-12 flex items-center justify-center gap-4"
+          >
             <button
-              onClick={() => setShowAll((v) => !v)}
+              onClick={() => setPage((p) => Math.max(0, p - 1))}
+              disabled={page === 0}
               data-cursor-hover
-              className="btn-premium"
+              className="btn-ghost-premium disabled:cursor-not-allowed disabled:opacity-40"
+              aria-label="Previous page"
             >
-              {showAll ? "Show Less" : "View All Team"}
-              <ArrowRight className={`h-4 w-4 transition-transform ${showAll ? "-rotate-90" : ""}`} />
+              <ArrowLeft className="h-4 w-4" />
+              Prev
+            </button>
+
+            <div className="flex items-center gap-2">
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setPage(i)}
+                  data-cursor-hover
+                  className={`font-mono-tag text-xs transition-all ${
+                    i === page
+                      ? "bg-gold px-3 py-1.5 text-dark"
+                      : "px-3 py-1.5 text-cream/60 hover:text-cream"
+                  }`}
+                  style={
+                    i === page
+                      ? { borderLeft: "2px solid hsl(var(--gold-deep))", borderBottom: "2px solid hsl(var(--gold-deep))" }
+                      : undefined
+                  }
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </button>
+              ))}
+            </div>
+
+            <button
+              onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+              disabled={page === totalPages - 1}
+              data-cursor-hover
+              className="btn-premium disabled:cursor-not-allowed disabled:opacity-40"
+              aria-label="Next page"
+            >
+              Next
+              <ArrowRight className="h-4 w-4" />
             </button>
           </motion.div>
         )}
