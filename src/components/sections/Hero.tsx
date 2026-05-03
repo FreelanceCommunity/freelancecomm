@@ -139,27 +139,27 @@ const Hero = () => {
             </a>
           </motion.div>
 
-          {/* Mini stats */}
+          {/* Mini stats — premium editorial */}
           <motion.div
             variants={heroItem}
-            className="mt-8 flex flex-wrap items-center gap-10"
+            className="mt-10 flex items-stretch gap-0"
           >
-            <div className="flex items-center gap-3">
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gold/15 text-gold-deep ring-1 ring-gold/30">
+            <div className="flex items-center gap-3 pr-7" style={{ borderLeft: "2px solid hsl(var(--gold))", paddingLeft: "1rem" }}>
+              <span className="flex h-10 w-10 items-center justify-center bg-gold/15 text-gold-deep" style={{ borderLeft: "2px solid hsl(var(--gold))", borderBottom: "2px solid hsl(var(--gold))" }}>
                 <Users className="h-4 w-4" />
               </span>
               <div>
-                <div className="font-display-bold text-2xl text-dark">50+</div>
-                <div className="font-body text-xs text-dark/60">Happy Clients</div>
+                <div className="font-display-bold text-2xl leading-none text-dark">50<span className="text-gold">+</span></div>
+                <div className="mt-1 font-mono-tag text-[10px] tracking-[0.2em] text-dark/55">Happy Clients</div>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gold/15 text-gold-deep ring-1 ring-gold/30">
+            <div className="flex items-center gap-3 pl-7" style={{ borderLeft: "1px solid hsl(var(--dark) / 0.12)" }}>
+              <span className="flex h-10 w-10 items-center justify-center bg-gold/15 text-gold-deep" style={{ borderLeft: "2px solid hsl(var(--gold))", borderBottom: "2px solid hsl(var(--gold))" }}>
                 <Star className="h-4 w-4" />
               </span>
               <div>
-                <div className="font-display-bold text-2xl text-dark">5.0</div>
-                <div className="font-body text-xs text-dark/60">Clutch Rating</div>
+                <div className="font-display-bold text-2xl leading-none text-dark">5.0<span className="text-gold">★</span></div>
+                <div className="mt-1 font-mono-tag text-[10px] tracking-[0.2em] text-dark/55">Clutch Rating</div>
               </div>
             </div>
           </motion.div>
