@@ -62,7 +62,7 @@ const Hero = () => {
       {/* Big decorative semi-circle — bottom right (animated, light, with grain) */}
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute bottom-0 -right-24 z-0"
+        className="pointer-events-none absolute -bottom-20 right-0 z-0"
         style={{ y: semiY, rotate: semiRotate }}
       >
         <motion.div
