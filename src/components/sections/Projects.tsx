@@ -64,8 +64,7 @@ const Projects = () => (
             {/* Hover overlay */}
             <div className="absolute inset-0 flex items-center justify-center bg-dark/60 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
               <span
-                className="px-6 py-3 font-display-bold text-base text-cream"
-                style={{ borderLeft: "2px solid hsl(var(--cream))", borderBottom: "2px solid hsl(var(--cream))" }}
+                className="border-2 border-cream px-6 py-3 font-display-bold text-base text-cream"
               >
                 View Project →
               </span>
