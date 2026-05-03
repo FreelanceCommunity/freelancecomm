@@ -18,12 +18,12 @@ const Navbar = () => {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
+    <header className="fixed inset-x-0 top-0 z-50 flex justify-center">
       <nav
-        className={`relative flex w-full items-center justify-between border-y border-x-0 px-6 py-4 transition-all duration-500 lg:px-10 ${
+        className={`relative flex items-center justify-between border-y border-x-0 py-4 transition-all duration-500 ${
           scrolled
-            ? "border-dark/10 bg-cream/80 shadow-[0_8px_24px_-12px_hsl(var(--dark)/0.18)] backdrop-blur-xl"
-            : "border-dark/10 bg-cream/60 backdrop-blur-md"
+            ? "mt-3 w-[92%] max-w-5xl border-dark/10 bg-cream/85 px-5 shadow-[0_8px_24px_-12px_hsl(var(--dark)/0.2)] backdrop-blur-xl lg:px-7"
+            : "mt-0 w-full border-dark/10 bg-cream/60 px-6 backdrop-blur-md lg:px-10"
         }`}
         style={{
           backgroundImage:
