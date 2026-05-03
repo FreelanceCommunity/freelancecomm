@@ -26,9 +26,6 @@ const Hero = () => {
   const semiY = useTransform(scrollYProgress, [0, 1], [0, -90]);
   const semiRotate = useTransform(scrollYProgress, [0, 1], [0, -4]);
 
-  // Subtle parallax on the dashboard image
-  const imgY = useTransform(scrollYProgress, [0, 1], [0, -60]);
-  const imgOpacity = useTransform(scrollYProgress, [0, 0.8, 1], [1, 0.9, 0.7]);
 
   return (
     <section
