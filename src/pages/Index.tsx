@@ -1,5 +1,6 @@
 import CustomCursor from "@/components/CustomCursor";
 import Navbar from "@/components/Navbar";
+import Preloader from "@/components/Preloader";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import Services from "@/components/sections/Services";
@@ -12,6 +13,7 @@ import Footer from "@/components/sections/Footer";
 const Index = () => {
   return (
     <main className="bg-cream">
+      <Preloader />
       <CustomCursor />
       <Navbar />
       <Hero />
