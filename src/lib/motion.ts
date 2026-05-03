@@ -26,10 +26,11 @@ export const heroContainer: Variants = {
 };
 
 export const heroItem: Variants = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, x: -60, filter: "blur(12px)" },
   visible: {
     opacity: 1,
-    y: 0,
-    transition: { duration: 0.75, ease: easePremium },
+    x: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.9, ease: easePremium },
   },
 };
