@@ -81,7 +81,7 @@ const About = () => {
         <motion.div variants={revealItem} className="grid grid-cols-1 gap-10 md:grid-cols-12 md:items-end">
           <div className="md:col-span-7">
             <p className="font-mono-tag text-sm text-gold">// About Us</p>
-            <h2 className="mt-6 font-display text-5xl leading-[1.02] text-cream sm:text-6xl lg:text-7xl xl:text-8xl">
+            <h2 className="mt-6 font-display leading-[1.02] text-cream" style={{ fontSize: "clamp(2.25rem, 5vw, 4.5rem)" }}>
               A crew of
               <br />
               <span className="text-gold-gradient">obsessive</span>
