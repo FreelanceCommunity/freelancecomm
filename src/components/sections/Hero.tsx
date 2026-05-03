@@ -62,23 +62,26 @@ const Hero = () => {
       {/* Big decorative semi-circle — bottom right (animated, light, with grain) */}
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute bottom-0 right-0 z-0 overflow-hidden"
-        style={{
-          width: "min(70vw, 720px)",
-          height: "min(35vw, 360px)",
-          background:
-            "linear-gradient(180deg, hsl(var(--gold-light) / 0.85) 0%, hsl(var(--gold) / 0.7) 60%, hsl(var(--gold-deep) / 0.65) 100%)",
-          borderTopLeftRadius: "100% 200%",
-          borderTopRightRadius: "100% 200%",
-          boxShadow: "0 -20px 60px -20px hsl(var(--gold) / 0.35)",
-          borderTop: "1.5px solid hsl(var(--gold-deep) / 0.4)",
-          y: semiY,
-          rotate: semiRotate,
-        }}
-        animate={{ y: [0, -10, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        className="pointer-events-none absolute bottom-0 right-0 z-0"
+        style={{ y: semiY, rotate: semiRotate }}
       >
-        <div className="grain-overlay absolute inset-0" style={{ opacity: 0.55 }} />
+        <motion.div
+          className="relative overflow-hidden"
+          style={{
+            width: "min(70vw, 720px)",
+            height: "min(35vw, 360px)",
+            background:
+              "linear-gradient(180deg, hsl(var(--gold-light) / 0.85) 0%, hsl(var(--gold) / 0.7) 60%, hsl(var(--gold-deep) / 0.65) 100%)",
+            borderTopLeftRadius: "100% 200%",
+            borderTopRightRadius: "100% 200%",
+            boxShadow: "0 -20px 60px -20px hsl(var(--gold) / 0.35)",
+            borderTop: "1.5px solid hsl(var(--gold-deep) / 0.4)",
+          }}
+          animate={{ y: [0, -10, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <div className="grain-overlay absolute inset-0" style={{ opacity: 0.55 }} />
+        </motion.div>
       </motion.div>
 
       <motion.div
