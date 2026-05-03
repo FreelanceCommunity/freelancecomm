@@ -153,8 +153,8 @@ const Services = () => {
                     <motion.span
                       animate={{ rotate: isActive ? 45 : 0 }}
                       transition={{ duration: 0.5, ease: easePremium }}
-                      className="inline-flex h-12 w-12 items-center justify-center text-lg"
-                      style={{ borderLeft: "2px solid currentColor", borderBottom: "2px solid currentColor" }}
+                      className="inline-flex h-12 w-12 items-center justify-center rounded-full border-2 text-lg"
+                      style={{ borderColor: "currentColor" }}
                     >
                       +
                     </motion.span>

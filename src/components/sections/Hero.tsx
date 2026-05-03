@@ -22,6 +22,11 @@ const Hero = () => {
   const imgY = useTransform(scrollYProgress, [0, 1], [0, -60]);
   const imgOpacity = useTransform(scrollYProgress, [0, 0.8, 1], [1, 0.9, 0.7]);
 
+  // Semi-circle parallax + gentle float
+  const semiY = useTransform(scrollYProgress, [0, 1], [0, -90]);
+  const semiRotate = useTransform(scrollYProgress, [0, 1], [0, -4]);
+
+
   return (
     <section
       ref={sectionRef}
@@ -54,23 +59,30 @@ const Hero = () => {
         </AnimatePresence>
       </div>
 
-      {/* Big decorative semi-circle — bottom right (filled) */}
-      <div
+      {/* Big decorative semi-circle — bottom right (animated, light, with grain) */}
+      <motion.div
         aria-hidden
         className="pointer-events-none absolute bottom-0 right-0 z-0"
-        style={{
-          width: "min(70vw, 720px)",
-          height: "min(35vw, 360px)",
-          background:
-            "linear-gradient(180deg, hsl(var(--gold-light)) 0%, hsl(var(--gold)) 55%, hsl(var(--gold-deep)) 100%)",
-          borderTopLeftRadius: "100% 200%",
-          borderTopRightRadius: "100% 200%",
-          boxShadow: "0 -20px 60px -20px hsl(var(--gold) / 0.45)",
-          borderTop: "1.5px solid hsl(var(--gold-deep) / 0.5)",
-        }}
-      />
-
-      <div className="grain-overlay absolute inset-0" />
+        style={{ y: semiY, rotate: semiRotate }}
+      >
+        <motion.div
+          className="relative overflow-hidden"
+          style={{
+            width: "min(70vw, 720px)",
+            height: "min(35vw, 360px)",
+            background:
+              "linear-gradient(180deg, hsl(var(--gold-light) / 0.85) 0%, hsl(var(--gold) / 0.7) 60%, hsl(var(--gold-deep) / 0.65) 100%)",
+            borderTopLeftRadius: "100% 200%",
+            borderTopRightRadius: "100% 200%",
+            boxShadow: "0 -20px 60px -20px hsl(var(--gold) / 0.35)",
+            borderTop: "1.5px solid hsl(var(--gold-deep) / 0.4)",
+          }}
+          animate={{ y: [0, -10, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <div className="grain-overlay absolute inset-0" style={{ opacity: 0.55 }} />
+        </motion.div>
+      </motion.div>
 
       <motion.div
         variants={heroContainer}
@@ -127,27 +139,27 @@ const Hero = () => {
             </a>
           </motion.div>
 
-          {/* Mini stats */}
+          {/* Mini stats — premium editorial */}
           <motion.div
             variants={heroItem}
-            className="mt-8 flex flex-wrap items-center gap-10"
+            className="mt-10 flex items-stretch gap-0"
           >
-            <div className="flex items-center gap-3">
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gold/15 text-gold-deep ring-1 ring-gold/30">
+            <div className="flex items-center gap-3 pr-7" style={{ borderLeft: "2px solid hsl(var(--gold))", paddingLeft: "1rem" }}>
+              <span className="flex h-10 w-10 items-center justify-center bg-gold/15 text-gold-deep" style={{ borderLeft: "2px solid hsl(var(--gold))", borderBottom: "2px solid hsl(var(--gold))" }}>
                 <Users className="h-4 w-4" />
               </span>
               <div>
-                <div className="font-display-bold text-2xl text-dark">50+</div>
-                <div className="font-body text-xs text-dark/60">Happy Clients</div>
+                <div className="font-display-bold text-2xl leading-none text-dark">50<span className="text-gold">+</span></div>
+                <div className="mt-1 font-mono-tag text-[10px] tracking-[0.2em] text-dark/55">Happy Clients</div>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gold/15 text-gold-deep ring-1 ring-gold/30">
+            <div className="flex items-center gap-3 pl-7" style={{ borderLeft: "1px solid hsl(var(--dark) / 0.12)" }}>
+              <span className="flex h-10 w-10 items-center justify-center bg-gold/15 text-gold-deep" style={{ borderLeft: "2px solid hsl(var(--gold))", borderBottom: "2px solid hsl(var(--gold))" }}>
                 <Star className="h-4 w-4" />
               </span>
               <div>
-                <div className="font-display-bold text-2xl text-dark">5.0</div>
-                <div className="font-body text-xs text-dark/60">Clutch Rating</div>
+                <div className="font-display-bold text-2xl leading-none text-dark">5.0<span className="text-gold">★</span></div>
+                <div className="mt-1 font-mono-tag text-[10px] tracking-[0.2em] text-dark/55">Clutch Rating</div>
               </div>
             </div>
           </motion.div>
