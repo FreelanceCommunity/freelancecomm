@@ -41,10 +41,10 @@ const Footer = () => (
           <ul className="space-y-3">
             <li>
               <a
-                href="mailto:hello@freelanccomm.in"
+                href="mailto:freelancecomm9@gmail.com"
                 className="font-body text-base text-cream transition-colors duration-200 hover:text-gold"
               >
-                hello@freelanccomm.in
+                freelancecomm9@gmail.com
               </a>
             </li>
             <li>

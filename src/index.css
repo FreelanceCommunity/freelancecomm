@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,800;1,9..144,300&family=DM+Sans:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -97,13 +97,13 @@
 
 @layer utilities {
   .font-display {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Fraunces', serif;
     font-weight: 800;
     letter-spacing: -0.02em;
   }
   .font-display-bold {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
     letter-spacing: -0.015em;
   }
   .font-body {
@@ -123,7 +123,7 @@
   }
 
   .bg-wordmark {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Fraunces', serif;
     font-weight: 800;
     color: transparent;
     -webkit-text-stroke: 1px hsl(var(--dark) / 0.07);
@@ -141,8 +141,8 @@
     justify-content: center;
     gap: 0.5rem;
     padding: 0.85rem 1.6rem;
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
     font-size: 0.95rem;
     letter-spacing: -0.01em;
     color: hsl(var(--dark));
@@ -173,8 +173,8 @@
     justify-content: center;
     gap: 0.5rem;
     padding: 0.85rem 1.6rem;
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
     font-size: 0.95rem;
     color: hsl(var(--dark));
     background: hsl(var(--cream) / 0.6);
@@ -230,7 +230,7 @@
     pointer-events: none;
   }
   .bg-canvas-wordmark > span {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Fraunces', serif;
     font-weight: 800;
     font-size: clamp(180px, 28vw, 460px);
     line-height: 0.85;

@@ -2,12 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { ArrowRight, Users, Star } from "lucide-react";
 import { heroContainer, heroItem } from "@/lib/motion";
+import { usePreload } from "@/lib/preload-context";
 import heroDashboard from "@/assets/hero-dashboard.png";
 
 const WORDMARKS = ["FREELANCER", "DEVELOPER", "DESIGNER"];
 
 const Hero = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const { ready } = usePreload();
   const [wordIdx, setWordIdx] = useState(0);
   useEffect(() => {
     const id = setInterval(() => setWordIdx((i) => (i + 1) % WORDMARKS.length), 2600);
@@ -87,7 +89,7 @@ const Hero = () => {
       <motion.div
         variants={heroContainer}
         initial="hidden"
-        animate="visible"
+        animate={ready ? "visible" : "hidden"}
         className="relative z-20 mx-auto grid h-[calc(100vh-5rem)] min-h-[540px] max-w-7xl grid-cols-1 items-center gap-6 px-6 pb-6 md:grid-cols-12 lg:px-10"
       >
         {/* LEFT — text column (narrower) */}

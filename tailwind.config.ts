@@ -12,7 +12,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ["Syne", "sans-serif"],
+        display: ["Fraunces", "serif"],
         body: ["DM Sans", "sans-serif"],
         mono: ["Space Mono", "monospace"],
       },

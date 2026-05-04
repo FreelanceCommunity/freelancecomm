@@ -5,6 +5,7 @@ const links = [
   { label: "Projects", href: "#projects" },
   { label: "R&D", href: "#rnd" },
   { label: "Reviews", href: "#reviews" },
+  { label: "Contact", href: "#contact" },
 ];
 
 const Navbar = () => {
@@ -35,14 +36,20 @@ const Navbar = () => {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 flex justify-center">
+    <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4">
       <nav
-        className={`relative flex items-center justify-between border-b border-x-0 border-t-0 py-4 transition-all duration-500 ${
-          scrolled
-            ? "mt-3 w-[92%] max-w-5xl border-dark/80 bg-cream/85 px-5 shadow-[0_8px_24px_-12px_hsl(var(--dark)/0.2)] backdrop-blur-xl lg:px-7"
-            : "mt-0 w-full border-dark/80 bg-cream/60 px-6 backdrop-blur-md lg:px-10"
-        }`}
+        className="relative flex w-full items-center justify-between border-b border-x-0 border-t-0 border-dark/80 py-4 px-6 lg:px-10 transition-[max-width,background-color,box-shadow,margin,padding] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
         style={{
+          maxWidth: scrolled ? "1080px" : "100%",
+          marginTop: scrolled ? "12px" : "0px",
+          backgroundColor: scrolled
+            ? "hsl(var(--cream) / 0.88)"
+            : "hsl(var(--cream) / 0.6)",
+          backdropFilter: "blur(14px)",
+          WebkitBackdropFilter: "blur(14px)",
+          boxShadow: scrolled
+            ? "0 8px 24px -12px hsl(var(--dark) / 0.2)"
+            : "none",
           backgroundImage:
             "radial-gradient(80% 120% at 50% 0%, hsl(var(--gold) / 0.12), transparent 70%)",
         }}
@@ -76,7 +83,7 @@ const Navbar = () => {
         </ul>
 
         <a href="#contact" className="btn-premium !py-2.5 !px-5 !text-sm">
-          Let's Talk →
+          Contact Us →
         </a>
       </nav>
     </header>

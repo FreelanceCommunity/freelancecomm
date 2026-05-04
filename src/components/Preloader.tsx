@@ -1,44 +1,61 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-const Preloader = () => {
+interface Props {
+  onDone?: () => void;
+}
+
+const STEPS = [10, 30, 50, 70, 100];
+
+const Preloader = ({ onDone }: Props) => {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
+    let imagesDone = false;
 
     const waitForImages = async () => {
-      // Wait a tick so DOM images get attached
       await new Promise((r) => setTimeout(r, 50));
       const imgs = Array.from(document.images);
-      if (imgs.length === 0) {
-        setProgress(100);
-        return;
-      }
-      let loaded = 0;
-      const total = imgs.length;
-      const update = () => {
-        loaded += 1;
-        if (!cancelled) setProgress(Math.round((loaded / total) * 100));
-      };
+      if (imgs.length === 0) return;
       await Promise.all(
         imgs.map((img) =>
           img.complete && img.naturalWidth > 0
-            ? (update(), Promise.resolve())
+            ? Promise.resolve()
             : new Promise<void>((res) => {
-                img.addEventListener("load", () => (update(), res()), { once: true });
-                img.addEventListener("error", () => (update(), res()), { once: true });
+                img.addEventListener("load", () => res(), { once: true });
+                img.addEventListener("error", () => res(), { once: true });
               })
         )
       );
     };
 
+    // Stepped progress (10 → 30 → 50 → 70 → 100)
+    let i = 0;
+    const tick = () => {
+      if (cancelled) return;
+      if (i < STEPS.length - 1) {
+        setProgress(STEPS[i]);
+        i++;
+        setTimeout(tick, 280);
+      } else if (imagesDone) {
+        setProgress(100);
+        setTimeout(() => {
+          if (cancelled) return;
+          setLoading(false);
+          onDone?.();
+        }, 380);
+      } else {
+        // Hold at 70 until images ready
+        setTimeout(tick, 200);
+      }
+    };
+
     const start = async () => {
+      tick();
       await waitForImages();
-      // Small grace period for fonts/layout
-      await new Promise((r) => setTimeout(r, 350));
-      if (!cancelled) setLoading(false);
+      imagesDone = true;
     };
 
     if (document.readyState === "complete") {
@@ -50,7 +67,7 @@ const Preloader = () => {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [onDone]);
 
   return (
     <AnimatePresence>
@@ -79,7 +96,7 @@ const Preloader = () => {
               }}
               initial={{ width: "0%" }}
               animate={{ width: `${progress}%` }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
+              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
             />
           </div>
           <div className="mt-3 font-mono-tag text-[10px] tracking-[0.3em] text-dark/55">
