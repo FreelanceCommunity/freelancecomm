@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 const links = [
   { label: "Services", href: "#services" },
   { label: "Projects", href: "#projects" },
-  { label: "R&D", href: "#rnd" },
+  { label: "Resources", href: "#rnd" },
   { label: "Reviews", href: "#reviews" },
   { label: "Contact", href: "#contact" },
 ];
@@ -54,17 +54,17 @@ const Navbar = () => {
             "radial-gradient(80% 120% at 50% 0%, hsl(var(--gold) / 0.12), transparent 70%)",
         }}
       >
-        <a href="#" className="flex items-center gap-2.5" aria-label="freelanccomm.in">
-          <span className="relative inline-flex h-9 w-10 items-center justify-center md:h-10 md:w-11">
+        <a href="#" className="flex items-center gap-2" aria-label="freelanccomm.in">
+          <span className="relative inline-flex items-end leading-none">
             <span
-              className="absolute left-0 top-1/2 -translate-y-1/2 font-display-bold leading-none text-gold"
+              className="font-display-bold leading-none text-gold"
               style={{ fontSize: "2.1rem" }}
             >
               F
             </span>
             <span
-              className="absolute bottom-0 right-0 font-display-bold leading-none text-dark"
-              style={{ fontSize: "1.25rem", transform: "translate(-2px, 2px)" }}
+              className="font-display-bold leading-none text-dark"
+              style={{ fontSize: "1.25rem", marginLeft: "-0.55rem", paddingBottom: "0.1rem" }}
             >
               c
             </span>

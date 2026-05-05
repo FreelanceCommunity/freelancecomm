@@ -1,218 +1,173 @@
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { revealContainer, revealItem } from "@/lib/motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Plus, Clock, FileCheck, Rocket, Headphones } from "lucide-react";
+import { revealContainer, revealItem, easePremium } from "@/lib/motion";
 
-const items = [
+const faqs = [
   {
-    tag: "AI/ML",
-    title: "LLM-Powered UI Generation",
-    desc: "Exploring how language models can write production-ready component code from design tokens.",
-    file: "llm_ui_gen.ts",
+    q: "How do you scope a new project?",
+    a: "We start with a free 30-min discovery call, follow up with a written brief, and lock scope, timeline and a fixed price before any work begins.",
   },
   {
-    tag: "Design Systems",
-    title: "Fluid Type & Space Systems",
-    desc: "Building design tokens that mathematically scale across breakpoints — no more manual px tweaking.",
-    file: "fluid_tokens.ts",
+    q: "What does pricing typically look like?",
+    a: "Most websites land between ₹40k–₹2L; apps and IoT builds are quoted per scope. Every quote is itemised — you only pay for what you choose.",
   },
   {
-    tag: "Open Source",
-    title: "FreelancComm UI Kit",
-    desc: "An open-source component library opinionated for Indian startup design patterns. Coming soon.",
-    file: "ui_kit.ts",
+    q: "Do you sign NDAs and contracts?",
+    a: "Yes — we sign mutual NDAs before deep discussions and a clear SOW with milestones, payment terms and IP transfer for every engagement.",
+  },
+  {
+    q: "Who actually does the work?",
+    a: "Our 4-person core collective. No subcontracting to anonymous teams. You meet the people building your product on day one.",
+  },
+  {
+    q: "Do you offer post-launch support?",
+    a: "Yes — every project includes 30 days of free bug-fix support, with optional monthly retainers for updates, monitoring and feature work.",
+  },
+  {
+    q: "Can you work with our in-house team?",
+    a: "Absolutely. We collaborate over Slack/Linear, do code reviews, and can hand off cleanly with documentation when the engagement ends.",
   },
 ];
 
-const bootLines = [
-  "freelanccomm@lab:~$ ./boot --module=research",
-  "[ok]  loading kernel.research v3.4.1",
-  "[ok]  mounting /experiments  ...... done",
-  "[ok]  fetching active branches ... 3 found",
-  "> Exploring the edges of what web can do.",
+const stages = [
+  { icon: FileCheck, label: "Discovery", time: "Week 1", desc: "Brief, scope, fixed quote." },
+  { icon: Clock, label: "Design", time: "Week 2–3", desc: "Wireframes → high-fidelity UI." },
+  { icon: Rocket, label: "Build & Launch", time: "Week 3–6", desc: "Sprints, demos, go-live." },
+  { icon: Headphones, label: "Support", time: "30+ days", desc: "Free bug-fix window." },
 ];
 
-const Terminal = () => {
-  const [lineIdx, setLineIdx] = useState(0);
-  const [charIdx, setCharIdx] = useState(0);
-  const [done, setDone] = useState(false);
-
-  useEffect(() => {
-    if (done) return;
-    const current = bootLines[lineIdx] ?? "";
-    if (charIdx < current.length) {
-      const t = setTimeout(() => setCharIdx((c) => c + 1), 22);
-      return () => clearTimeout(t);
-    }
-    if (lineIdx < bootLines.length - 1) {
-      const t = setTimeout(() => {
-        setLineIdx((l) => l + 1);
-        setCharIdx(0);
-      }, 220);
-      return () => clearTimeout(t);
-    }
-    setDone(true);
-  }, [charIdx, lineIdx, done]);
+const RnD = () => {
+  const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-dark/10 bg-cream shadow-[0_30px_80px_-30px_rgba(20,20,20,0.25)]">
-      <div className="flex items-center gap-2 border-b border-dark/10 bg-cement px-4 py-3">
-        <span className="h-3 w-3 rounded-full bg-[#FF5F57]" />
-        <span className="h-3 w-3 rounded-full bg-[#FEBC2E]" />
-        <span className="h-3 w-3 rounded-full bg-[#28C840]" />
-        <span className="ml-3 font-mono-tag text-[10px] tracking-widest text-muted-foreground">
-          ~/research — bash — 80×24
-        </span>
-      </div>
-      <div className="px-5 py-5 font-mono text-[13px] leading-relaxed text-dark/90">
-        {bootLines.slice(0, lineIdx).map((l, i) => (
-          <div
-            key={i}
-            className={
-              l.startsWith(">")
-                ? "text-gold-deep"
-                : l.includes("[ok]")
-                  ? "text-green-700"
-                  : "text-dark/80"
-            }
-          >
-            {l}
-          </div>
-        ))}
-        <div
-          className={
-            (bootLines[lineIdx] ?? "").startsWith(">")
-              ? "text-gold-deep"
-              : (bootLines[lineIdx] ?? "").includes("[ok]")
-                ? "text-green-700"
-                : "text-dark/80"
-          }
-        >
-          {(bootLines[lineIdx] ?? "").slice(0, charIdx)}
-          <span className="cursor-blink ml-0.5 text-gold-deep">▍</span>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const easePremium = [0.16, 1, 0.3, 1] as const;
-
-const CodeWindow = ({
-  it,
-  index,
-}: {
-  it: (typeof items)[number];
-  index: number;
-}) => {
-  return (
-    <motion.div
-      variants={revealItem}
-      data-cursor-hover
-      whileHover={{ y: -6 }}
-      transition={{ duration: 0.5, ease: easePremium }}
-      className="overflow-hidden rounded-2xl border border-dark/10 bg-cream shadow-[0_20px_60px_-30px_rgba(20,20,20,0.25)]"
+    <section
+      id="rnd"
+      className="bg-premium-canvas relative overflow-hidden bg-cream py-28 lg:py-36"
     >
-      <div className="flex items-center justify-between border-b border-dark/10 bg-cement px-4 py-2.5">
-        <div className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-[#FF5F57]" />
-          <span className="h-2.5 w-2.5 rounded-full bg-[#FEBC2E]" />
-          <span className="h-2.5 w-2.5 rounded-full bg-[#28C840]" />
-        </div>
-        <span className="font-mono-tag text-[10px] tracking-widest text-muted-foreground">
-          {it.file}
-        </span>
-        <span className="font-mono-tag text-[10px] tracking-widest text-gold-deep">
-          0{index + 1}
-        </span>
-      </div>
+      <div className="bg-canvas-wordmark"><span>ANSWERS</span></div>
 
-      <div className="p-7">
-        <span className="inline-block rounded-full border border-gold/40 px-3 py-1 font-mono-tag text-xs text-gold-deep">
-          {it.tag}
-        </span>
-        <h3 className="mb-3 mt-6 font-display-bold text-xl leading-snug text-dark sm:text-2xl">
-          {it.title}
-        </h3>
-        <p className="font-body text-base leading-relaxed text-muted-foreground">
-          {it.desc}
-        </p>
-
-        <div className="mt-6 rounded-lg border border-dark/10 bg-cement/60 p-3 font-mono text-[11px] leading-relaxed">
-          <div className="text-dark/70">
-            <span className="text-[#7C3AED]">const</span>{" "}
-            <span className="text-[#1D4ED8]">research</span> = {"{"}
-          </div>
-          <div className="pl-4 text-dark/70">
-            status: <span className="text-green-700">"active"</span>,
-          </div>
-          <div className="pl-4 text-dark/70">
-            owner: <span className="text-gold-deep">"freelanccomm"</span>,
-          </div>
-          <div className="text-dark/70">{"}"}</div>
-        </div>
-
-        <div className="mt-6 flex items-center justify-between border-t border-dark/10 pt-4 font-mono-tag text-[10px]">
-          <div>
-            <span className="text-muted-foreground">Status: </span>
-            <span className="text-green-700">● Active</span>
-          </div>
-          <div className="flex items-center gap-1 text-muted-foreground">
-            <span className="h-1 w-1 rounded-full bg-gold" />
-            <span className="h-1 w-1 rounded-full bg-gold/60" />
-            <span className="h-1 w-1 rounded-full bg-gold/30" />
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-};
-
-
-const RnD = () => (
-  <section
-    id="rnd"
-    className="bg-premium-canvas relative overflow-hidden bg-cream py-28 lg:py-36"
-  >
-    <div className="bg-canvas-wordmark"><span>EXPLORE</span></div>
-
-    <motion.div
-      variants={revealContainer}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-80px" }}
-      className="relative mx-auto max-w-7xl px-6 lg:px-10"
-    >
       <motion.div
-        variants={revealItem}
-        className="grid grid-cols-1 items-end gap-10 lg:grid-cols-12"
+        variants={revealContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-80px" }}
+        className="relative mx-auto max-w-7xl px-6 lg:px-10"
       >
-        <div className="lg:col-span-7">
-          <p className="font-mono-tag text-sm text-gold-deep">// R&D</p>
+        <motion.div variants={revealItem}>
+          <p className="font-mono-tag text-sm text-gold-deep">// FAQ & Delivery</p>
           <h2 className="mt-4 font-display text-5xl leading-[1.02] text-dark sm:text-6xl lg:text-7xl xl:text-8xl">
-            What we're
+            Questions, answered.
             <br />
-            exploring <span className="text-gold-gradient">→</span>
+            <span className="text-gold-gradient">Delivery, mapped.</span>
           </h2>
           <p className="mt-6 max-w-xl font-body text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Fragments of ideas we're actively prototyping in the studio —
-            small experiments that often turn into the foundations of our next
-            client projects.
+            Everything you need to know before you say go — pricing, process,
+            timelines and what happens after launch.
           </p>
+        </motion.div>
+
+        <div className="mt-16 grid grid-cols-1 gap-10 lg:grid-cols-12">
+          {/* FAQ */}
+          <motion.div variants={revealItem} className="lg:col-span-7">
+            <div className="overflow-hidden rounded-2xl border border-dark/10 bg-cream shadow-[0_30px_80px_-30px_rgba(20,20,20,0.18)]">
+              {faqs.map((f, i) => {
+                const isOpen = open === i;
+                return (
+                  <div key={f.q} className="border-b border-dark/10 last:border-b-0">
+                    <button
+                      data-cursor-hover
+                      onClick={() => setOpen(isOpen ? null : i)}
+                      className="flex w-full items-center justify-between gap-6 px-6 py-5 text-left transition-colors hover:bg-cement/40 sm:px-7 sm:py-6"
+                    >
+                      <span className="font-display-bold text-base text-dark sm:text-lg">
+                        {f.q}
+                      </span>
+                      <motion.span
+                        animate={{ rotate: isOpen ? 45 : 0 }}
+                        transition={{ duration: 0.4, ease: easePremium }}
+                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gold/50 text-gold-deep"
+                      >
+                        <Plus className="h-4 w-4" />
+                      </motion.span>
+                    </button>
+                    <AnimatePresence initial={false}>
+                      {isOpen && (
+                        <motion.div
+                          key="content"
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.45, ease: easePremium }}
+                          className="overflow-hidden"
+                        >
+                          <div className="px-6 pb-6 font-body text-base leading-relaxed text-muted-foreground sm:px-7">
+                            {f.a}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
+
+          {/* Delivery details */}
+          <motion.div variants={revealItem} className="lg:col-span-5">
+            <div className="rounded-2xl border border-dark/10 bg-dark p-7 text-cream shadow-[0_30px_80px_-30px_rgba(20,20,20,0.35)] sm:p-8">
+              <p className="font-mono-tag text-xs text-gold">// Delivery Details</p>
+              <h3 className="mt-3 font-display-bold text-2xl leading-snug sm:text-3xl">
+                A predictable, four-stage timeline.
+              </h3>
+              <ol className="relative mt-8 space-y-6 border-l border-cream/15 pl-6">
+                {stages.map((s, i) => {
+                  const Icon = s.icon;
+                  return (
+                    <li key={s.label} className="relative">
+                      <span className="absolute -left-[34px] flex h-7 w-7 items-center justify-center rounded-full bg-gold text-dark">
+                        <Icon className="h-3.5 w-3.5" />
+                      </span>
+                      <div className="flex items-baseline justify-between gap-3">
+                        <div className="font-display-bold text-base text-cream sm:text-lg">
+                          0{i + 1}. {s.label}
+                        </div>
+                        <div className="font-mono-tag text-[10px] text-gold">
+                          {s.time}
+                        </div>
+                      </div>
+                      <p className="mt-1 font-body text-sm text-cream/70">
+                        {s.desc}
+                      </p>
+                    </li>
+                  );
+                })}
+              </ol>
+
+              <div className="mt-8 grid grid-cols-2 gap-4 border-t border-cream/10 pt-6">
+                <div>
+                  <div className="font-mono-tag text-[10px] text-cream/50">
+                    Avg. timeline
+                  </div>
+                  <div className="mt-1 font-display-bold text-lg text-cream">
+                    4–6 weeks
+                  </div>
+                </div>
+                <div>
+                  <div className="font-mono-tag text-[10px] text-cream/50">
+                    Free support
+                  </div>
+                  <div className="mt-1 font-display-bold text-lg text-cream">
+                    30 days
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </motion.div>
-
-      {/* Terminal */}
-      <motion.div variants={revealItem} className="mt-12 max-w-2xl">
-        <Terminal />
-      </motion.div>
-
-      <div className="mt-16 grid grid-cols-1 gap-5 lg:grid-cols-3">
-        {items.map((it, i) => (
-          <CodeWindow key={it.title} it={it} index={i} />
-        ))}
-      </div>
-    </motion.div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default RnD;

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { revealContainer, revealItem } from "@/lib/motion";
 import ExplorerModel from "@/components/ExplorerModel";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 const services = [
   {
@@ -40,12 +41,53 @@ const services = [
     desc: "Organic strategies that bring the right eyes to your product.",
     deliverables: ["Tech SEO Audit", "Content Engine", "Schema & Speed", "Analytics Stack"],
   },
+  {
+    num: "07",
+    title: "IoT Development",
+    desc: "End-to-end IoT — from sensor firmware to cloud dashboards.",
+    deliverables: ["Sensor Firmware", "MQTT/LoRa Stack", "Cloud Dashboards", "OTA Updates"],
+  },
+  {
+    num: "08",
+    title: "Hardware Prototyping",
+    desc: "PCB design and embedded prototypes ready for pilot production.",
+    deliverables: ["PCB Design", "Embedded C/Rust", "3D Enclosures", "Pilot Builds"],
+  },
+  {
+    num: "09",
+    title: "Developer Consulting",
+    desc: "Architecture reviews, tech stack audits, and team mentoring.",
+    deliverables: ["Stack Audits", "Code Reviews", "Hiring Support", "Team Mentoring"],
+  },
+  {
+    num: "10",
+    title: "Cloud & DevOps",
+    desc: "Infrastructure that scales — CI/CD pipelines and observability built in.",
+    deliverables: ["AWS / GCP", "CI/CD Pipelines", "Monitoring", "Cost Optimization"],
+  },
+  {
+    num: "11",
+    title: "E-commerce Solutions",
+    desc: "High-converting storefronts with payments, inventory, and analytics.",
+    deliverables: ["Shopify / Custom", "Payments Setup", "Inventory Sync", "Conversion Tuning"],
+  },
+  {
+    num: "12",
+    title: "Maintenance & Support",
+    desc: "Long-term partnerships — updates, monitoring, and rapid bug fixes.",
+    deliverables: ["24/7 Monitoring", "Security Patches", "Feature Updates", "SLA Support"],
+  },
 ];
+
+const PAGE_SIZE = 6;
 
 const easePremium = [0.16, 1, 0.3, 1] as const;
 
 const Services = () => {
   const [active, setActive] = useState<number | null>(null);
+  const [page, setPage] = useState(0);
+  const totalPages = Math.ceil(services.length / PAGE_SIZE);
+  const visible = services.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
 
   return (
     <section id="services" className="bg-premium-canvas relative overflow-hidden bg-cream py-28 lg:py-36">
@@ -78,13 +120,13 @@ const Services = () => {
           <div>
             <p className="font-mono-tag text-sm text-gold">// What We Do</p>
             <h2 className="mt-4 font-display text-5xl leading-[1] text-dark sm:text-6xl lg:text-7xl xl:text-8xl">
-              Six disciplines.
+              Twelve disciplines.
               <br />
               <span className="text-gold-gradient">One studio.</span>
             </h2>
           </div>
-          <p className="max-w-[300px] font-body text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Hover any row to expand. We pick what to do well, and decline the rest.
+          <p className="max-w-[320px] font-body text-base leading-relaxed text-muted-foreground sm:text-lg">
+            End-to-end hardware and software. Hover any row to expand — six per page.
           </p>
         </motion.div>
 
@@ -99,9 +141,9 @@ const Services = () => {
             aria-hidden
             className="pointer-events-none absolute -left-4 top-0 z-0 hidden h-full w-[180px] md:block"
           >
-            <ExplorerModel stops={services.length} facing="right" />
+            <ExplorerModel stops={visible.length} facing="right" />
           </div>
-          {services.map((s, i) => {
+          {visible.map((s, i) => {
             const isActive = active === i;
             return (
               <motion.div
@@ -202,6 +244,45 @@ const Services = () => {
               </motion.div>
             );
           })}
+        </motion.div>
+
+        {/* Pagination */}
+        <motion.div
+          variants={revealItem}
+          className="mt-10 flex flex-col items-center justify-between gap-4 sm:flex-row"
+        >
+          <div className="font-mono-tag text-xs text-muted-foreground">
+            Page {page + 1} / {totalPages} — showing {visible.length} of {services.length} services
+          </div>
+          <div className="flex items-center gap-3">
+            <button
+              data-cursor-hover
+              onClick={() => { setActive(null); setPage((p) => (p - 1 + totalPages) % totalPages); }}
+              aria-label="Previous services"
+              className="flex h-10 w-10 items-center justify-center rounded-full text-dark ring-1 ring-dark/20 transition-colors hover:bg-dark/5"
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </button>
+            <div className="flex items-center gap-2">
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <button
+                  key={i}
+                  data-cursor-hover
+                  onClick={() => { setActive(null); setPage(i); }}
+                  aria-label={`Page ${i + 1}`}
+                  className={`h-[2px] transition-all ${i === page ? "w-8 bg-gold" : "w-4 bg-dark/25 hover:bg-dark/50"}`}
+                />
+              ))}
+            </div>
+            <button
+              data-cursor-hover
+              onClick={() => { setActive(null); setPage((p) => (p + 1) % totalPages); }}
+              aria-label="Next services"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-gold text-dark transition-colors hover:bg-gold-deep"
+            >
+              <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
         </motion.div>
       </motion.div>
     </section>
