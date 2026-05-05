@@ -75,77 +75,88 @@ const About = () => {
         viewport={{ once: true, margin: "-80px" }}
         className="mx-auto max-w-7xl px-6 lg:px-10"
       >
-        {/* Top: text left, team photo right */}
-        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-14">
-          <motion.div variants={revealItem} className="lg:col-span-5">
-            <p className="font-mono-tag text-sm text-gold">// About Us</p>
-            <h2
-              className="mt-6 font-display leading-[1.02] text-cream"
-              style={{ fontSize: "clamp(2.25rem, 5vw, 4.5rem)" }}
-            >
-              A crew of
-              <br />
-              <span className="text-gold-gradient">obsessive</span>
-              <br />
-              builders.
-            </h2>
-            <p className="mt-7 max-w-lg font-body text-base leading-relaxed text-muted-foreground sm:text-lg">
-              We're a tight-knit freelance collective from Chennai, India. No
-              bloat, no middlemen — just a focused team that obsesses over
-              craft, ships fast, and delivers work you're proud to show.
-            </p>
-          </motion.div>
+        {/* Hero image with text overlay */}
+        <motion.div variants={revealItem} className="relative">
+          <div className="relative aspect-[16/9] w-full overflow-hidden md:aspect-[21/9]">
+            <img
+              src={teamGroup}
+              alt="The freelancecomm team together in Chennai"
+              className="h-full w-full object-cover"
+              style={{
+                WebkitMaskImage:
+                  "linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)",
+                maskImage:
+                  "linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)",
+              }}
+            />
+            {/* Edge fades into section bg */}
+            <div
+              className="pointer-events-none absolute inset-x-0 top-0 h-1/3"
+              style={{
+                background:
+                  "linear-gradient(to bottom, hsl(var(--dark)) 0%, transparent 100%)",
+              }}
+            />
+            <div
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3"
+              style={{
+                background:
+                  "linear-gradient(to top, hsl(var(--dark)) 0%, transparent 100%)",
+              }}
+            />
+            {/* Left-side dark gradient for text legibility */}
+            <div
+              className="pointer-events-none absolute inset-y-0 left-0 w-full md:w-2/3"
+              style={{
+                background:
+                  "linear-gradient(to right, hsl(var(--dark) / 0.92) 0%, hsl(var(--dark) / 0.7) 35%, transparent 75%)",
+              }}
+            />
 
-          <motion.div variants={revealItem} className="relative lg:col-span-7">
-            <div className="relative aspect-[16/10] w-full overflow-hidden">
-              <img
-                src={teamGroup}
-                alt="The freelancecomm team together in Chennai"
-                className="h-full w-full object-cover"
-                style={{
-                  WebkitMaskImage:
-                    "linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)",
-                  maskImage:
-                    "linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)",
-                }}
-              />
-              <div
-                className="pointer-events-none absolute inset-x-0 top-0 h-1/3"
-                style={{
-                  background:
-                    "linear-gradient(to bottom, hsl(var(--dark)) 0%, transparent 100%)",
-                }}
-              />
-              <div
-                className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3"
-                style={{
-                  background:
-                    "linear-gradient(to top, hsl(var(--dark)) 0%, transparent 100%)",
-                }}
-              />
-
-              {/* Floating Collective badge — bottom right, smaller on mobile */}
-              <div
-                className="absolute bottom-3 right-3 bg-darkcard/85 px-3 py-2 backdrop-blur-md sm:px-4 sm:py-3"
-                style={{
-                  borderLeft: "2px solid hsl(var(--gold))",
-                  borderBottom: "2px solid hsl(var(--gold))",
-                }}
-              >
-                <div className="flex items-center gap-1.5 font-display-bold text-[11px] text-gold sm:gap-2 sm:text-sm">
-                  <Users className="h-3 w-3 sm:h-4 sm:w-4" />
-                  Collective
-                </div>
-                <div className="mt-0.5 font-body text-[10px] text-cream/85 sm:mt-1 sm:text-xs">
-                  4 Core Members
-                </div>
-                <div className="hidden font-body text-[10px] text-cream/55 sm:block sm:text-xs">
-                  Network of Specialists
+            {/* Text inside image */}
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full px-6 sm:px-10 lg:px-14">
+                <div className="max-w-xl">
+                  <p className="font-mono-tag text-sm text-gold">// About Us</p>
+                  <h2
+                    className="mt-4 font-display leading-[1.02] text-cream"
+                    style={{ fontSize: "clamp(1.85rem, 4.5vw, 4rem)" }}
+                  >
+                    A crew of{" "}
+                    <span className="text-gold-gradient">obsessive</span>{" "}
+                    builders.
+                  </h2>
+                  <p className="mt-4 max-w-md font-body text-sm leading-relaxed text-cream/80 sm:mt-6 sm:text-base lg:text-lg">
+                    We're a tight-knit freelance collective from Chennai, India.
+                    No bloat, no middlemen — just a focused team that obsesses
+                    over craft, ships fast, and delivers work you're proud to
+                    show.
+                  </p>
                 </div>
               </div>
             </div>
-          </motion.div>
-        </div>
+
+            {/* Floating Collective badge — bottom right */}
+            <div
+              className="absolute bottom-3 right-3 bg-darkcard/85 px-3 py-2 backdrop-blur-md sm:bottom-6 sm:right-6 sm:px-4 sm:py-3"
+              style={{
+                borderLeft: "2px solid hsl(var(--gold))",
+                borderBottom: "2px solid hsl(var(--gold))",
+              }}
+            >
+              <div className="flex items-center gap-1.5 font-display-bold text-[11px] text-gold sm:gap-2 sm:text-sm">
+                <Users className="h-3 w-3 sm:h-4 sm:w-4" />
+                Collective
+              </div>
+              <div className="mt-0.5 font-body text-[10px] text-cream/85 sm:mt-1 sm:text-xs">
+                4 Core Members
+              </div>
+              <div className="hidden font-body text-[10px] text-cream/55 sm:block sm:text-xs">
+                Network of Specialists
+              </div>
+            </div>
+          </div>
+        </motion.div>
 
         {/* Stats row — single rounded card with dividers */}
         <motion.div
