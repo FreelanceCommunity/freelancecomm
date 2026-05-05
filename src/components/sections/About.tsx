@@ -81,7 +81,7 @@ const About = () => {
             <img
               src={teamGroup}
               alt="The freelancecomm team together in Chennai"
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover object-top"
               style={{
                 WebkitMaskImage:
                   "linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)",
