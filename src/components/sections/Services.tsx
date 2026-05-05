@@ -171,7 +171,57 @@ const Services = () => {
                     animate={{ color: isActive ? "hsl(var(--gold))" : "hsl(var(--gold))" }}
                   >
                     {s.num}
-                  </motion.div>
+        </motion.div>
+
+        {/* Pagination */}
+        <motion.div
+          variants={revealItem}
+          className="mt-10 flex items-center justify-between gap-4"
+        >
+          <div className="font-mono-tag text-xs text-muted-foreground">
+            Page {page + 1} / {totalPages} — showing {visible.length} of {services.length}
+          </div>
+          <div className="flex items-center gap-3">
+            <button
+              data-cursor-hover
+              onClick={() => {
+                setActive(null);
+                setPage((p) => (p - 1 + totalPages) % totalPages);
+              }}
+              aria-label="Previous services"
+              className="flex h-10 w-10 items-center justify-center rounded-full text-dark ring-1 ring-dark/20 transition-colors hover:bg-dark/5"
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </button>
+            <div className="flex items-center gap-2">
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <button
+                  key={i}
+                  data-cursor-hover
+                  onClick={() => {
+                    setActive(null);
+                    setPage(i);
+                  }}
+                  aria-label={`Go to page ${i + 1}`}
+                  className={`h-[2px] transition-all ${
+                    i === page ? "w-8 bg-gold" : "w-4 bg-dark/25 hover:bg-dark/50"
+                  }`}
+                />
+              ))}
+            </div>
+            <button
+              data-cursor-hover
+              onClick={() => {
+                setActive(null);
+                setPage((p) => (p + 1) % totalPages);
+              }}
+              aria-label="Next services"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-gold text-dark transition-colors hover:bg-gold-deep"
+            >
+              <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+        </motion.div>
 
                   {/* Title */}
                   <motion.h3
