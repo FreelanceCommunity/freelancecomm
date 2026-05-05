@@ -54,8 +54,24 @@ const Navbar = () => {
             "radial-gradient(80% 120% at 50% 0%, hsl(var(--gold) / 0.12), transparent 70%)",
         }}
       >
-        <a href="#" className="font-display-bold text-xl text-dark md:text-2xl">
-          freelanccomm<span className="text-gold">.in</span>
+        <a href="#" className="flex items-center gap-2.5" aria-label="freelanccomm.in">
+          <span className="relative inline-flex h-9 w-9 items-center justify-center md:h-10 md:w-10">
+            <span
+              className="absolute left-0 top-0 font-display-bold leading-none text-gold"
+              style={{ fontSize: "2rem" }}
+            >
+              F
+            </span>
+            <span
+              className="absolute bottom-0 right-0 font-display-bold leading-none text-dark"
+              style={{ fontSize: "1.25rem" }}
+            >
+              c
+            </span>
+          </span>
+          <span className="hidden font-display-bold text-lg text-dark sm:inline md:text-xl">
+            freelanccomm<span className="text-gold">.in</span>
+          </span>
         </a>
 
         <ul className="hidden items-center gap-9 md:flex">
