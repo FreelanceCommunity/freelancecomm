@@ -104,35 +104,42 @@ const About = () => {
                 className="h-full w-full object-cover"
                 style={{
                   WebkitMaskImage:
-                    "radial-gradient(ellipse at 60% 50%, black 45%, transparent 88%)",
+                    "linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)",
                   maskImage:
-                    "radial-gradient(ellipse at 60% 50%, black 45%, transparent 88%)",
+                    "linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)",
                 }}
               />
               <div
-                className="pointer-events-none absolute inset-0"
+                className="pointer-events-none absolute inset-x-0 top-0 h-1/3"
                 style={{
                   background:
-                    "linear-gradient(90deg, hsl(var(--dark)) 0%, transparent 25%, transparent 75%, hsl(var(--dark)) 100%)",
+                    "linear-gradient(to bottom, hsl(var(--dark)) 0%, transparent 100%)",
+                }}
+              />
+              <div
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3"
+                style={{
+                  background:
+                    "linear-gradient(to top, hsl(var(--dark)) 0%, transparent 100%)",
                 }}
               />
 
-              {/* Floating Collective badge */}
+              {/* Floating Collective badge — bottom right, smaller on mobile */}
               <div
-                className="absolute right-3 top-3 bg-darkcard/85 px-4 py-3 backdrop-blur-md"
+                className="absolute bottom-3 right-3 bg-darkcard/85 px-3 py-2 backdrop-blur-md sm:px-4 sm:py-3"
                 style={{
                   borderLeft: "2px solid hsl(var(--gold))",
                   borderBottom: "2px solid hsl(var(--gold))",
                 }}
               >
-                <div className="flex items-center gap-2 font-display-bold text-sm text-gold">
-                  <Users className="h-4 w-4" />
+                <div className="flex items-center gap-1.5 font-display-bold text-[11px] text-gold sm:gap-2 sm:text-sm">
+                  <Users className="h-3 w-3 sm:h-4 sm:w-4" />
                   Collective
                 </div>
-                <div className="mt-1 font-body text-xs text-cream/85">
+                <div className="mt-0.5 font-body text-[10px] text-cream/85 sm:mt-1 sm:text-xs">
                   4 Core Members
                 </div>
-                <div className="font-body text-xs text-cream/55">
+                <div className="hidden font-body text-[10px] text-cream/55 sm:block sm:text-xs">
                   Network of Specialists
                 </div>
               </div>
