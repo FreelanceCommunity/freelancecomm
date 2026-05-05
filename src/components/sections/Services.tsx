@@ -85,6 +85,9 @@ const easePremium = [0.16, 1, 0.3, 1] as const;
 
 const Services = () => {
   const [active, setActive] = useState<number | null>(null);
+  const [page, setPage] = useState(0);
+  const totalPages = Math.ceil(services.length / PAGE_SIZE);
+  const visible = services.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
 
   return (
     <section id="services" className="bg-premium-canvas relative overflow-hidden bg-cream py-28 lg:py-36">
@@ -117,13 +120,13 @@ const Services = () => {
           <div>
             <p className="font-mono-tag text-sm text-gold">// What We Do</p>
             <h2 className="mt-4 font-display text-5xl leading-[1] text-dark sm:text-6xl lg:text-7xl xl:text-8xl">
-              Six disciplines.
+              Twelve disciplines.
               <br />
               <span className="text-gold-gradient">One studio.</span>
             </h2>
           </div>
-          <p className="max-w-[300px] font-body text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Hover any row to expand. We pick what to do well, and decline the rest.
+          <p className="max-w-[320px] font-body text-base leading-relaxed text-muted-foreground sm:text-lg">
+            End-to-end hardware and software. Hover any row to expand — six per page.
           </p>
         </motion.div>
 
@@ -138,9 +141,9 @@ const Services = () => {
             aria-hidden
             className="pointer-events-none absolute -left-4 top-0 z-0 hidden h-full w-[180px] md:block"
           >
-            <ExplorerModel stops={services.length} facing="right" />
+            <ExplorerModel stops={visible.length} facing="right" />
           </div>
-          {services.map((s, i) => {
+          {visible.map((s, i) => {
             const isActive = active === i;
             return (
               <motion.div
