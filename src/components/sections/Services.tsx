@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { revealContainer, revealItem } from "@/lib/motion";
 import ExplorerModel from "@/components/ExplorerModel";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 const services = [
   {
@@ -40,7 +41,45 @@ const services = [
     desc: "Organic strategies that bring the right eyes to your product.",
     deliverables: ["Tech SEO Audit", "Content Engine", "Schema & Speed", "Analytics Stack"],
   },
+  {
+    num: "07",
+    title: "IoT Development",
+    desc: "End-to-end IoT — from sensor firmware to cloud dashboards.",
+    deliverables: ["Sensor Firmware", "MQTT/LoRa Stack", "Cloud Dashboards", "OTA Updates"],
+  },
+  {
+    num: "08",
+    title: "Hardware Prototyping",
+    desc: "PCB design and embedded prototypes ready for pilot production.",
+    deliverables: ["PCB Design", "Embedded C/Rust", "3D Enclosures", "Pilot Builds"],
+  },
+  {
+    num: "09",
+    title: "Developer Consulting",
+    desc: "Architecture reviews, tech stack audits, and team mentoring.",
+    deliverables: ["Stack Audits", "Code Reviews", "Hiring Support", "Team Mentoring"],
+  },
+  {
+    num: "10",
+    title: "Cloud & DevOps",
+    desc: "Infrastructure that scales — CI/CD pipelines and observability built in.",
+    deliverables: ["AWS / GCP", "CI/CD Pipelines", "Monitoring", "Cost Optimization"],
+  },
+  {
+    num: "11",
+    title: "E-commerce Solutions",
+    desc: "High-converting storefronts with payments, inventory, and analytics.",
+    deliverables: ["Shopify / Custom", "Payments Setup", "Inventory Sync", "Conversion Tuning"],
+  },
+  {
+    num: "12",
+    title: "Maintenance & Support",
+    desc: "Long-term partnerships — updates, monitoring, and rapid bug fixes.",
+    deliverables: ["24/7 Monitoring", "Security Patches", "Feature Updates", "SLA Support"],
+  },
 ];
+
+const PAGE_SIZE = 6;
 
 const easePremium = [0.16, 1, 0.3, 1] as const;
 
