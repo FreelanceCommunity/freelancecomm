@@ -55,16 +55,16 @@ const Navbar = () => {
         }}
       >
         <a href="#" className="flex items-center gap-2.5" aria-label="freelanccomm.in">
-          <span className="relative inline-flex h-9 w-9 items-center justify-center md:h-10 md:w-10">
+          <span className="relative inline-flex h-9 w-10 items-center justify-center md:h-10 md:w-11">
             <span
-              className="absolute left-0 top-0 font-display-bold leading-none text-gold"
-              style={{ fontSize: "2rem" }}
+              className="absolute left-0 top-1/2 -translate-y-1/2 font-display-bold leading-none text-gold"
+              style={{ fontSize: "2.1rem" }}
             >
               F
             </span>
             <span
               className="absolute bottom-0 right-0 font-display-bold leading-none text-dark"
-              style={{ fontSize: "1.25rem" }}
+              style={{ fontSize: "1.25rem", transform: "translate(-2px, 2px)" }}
             >
               c
             </span>
