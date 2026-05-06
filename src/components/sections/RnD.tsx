@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Clock, FileCheck, Rocket, Headphones } from "lucide-react";
+import { Plus, Clock, FileCheck, Rocket } from "lucide-react";
 import { revealContainer, revealItem, easePremium } from "@/lib/motion";
 
 const faqs = [
@@ -31,10 +31,9 @@ const faqs = [
 ];
 
 const stages = [
-  { icon: FileCheck, label: "Discovery", time: "Week 1", desc: "Brief, scope, fixed quote." },
-  { icon: Clock, label: "Design", time: "Week 2–3", desc: "Wireframes → high-fidelity UI." },
-  { icon: Rocket, label: "Build & Launch", time: "Week 3–6", desc: "Sprints, demos, go-live." },
-  { icon: Headphones, label: "Support", time: "30+ days", desc: "Free bug-fix window." },
+  { icon: FileCheck, label: "Discovery", time: "3 days", desc: "Brief, scope, fixed quote." },
+  { icon: Clock, label: "Design", time: "5 days", desc: "Wireframes → high-fidelity UI." },
+  { icon: Rocket, label: "Build & Launch", time: "15 days", desc: "Sprints, demos, go-live." },
 ];
 
 const RnD = () => {
@@ -150,7 +149,7 @@ const RnD = () => {
                     Avg. timeline
                   </div>
                   <div className="mt-1 font-display-bold text-lg text-cream">
-                    4–6 weeks
+                    ~23 days
                   </div>
                 </div>
                 <div>

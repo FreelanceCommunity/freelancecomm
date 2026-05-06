@@ -88,6 +88,26 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  /* Global smooth motion: text, cards, buttons, links, images */
+  h1, h2, h3, h4, h5, h6, p, a, button, li, span,
+  img, svg, [class*="card"], [class*="btn"] {
+    transition:
+      color 0.5s var(--ease-premium),
+      background-color 0.5s var(--ease-premium),
+      border-color 0.5s var(--ease-premium),
+      opacity 0.5s var(--ease-premium),
+      transform 0.5s var(--ease-premium),
+      box-shadow 0.5s var(--ease-premium),
+      filter 0.5s var(--ease-premium);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+    }
+  }
+
   @media (pointer: fine) {
     body, * {
       cursor: none;
