@@ -77,7 +77,7 @@ const About = () => {
       >
         {/* Hero image with text overlay */}
         <motion.div variants={revealItem} className="relative">
-          <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[3/2] md:aspect-[16/9] lg:aspect-[2/1]">
+          <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[3/2] md:aspect-[16/9] lg:aspect-[16/9]">
             <img
               src={teamGroup}
               alt="The freelancecomm team together in Chennai"

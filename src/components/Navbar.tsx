@@ -64,7 +64,7 @@ const Navbar = () => {
             </span>
             <span
               className="font-display-bold leading-none text-dark"
-              style={{ fontSize: "1.25rem", marginLeft: "0.5cm", paddingBottom: "0.1rem" }}
+              style={{ fontSize: "1.25rem", marginLeft: "0.2cm", paddingBottom: "0.1rem" }}
             >
               c
             </span>
