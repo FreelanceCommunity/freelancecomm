@@ -9,8 +9,8 @@ const faqs = [
     a: "We start with a free 30-min discovery call, follow up with a written brief, and lock scope, timeline and a fixed price before any work begins.",
   },
   {
-    q: "What does pricing typically look like?",
-    a: "Most websites land between ₹40k–₹2L; apps and IoT builds are quoted per scope. Every quote is itemised — you only pay for what you choose.",
+    q: "What tech stacks do you work with?",
+    a: "React, Next.js, Node, Python, Flutter and React Native on the software side; ESP32, Raspberry Pi, STM32 and custom PCBs on the hardware side. We pick the stack that fits your product, not the other way around.",
   },
   {
     q: "Do you sign NDAs and contracts?",
