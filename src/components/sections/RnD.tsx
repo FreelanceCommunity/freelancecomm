@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Clock, FileCheck, Rocket, Headphones } from "lucide-react";
+import { Plus, Clock, FileCheck, Rocket } from "lucide-react";
 import { revealContainer, revealItem, easePremium } from "@/lib/motion";
 
 const faqs = [
