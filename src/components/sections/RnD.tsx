@@ -149,7 +149,7 @@ const RnD = () => {
                     Avg. timeline
                   </div>
                   <div className="mt-1 font-display-bold text-lg text-cream">
-                    4–6 weeks
+                    ~23 days
                   </div>
                 </div>
                 <div>
