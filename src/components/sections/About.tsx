@@ -81,12 +81,13 @@ const About = () => {
             <img
               src={teamGroup}
               alt="The freelancecomm team together in Chennai"
-              className="h-full w-full object-cover object-top"
+              className="h-full w-full object-cover"
               style={{
+                objectPosition: "center 20%",
                 WebkitMaskImage:
-                  "linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)",
+                  "linear-gradient(to bottom, transparent 0%, black 8%, black 88%, transparent 100%)",
                 maskImage:
-                  "linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)",
+                  "linear-gradient(to bottom, transparent 0%, black 8%, black 88%, transparent 100%)",
               }}
             />
             {/* Edge fades into section bg */}
