@@ -77,11 +77,11 @@ const About = () => {
       >
         {/* Hero image with text overlay */}
         <motion.div variants={revealItem} className="relative">
-          <div className="relative aspect-[16/9] w-full overflow-hidden md:aspect-[21/9]">
+          <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[3/2] md:aspect-[16/9] lg:aspect-[2/1]">
             <img
               src={teamGroup}
               alt="The freelancecomm team together in Chennai"
-              className="h-full w-full object-cover object-top"
+              className="h-full w-full object-contain object-center"
               style={{
                 WebkitMaskImage:
                   "linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)",

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 const links = [
   { label: "Services", href: "#services" },
   { label: "Projects", href: "#projects" },
-  { label: "Resources", href: "#rnd" },
+  { label: "FAQ", href: "#rnd" },
   { label: "Reviews", href: "#reviews" },
   { label: "Contact", href: "#contact" },
 ];
@@ -40,7 +40,7 @@ const Navbar = () => {
       <nav
         className="relative flex w-full items-center justify-between border-b border-x-0 border-t-0 border-dark/80 py-4 px-6 lg:px-10 transition-[max-width,background-color,box-shadow,margin,padding] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
         style={{
-          maxWidth: scrolled ? "1080px" : "100%",
+          maxWidth: scrolled ? "1280px" : "100%",
           marginTop: scrolled ? "12px" : "0px",
           backgroundColor: scrolled
             ? "hsl(var(--cream) / 0.88)"
@@ -64,7 +64,7 @@ const Navbar = () => {
             </span>
             <span
               className="font-display-bold leading-none text-dark"
-              style={{ fontSize: "1.25rem", marginLeft: "-0.55rem", paddingBottom: "0.1rem" }}
+              style={{ fontSize: "1.25rem", marginLeft: "0.5cm", paddingBottom: "0.1rem" }}
             >
               c
             </span>
