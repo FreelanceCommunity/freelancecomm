@@ -19,15 +19,15 @@ const services = [
   },
   {
     num: "03",
-    title: "Brand Identity",
-    desc: "Visual systems that tell your story with clarity and confidence.",
-    deliverables: ["Logo & Marks", "Type System", "Colour & Tone", "Brand Guidelines"],
+    title: "Graphic Designer",
+    desc: "Stunning visuals for digital and print — from concept to final artwork.",
+    deliverables: ["Logo Design", "UI/UX Assets", "Social Media Graphics", "Print Materials"],
   },
   {
     num: "04",
-    title: "Motion & Animation",
-    desc: "Micro-interactions and transitions that make interfaces come alive.",
-    deliverables: ["UI Motion", "Lottie Pipelines", "Scroll Stories", "Product Films"],
+    title: "Poster Designing",
+    desc: "Eye-catching posters and banners that communicate your message instantly.",
+    deliverables: ["Event Posters", "Marketing Banners", "Digital Illustrations", "Brand Collateral"],
   },
   {
     num: "05",
