@@ -10,6 +10,7 @@ import RnD from "@/components/sections/RnD";
 import Reviews from "@/components/sections/Reviews";
 import CTA from "@/components/sections/CTA";
 import Footer from "@/components/sections/Footer";
+import AppointmentBot from "@/components/AppointmentBot";
 import { PreloadContext } from "@/lib/preload-context";
 
 const Index = () => {
@@ -28,6 +29,7 @@ const Index = () => {
         <Reviews />
         <CTA />
         <Footer />
+        <AppointmentBot />
       </main>
     </PreloadContext.Provider>
   );
