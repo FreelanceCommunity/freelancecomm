@@ -8,7 +8,7 @@ window.addEventListener("keydown", (event) => {
 	if ((event.ctrlKey || event.metaKey) && isZoomKey) {
 		event.preventDefault();
 	}
-});
+}, { capture: true });
 
 window.addEventListener(
 	"wheel",
@@ -17,11 +17,19 @@ window.addEventListener(
 			event.preventDefault();
 		}
 	},
-	{ passive: false }
+	{ passive: false, capture: true }
 );
 
 window.addEventListener("gesturestart", (event) => {
 	event.preventDefault();
-});
+}, { capture: true });
+
+window.addEventListener("gesturechange", (event) => {
+	event.preventDefault();
+}, { capture: true });
+
+window.addEventListener("gestureend", (event) => {
+	event.preventDefault();
+}, { capture: true });
 
 createRoot(document.getElementById("root")!).render(<App />);
