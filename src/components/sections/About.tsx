@@ -233,16 +233,16 @@ const About = () => {
               return (
                 <div
                   key={s.label}
-                  className="flex items-center gap-4 p-6 lg:p-7"
+                  className="flex flex-col items-start gap-3 p-5 sm:flex-row sm:items-center sm:gap-4 sm:p-6 lg:p-7"
                 >
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full ring-2 ring-gold text-gold">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full ring-2 ring-gold text-gold sm:h-12 sm:w-12">
                     <Icon className="h-5 w-5" />
                   </span>
-                  <div>
-                    <div className="font-display-bold text-2xl text-cream lg:text-[1.6rem]">
+                  <div className="min-w-0">
+                    <div className="font-display-bold text-xl text-cream sm:text-2xl lg:text-[1.6rem]">
                       {s.value}
                     </div>
-                    <div className="mt-0.5 font-body text-sm text-cream/60">
+                    <div className="mt-0.5 font-body text-xs text-cream/60 sm:text-sm break-words">
                       {s.label}
                     </div>
                   </div>
