@@ -270,6 +270,28 @@
   }
 }
 
+@media (max-width: 767px) {
+  section .max-w-7xl,
+  section .max-w-5xl {
+    text-align: center;
+  }
+
+  section .max-w-7xl .items-start,
+  section .max-w-5xl .items-start {
+    align-items: center;
+  }
+
+  section .max-w-7xl .justify-between,
+  section .max-w-5xl .justify-between {
+    justify-content: center;
+  }
+
+  section .max-w-7xl .text-left,
+  section .max-w-5xl .text-left {
+    text-align: center;
+  }
+}
+
 /* Marquee */
 @keyframes marquee {
   0% { transform: translateX(0); }
