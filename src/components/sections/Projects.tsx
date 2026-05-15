@@ -216,13 +216,6 @@ const Projects = () => {
               Projects
             </h2>
           </div>
-          <a
-            href="https://theeightboys.github.io/fiverrportfoliosite/"
-            data-cursor-hover
-            className="btn-premium"
-          >
-            View All {"->"}
-          </a>
         </motion.div>
 
         <motion.div
