@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef } from "react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { Plus, Clock, FileCheck, Rocket } from "lucide-react";
 import { revealContainer, revealItem, easePremium } from "@/lib/motion";
 
@@ -38,13 +38,28 @@ const stages = [
 
 const RnD = () => {
   const [open, setOpen] = useState<number | null>(0);
+  
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+  
+  const wordmarkY = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const wordmarkRotate = useTransform(scrollYProgress, [0, 1], [0, 5]);
 
   return (
     <section
+      ref={sectionRef}
       id="rnd"
       className="bg-premium-canvas relative overflow-hidden bg-cream py-28 lg:py-36"
     >
-      <div className="bg-canvas-wordmark"><span>ANSWERS</span></div>
+      <motion.div 
+        className="bg-canvas-wordmark"
+        style={{ y: wordmarkY, rotate: wordmarkRotate }}
+      >
+        <span>ANSWERS</span>
+      </motion.div>
 
       <motion.div
         variants={revealContainer}

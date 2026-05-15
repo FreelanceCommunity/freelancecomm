@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { usePreload } from "@/lib/preload-context";
 
 const links = [
   { label: "Services", href: "#services" },
@@ -10,6 +12,7 @@ const links = [
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState<string>("");
+  const { ready } = usePreload();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -35,7 +38,12 @@ const Navbar = () => {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4">
+    <motion.header 
+      className="fixed inset-x-0 top-0 z-50 flex justify-center px-4"
+      initial={{ y: -100, opacity: 0 }}
+      animate={ready ? { y: 0, opacity: 1 } : { y: -100, opacity: 0 }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+    >
       <nav
         className="relative flex w-full items-center justify-between border-b border-x-0 border-t-0 border-dark/80 py-4 px-6 lg:px-10 transition-[max-width,background-color,box-shadow,margin,padding] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
         style={{
@@ -54,20 +62,11 @@ const Navbar = () => {
         }}
       >
         <a href="#" className="flex items-center gap-2" aria-label="freelanccomm.in">
-          <span className="relative inline-flex items-end leading-none">
-            <span
-              className="font-display-bold leading-none text-gold"
-              style={{ fontSize: "2.1rem" }}
-            >
-              F
-            </span>
-            <span
-              className="font-display-bold leading-none text-dark"
-              style={{ fontSize: "1.25rem", marginLeft: "-0.05rem", paddingBottom: "0.1rem" }}
-            >
-              c
-            </span>
-          </span>
+          <svg width="32" height="32" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
+            <path d="M30 25 C30 20, 35 15, 40 15 L85 15 C90 15, 95 20, 95 25 L95 35 C95 40, 90 45, 85 45 L50 45 L50 55 L80 55 C85 55, 90 60, 90 65 L90 75 C90 80, 85 85, 80 85 L50 85 L50 105 L30 105 Z" fill="currentColor" className="text-gold"/>
+            <circle cx="65" cy="95" r="8" fill="currentColor" className="text-gold"/>
+            <circle cx="90" cy="95" r="6" fill="currentColor" className="text-gold"/>
+          </svg>
           <span className="hidden font-display-bold text-lg text-dark sm:inline md:text-xl">
             freelanccomm<span className="text-gold">.in</span>
           </span>
@@ -101,7 +100,7 @@ const Navbar = () => {
           Contact Us →
         </a>
       </nav>
-    </header>
+    </motion.header>
   );
 };
 

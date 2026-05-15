@@ -1,3 +1,3 @@
-# Welcome to your Lovable project
+# FreelancComm.in
 
-TODO: Document your project here
+A premium freelance collective crafting digital products that move people.

@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Mail, Instagram } from "lucide-react";
 import { revealContainer, revealItem } from "@/lib/motion";
 
@@ -39,22 +40,41 @@ const channels = [
   },
 ];
 
-const Contact = () => (
-  <section id="contact" className="relative overflow-hidden bg-cream py-20 sm:py-28 lg:py-40">
-    <div
-      className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
-      style={{
-        width: "min(600px, 90vw)",
-        height: "min(600px, 90vw)",
-        background: "radial-gradient(circle, hsl(var(--gold) / 0.10) 0%, transparent 70%)",
-      }}
-    />
+const Contact = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+  
+  const wordmarkY = useTransform(scrollYProgress, [0, 1], [-50, 50]);
+  const wordmarkScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 0.8]);
+  const glowScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1.2, 0.8]);
+  
+  return (
+    <section ref={sectionRef} id="contact" className="relative overflow-hidden bg-cream py-20 sm:py-28 lg:py-40">
+      <motion.div
+        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{
+          width: "min(600px, 90vw)",
+          height: "min(600px, 90vw)",
+          background: "radial-gradient(circle, hsl(var(--gold) / 0.10) 0%, transparent 70%)",
+          scale: glowScale,
+        }}
+      />
 
-    <div className="pointer-events-none absolute inset-x-0 top-6 flex justify-center overflow-hidden sm:top-8">
-      <div className="bg-wordmark" style={{ fontSize: "clamp(60px, 14vw, 180px)" }}>
-        CONTACT
+      <div className="pointer-events-none absolute inset-x-0 top-6 flex justify-center overflow-hidden sm:top-8">
+        <motion.div 
+          className="bg-wordmark" 
+          style={{ 
+            fontSize: "clamp(60px, 14vw, 180px)",
+            y: wordmarkY,
+            scale: wordmarkScale,
+          }}
+        >
+          CONTACT
+        </motion.div>
       </div>
-    </div>
 
     <motion.div
       variants={revealContainer}
@@ -91,7 +111,7 @@ const Contact = () => (
 
       <motion.div
         variants={revealItem}
-        className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+        className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2"
       >
         {channels.map((c) => (
           <a
@@ -102,25 +122,24 @@ const Contact = () => (
             data-cursor-hover
             className="group flex flex-col items-start gap-3 bg-cream p-6 text-left transition-all duration-300 hover:-translate-y-1"
             style={{
-              borderLeft: "2px solid hsl(var(--dark) / 0.55)",
-              borderBottom: "2px solid hsl(var(--dark) / 0.55)",
-              boxShadow: "inset 0 1px 0 hsl(0 0% 100% / 0.6), 0 6px 14px -8px hsl(var(--dark) / 0.18)",
+              border: "1px solid hsl(var(--dark) / 0.12)",
+              boxShadow:
+                "0 10px 24px -16px hsl(var(--dark) / 0.35), inset 0 1px 0 hsl(0 0% 100% / 0.7)",
             }}
           >
             <span
               className="flex h-11 w-11 items-center justify-center bg-gold/15 text-gold-deep transition-colors group-hover:bg-gold/25"
               style={{
-                borderLeft: "2px solid hsl(var(--gold))",
-                borderBottom: "2px solid hsl(var(--gold))",
+                border: "1px solid hsl(var(--gold) / 0.8)",
               }}
             >
               {c.icon}
             </span>
-            <div>
+            <div className="min-w-0">
               <div className="font-mono-tag text-[10px] tracking-[0.25em] text-dark/55">
                 {c.label}
               </div>
-              <div className="mt-1 font-display-bold text-base text-dark transition-colors group-hover:text-gold-deep">
+              <div className="mt-1 break-words font-display-bold text-base text-dark transition-colors group-hover:text-gold-deep">
                 {c.value}
               </div>
             </div>
@@ -129,6 +148,7 @@ const Contact = () => (
       </motion.div>
     </motion.div>
   </section>
-);
+  );
+};
 
 export default Contact;

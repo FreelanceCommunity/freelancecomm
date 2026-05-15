@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef } from "react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import {
   ArrowLeft,
   ArrowRight,
@@ -14,43 +14,87 @@ import {
 } from "lucide-react";
 import { revealContainer, revealItem, easePremium } from "@/lib/motion";
 import teamGroup from "@/assets/team-group.png";
+import adityaPhoto from "@/assets/aditya.jpg";
+import barathPhoto from "@/assets/barath.jpg";
+import dhanushPhoto from "@/assets/dhanush.jpg";
+import jaisuryaPhoto from "@/assets/jaisurya.jpg";
+import kishorePhoto from "@/assets/kishore.jpg";
+import madhanPhoto from "@/assets/madhan.jpg";
+import maniPhoto from "@/assets/mani.jpg";
+import manojPhoto from "@/assets/manoj.jpg";
 
 const team = [
   {
-    name: "Arjun R.",
-    role: "Creative Director",
-    line: "Turning briefs into bold ideas.",
+    name: "Aditya",
+    role: "Researcher",
+    line: "Strong English, driven by space and auto mechanics.",
     quote:
-      "Good design solves problems.\nGreat design builds brands.\nWe aim for the latter.",
-    accent: "#C9A84C",
-    initial: "A",
+      "I love researching complex systems and\nturning technical ideas into clear insights.",
+    accent: "#4AA3A3",
+    image: adityaPhoto,
   },
   {
-    name: "Priya M.",
-    role: "Lead Developer",
-    line: "Code that ships and scales.",
+    name: "Barath",
+    role: "Software Developer",
+    line: "Cross-platform apps with seamless UX.",
     quote:
-      "Clean code is a love letter\nto the next developer —\nand to your future self.",
+      "React Native specialist focused on\nreliability, speed, and smooth interaction.",
     accent: "#7777DD",
-    initial: "P",
+    image: barathPhoto,
   },
   {
-    name: "Kiran S.",
-    role: "Motion Designer",
-    line: "Making things beautifully move.",
+    name: "Dhanush Kumar",
+    role: "UI and Web Developer",
+    line: "Polished UI and full-stack execution.",
     quote:
-      "Motion is meaning.\nEvery frame should earn\nthe attention it asks for.",
+      "I blend UI/UX craft with full-stack\nbuilds for functional, beautiful products.",
+    accent: "#D07A2C",
+    image: dhanushPhoto,
+  },
+  {
+    name: "Jaisurya",
+    role: "3D Designer",
+    line: "Crafting 3D models, animation, and video content.",
+    quote:
+      "From modeling to post, I deliver\nvisuals that feel cinematic and precise.",
     accent: "#6BA83A",
-    initial: "K",
+    image: jaisuryaPhoto,
   },
   {
-    name: "Divya T.",
-    role: "Brand Strategist",
-    line: "Strategy with a human pulse.",
+    name: "Kishore",
+    role: "Software Developer",
+    line: "Building responsive, user-friendly web experiences.",
     quote:
-      "A brand isn't a logo.\nIt's the feeling people\ncarry after you've left the room.",
+      "Full-stack builder focused on performance,\ncompatibility, and clean UX across devices.",
+    accent: "#C9A84C",
+    image: kishorePhoto,
+  },
+  {
+    name: "Madhan Raj",
+    role: "IoT Developer",
+    line: "Innovative IoT systems across hardware and software.",
+    quote:
+      "I bring ideas to life with end-to-end\nIoT builds that are practical and reliable.",
     accent: "#C93A5A",
-    initial: "D",
+    image: madhanPhoto,
+  },
+  {
+    name: "Manikandan",
+    role: "Hardware Developer",
+    line: "Smart systems, automation, and optimized IoT solutions.",
+    quote:
+      "From sensors to systems, I design\nrobust hardware that scales with ideas.",
+    accent: "#3F8B6B",
+    image: maniPhoto,
+  },
+  {
+    name: "Manoj",
+    role: "Data Scientist",
+    line: "Connecting products to the right audiences.",
+    quote:
+      "Strategy plus structure: I use data\nmodels to guide smart, measurable decisions.",
+    accent: "#8A6FD1",
+    image: manojPhoto,
   },
 ];
 
@@ -65,9 +109,22 @@ const About = () => {
   const [page, setPage] = useState(0);
   const total = team.length;
   const m = team[page];
+  
+  // Parallax for the section
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+  
+  // Parallax effects
+  const imageY = useTransform(scrollYProgress, [0, 1], [100, -100]);
+  const textY = useTransform(scrollYProgress, [0, 1], [50, -50]);
+  const badgeY = useTransform(scrollYProgress, [0, 1], [0, -30]);
+  const statsY = useTransform(scrollYProgress, [0, 1], [0, -40]);
 
   return (
-    <section className="bg-dark py-24 lg:py-32">
+    <section ref={sectionRef} className="bg-dark py-24 lg:py-32 overflow-hidden">
       <motion.div
         variants={revealContainer}
         initial="hidden"
@@ -78,11 +135,12 @@ const About = () => {
         {/* Hero image with text overlay */}
         <motion.div variants={revealItem} className="relative">
           <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[3/2] md:aspect-[16/9] lg:aspect-[16/9]">
-            <img
+            <motion.img
               src={teamGroup}
               alt="The freelancecomm team together in Chennai"
               className="h-full w-full object-cover"
               style={{
+                y: imageY,
                 objectPosition: "center 20%",
                 WebkitMaskImage:
                   "linear-gradient(to bottom, transparent 0%, black 8%, black 88%, transparent 100%)",
@@ -116,7 +174,10 @@ const About = () => {
 
             {/* Text inside image */}
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full px-6 sm:px-10 lg:px-14">
+              <motion.div 
+                className="w-full px-6 sm:px-10 lg:px-14"
+                style={{ y: textY }}
+              >
                 <div className="max-w-xl">
                   <p className="font-mono-tag text-sm text-gold">// About Us</p>
                   <h2
@@ -134,13 +195,14 @@ const About = () => {
                     show.
                   </p>
                 </div>
-              </div>
+              </motion.div>
             </div>
 
             {/* Floating Collective badge — bottom right */}
-            <div
+            <motion.div
               className="absolute bottom-3 right-3 bg-darkcard/85 px-3 py-2 backdrop-blur-md sm:bottom-6 sm:right-6 sm:px-4 sm:py-3"
               style={{
+                y: badgeY,
                 borderLeft: "2px solid hsl(var(--gold))",
                 borderBottom: "2px solid hsl(var(--gold))",
               }}
@@ -150,18 +212,19 @@ const About = () => {
                 Collective
               </div>
               <div className="mt-0.5 font-body text-[10px] text-cream/85 sm:mt-1 sm:text-xs">
-                4 Core Members
+                8 Core Members
               </div>
               <div className="hidden font-body text-[10px] text-cream/55 sm:block sm:text-xs">
                 Network of Specialists
               </div>
-            </div>
+            </motion.div>
           </div>
         </motion.div>
 
         {/* Stats row — single rounded card with dividers */}
         <motion.div
           variants={revealItem}
+          style={{ y: statsY }}
           className="mt-12 overflow-hidden rounded-2xl bg-darkcard ring-1 ring-cream/10"
         >
           <div className="grid grid-cols-2 divide-cream/10 sm:grid-cols-4 sm:divide-x">
@@ -201,7 +264,7 @@ const About = () => {
                 transition={{ duration: 0.45, ease: easePremium }}
                 className="grid grid-cols-1 items-center gap-6 p-6 lg:grid-cols-12 lg:gap-10 lg:p-10"
               >
-                {/* Photo / initial */}
+                {/* Photo */}
                 <div className="lg:col-span-3">
                   <div
                     className="relative flex aspect-square w-full items-center justify-center overflow-hidden"
@@ -209,9 +272,11 @@ const About = () => {
                       background: `linear-gradient(135deg, ${m.accent}, ${m.accent}55)`,
                     }}
                   >
-                    <span className="font-display-bold text-[7rem] leading-none text-dark/85">
-                      {m.initial}
-                    </span>
+                    <img
+                      src={m.image}
+                      alt={`${m.name} portrait`}
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
                   </div>
                 </div>
 

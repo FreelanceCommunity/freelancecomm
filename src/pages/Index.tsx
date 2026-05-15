@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import CustomCursor from "@/components/CustomCursor";
 import Navbar from "@/components/Navbar";
 import Preloader from "@/components/Preloader";
@@ -20,16 +21,28 @@ const Index = () => {
       <main className="bg-cream">
         <Preloader onDone={() => setReady(true)} />
         <CustomCursor />
-        <Navbar />
-        <Hero />
-        <About />
-        <Services />
-        <Projects />
-        <RnD />
-        <Reviews />
-        <CTA />
-        <Footer />
-        <AppointmentBot />
+        
+        {/* Page content with staggered fade-in after preloader */}
+        <AnimatePresence>
+          {ready && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            >
+              <Navbar />
+              <Hero />
+              <About />
+              <Services />
+              <Projects />
+              <RnD />
+              <Reviews />
+              <CTA />
+              <Footer />
+              <AppointmentBot />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </main>
     </PreloadContext.Provider>
   );

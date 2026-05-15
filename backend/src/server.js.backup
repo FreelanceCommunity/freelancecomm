@@ -1,0 +1,137 @@
+const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+const morgan = require('morgan');
+const dotenv = require('dotenv');
+const { createServer } = require('http');
+const { Server } = require('socket.io');
+
+// Load environment variables
+dotenv.config();
+
+// Import routes
+const bookingRoutes = require('./routes/booking.routes');
+const authRoutes = require('./routes/auth.routes');
+const webhookRoutes = require('./routes/webhook.routes');
+const calendarRoutes = require('./routes/calendar.routes');
+
+// Import middleware
+const errorHandler = require('./middleware/errorHandler');
+const rateLimiter = require('./middleware/rateLimiter');
+
+// Import services
+const { connectDB } = require('./services/database.service');
+const { initializeGoogleCalendar } = require('./services/calendar.service');
+const { initializeChatbot } = require('./services/chatbot.service');
+
+const app = express();
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    credentials: true
+  }
+});
+
+// Middleware
+app.use(helmet());
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  credentials: true
+}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(morgan('combined'));
+app.use(rateLimiter);
+
+// Socket.IO connection handling
+io.on('connection', (socket) => {
+  console.log('New client connected:', socket.id);
+  
+  socket.on('booking_request', (data) => {
+    console.log('Booking request received:', data);
+    // Handle real-time booking requests
+    socket.emit('booking_status', { status: 'processing', message: 'Processing your booking request...' });
+  });
+  
+  socket.on('disconnect', () => {
+    console.log('Client disconnected:', socket.id);
+  });
+});
+
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/webhooks', webhookRoutes);
+app.use('/api/calendar', calendarRoutes);
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    service: 'Google Meet Booking API',
+    version: '1.0.0'
+  });
+});
+
+// Error handling middleware
+app.use(errorHandler);
+
+// Initialize services
+async function initializeServices() {
+  try {
+    // Connect to database (optional - will fail gracefully if not configured)
+    try {
+      await connectDB();
+      console.log('✅ Database connected successfully');
+    } catch (dbError) {
+      console.log('⚠️ Database connection skipped (not configured)');
+    }
+    
+    // Initialize Google Calendar API (optional)
+    try {
+      await initializeGoogleCalendar();
+      console.log('✅ Google Calendar API initialized');
+    } catch (calendarError) {
+      console.log('⚠️ Google Calendar API skipped (not configured)');
+    }
+    
+    // Initialize chatbot services (optional)
+    try {
+      await initializeChatbot();
+      console.log('✅ Chatbot services initialized');
+    } catch (chatbotError) {
+      console.log('⚠️ Chatbot services skipped (not configured)');
+    }
+    
+    // Start server
+    const PORT = process.env.PORT || 5000;
+    httpServer.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+      console.log(`📅 Google Meet Booking API ready`);
+      console.log(`🤖 Chatbot webhook: ${process.env.BASE_URL}/api/webhooks/chatbot`);
+    });
+  } catch (error) {
+    console.error('❌ Failed to initialize services:', error);
+    process.exit(1);
+  }
+}
+
+// Handle unhandled promise rejections
+process.on('unhandledRejection', (err) => {
+  console.error('Unhandled Promise Rejection:', err);
+  // Close server & exit process
+  httpServer.close(() => process.exit(1));
+});
+
+// Handle uncaught exceptions
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+  process.exit(1);
+});
+
+// Start the application
+initializeServices();
+
+module.exports = { app, httpServer, io };

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef } from "react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { revealContainer, revealItem } from "@/lib/motion";
 import ExplorerModel from "@/components/ExplorerModel";
 import { ArrowLeft, ArrowRight } from "lucide-react";
@@ -88,15 +88,29 @@ const Services = () => {
   const [page, setPage] = useState(0);
   const totalPages = Math.ceil(services.length / PAGE_SIZE);
   const visible = services.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
+  
+  // Parallax setup
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+  
+  const wordmarkY = useTransform(scrollYProgress, [0, 1], [0, -150]);
+  const wordmarkOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.3, 1, 0.3]);
 
   return (
-    <section id="services" className="bg-premium-canvas relative overflow-hidden bg-cream py-28 lg:py-36">
+    <section ref={sectionRef} id="services" className="bg-premium-canvas relative overflow-hidden bg-cream py-28 lg:py-36">
       <div className="bg-canvas-wordmark"><span>BUILD</span></div>
-      {/* Vertical wordmark accent */}
-      <div
+      {/* Vertical wordmark accent with parallax */}
+      <motion.div
         aria-hidden
         className="pointer-events-none absolute -right-6 top-1/2 hidden -translate-y-1/2 select-none lg:block"
-        style={{ writingMode: "vertical-rl" }}
+        style={{ 
+          writingMode: "vertical-rl",
+          y: wordmarkY,
+          opacity: wordmarkOpacity
+        }}
       >
         <span
           className="bg-wordmark"
@@ -104,7 +118,7 @@ const Services = () => {
         >
           SERVICES
         </span>
-      </div>
+      </motion.div>
 
       <motion.div
         variants={revealContainer}
