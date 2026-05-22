@@ -80,10 +80,10 @@ const team = [
   },
   {
     name: "Manikandan",
-    role: "Hardware Developer",
-    line: "Smart systems, automation, and optimized IoT solutions.",
+    role: "IoT & React Native Developer",
+    line: "Building smart IoT systems and cross-platform mobile apps.",
     quote:
-      "From sensors to systems, I design\nrobust hardware that scales with ideas.",
+      "From embedded sensors to polished mobile apps,\nI bridge hardware and software seamlessly.",
     accent: "#3F8B6B",
     image: maniPhoto,
   },
