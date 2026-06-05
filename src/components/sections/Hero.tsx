@@ -132,12 +132,9 @@ const Hero = () => {
             variants={heroItem}
             className="mt-7 flex flex-wrap items-center gap-3"
           >
-            <a href="#cta" className="btn-premium group">
-              Start a Project
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </a>
-            <a href="#projects" className="btn-ghost-premium">
+            <a href="#projects" className="btn-premium group">
               View Our Work
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </a>
           </motion.div>
 

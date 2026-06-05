@@ -256,7 +256,7 @@ const Projects = () => {
         >
           {pageProjects.map((p, i) => {
             const isFull = false;
-            const cardHeight = "h-[380px]";
+            const cardHeight = "h-auto";
             const showIframe = p.url && !p.image;
 
             return (
@@ -273,7 +273,7 @@ const Projects = () => {
                 className={`group flex flex-col justify-between overflow-hidden rounded-2xl ${cardHeight} ${isFull ? "md:col-span-2" : ""} border border-cream/5 bg-dark/30`}
               >
                 {/* Visual Preview Container */}
-                <div className="relative flex-1 w-full overflow-hidden bg-gradient-to-br from-dark to-dark/50">
+                <div className="relative w-full aspect-[2.15/1] overflow-hidden bg-gradient-to-br from-dark to-dark/50">
                   {/* Abstract background fallback */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${p.gradient} opacity-80`} />
                   <div
@@ -291,7 +291,7 @@ const Projects = () => {
                       src={p.image}
                       alt={p.name}
                       loading="lazy"
-                      className="absolute inset-0 w-full h-full object-cover transition-all duration-700 opacity-80 group-hover:opacity-100 group-hover:scale-105"
+                      className="absolute inset-0 w-full h-full object-cover object-left-top transition-all duration-700 opacity-100 group-hover:scale-105 project-thumbnail"
                     />
                   ) : (
                     /* Real Live Iframe Preview */
@@ -304,7 +304,7 @@ const Projects = () => {
                           onLoad={() => setLoadedIframes((prev) => ({ ...prev, [p.name]: true }))}
                           className={`absolute top-0 left-0 w-[300%] h-[300%] origin-top-left scale-[0.3333] border-0 transition-all duration-1000 ${
                             loadedIframes[p.name]
-                              ? "opacity-60 group-hover:opacity-85 group-hover:scale-[0.35]"
+                              ? "opacity-100"
                               : "opacity-0"
                           }`}
                         />
