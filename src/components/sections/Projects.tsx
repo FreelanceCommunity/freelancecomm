@@ -217,7 +217,7 @@ const projects = [
 const Projects = () => {
   const [page, setPage] = useState(0);
   const [loadedIframes, setLoadedIframes] = useState<Record<string, boolean>>({});
-  const perPage = 5;
+  const perPage = 4;
   const pages = Array.from({ length: Math.ceil(projects.length / perPage) }, (_, i) =>
     projects.slice(i * perPage, i * perPage + perPage)
   );
@@ -255,8 +255,8 @@ const Projects = () => {
           className="mt-16 grid grid-cols-1 gap-4 md:grid-cols-2"
         >
           {pageProjects.map((p, i) => {
-            const isFull = i === 2 || !!p.span;
-            const cardHeight = isFull ? "h-[450px]" : "h-[380px]"; 
+            const isFull = false;
+            const cardHeight = "h-[380px]";
             const showIframe = p.url && !p.image;
 
             return (
