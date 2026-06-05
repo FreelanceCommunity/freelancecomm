@@ -276,7 +276,7 @@ const Reviews = () => {
     offset: ["start end", "end start"],
   });
   
-  const marqueeX = useTransform(scrollYProgress, [0, 1], [0, -200]);
+  const marqueeX = useTransform(scrollYProgress, [0, 1], [0, -40]);
   
   return (
     <section ref={sectionRef} id="reviews" className="overflow-hidden bg-dark py-28 lg:py-36">
