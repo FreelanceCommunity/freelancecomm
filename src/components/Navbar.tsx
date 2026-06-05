@@ -61,14 +61,14 @@ const Navbar = () => {
             "radial-gradient(80% 120% at 50% 0%, hsl(var(--gold) / 0.12), transparent 70%)",
         }}
       >
-        <a href="#" className="flex items-center gap-2" aria-label="freelanccomm.in">
+        <a href="#" className="flex items-center gap-2" aria-label="Freelancecomm">
           <svg width="32" height="32" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
             <path d="M30 25 C30 20, 35 15, 40 15 L85 15 C90 15, 95 20, 95 25 L95 35 C95 40, 90 45, 85 45 L50 45 L50 55 L80 55 C85 55, 90 60, 90 65 L90 75 C90 80, 85 85, 80 85 L50 85 L50 105 L30 105 Z" fill="currentColor" className="text-gold"/>
             <circle cx="65" cy="95" r="8" fill="currentColor" className="text-gold"/>
             <circle cx="90" cy="95" r="6" fill="currentColor" className="text-gold"/>
           </svg>
           <span className="hidden font-display-bold text-lg text-dark sm:inline md:text-xl">
-            freelanccomm<span className="text-gold">.in</span>
+            Freelancecomm
           </span>
         </a>
 

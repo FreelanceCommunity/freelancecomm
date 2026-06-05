@@ -101,7 +101,7 @@ const Hero = () => {
           >
             <span className="h-px w-10 bg-gold" />
             <p className="font-mono-tag text-[11px] tracking-[0.3em] text-gold-deep">
-              Est. 2022 · Chennai, IN
+              Est. 2024 · Chennai, IN
             </p>
           </motion.div>
 
@@ -187,7 +187,7 @@ const Hero = () => {
             />
             <img
               src={heroDashboard}
-              alt="FreelancComm analytics dashboard preview showing project performance, revenue, and client satisfaction metrics"
+              alt="Freelancecomm analytics dashboard preview showing project performance, revenue, and client satisfaction metrics"
               className="w-full rounded-[1.25rem] shadow-[0_50px_90px_-30px_rgba(20,20,20,0.45)] ring-1 ring-dark/10"
               loading="eager"
             />

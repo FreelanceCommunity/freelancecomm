@@ -13,7 +13,7 @@ const Footer = () => (
       <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
         <div>
           <a href="#" className="font-display-bold text-2xl text-cream">
-            freelanccomm<span className="text-gold">.in</span>
+            Freelancecomm
           </a>
           <p className="mt-4 max-w-[280px] font-body text-base text-muted-foreground">
             A premium freelance collective crafting digital experiences from Salem, India.
@@ -52,7 +52,7 @@ const Footer = () => (
                 href="#"
                 className="font-body text-base text-muted-foreground transition-colors duration-200 hover:text-cream"
               >
-                freelanccomm.in
+                Freelancecomm
               </a>
             </li>
           </ul>
@@ -72,7 +72,7 @@ const Footer = () => (
 
       <div className="mt-14 flex flex-col items-start justify-between gap-3 border-t border-white/5 pt-8 md:flex-row md:items-center">
         <p className="font-mono-tag text-xs text-muted-foreground">
-          © 2025 FreelancComm.in — All Rights Reserved
+          © 2025 Freelancecomm — All Rights Reserved
         </p>
         <p className="font-mono-tag text-xs text-muted-foreground">
           Designed with intent. Built with obsession.

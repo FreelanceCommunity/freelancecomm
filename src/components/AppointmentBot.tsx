@@ -71,7 +71,7 @@ const AppointmentBot = () => {
           email,
           meetingTime,
           duration: 30,
-          message: `Meeting scheduled via FreelanceComm website for ${format(selectedDate, 'PPP')} at ${formatTimeForDisplay(selectedTime)}`
+          message: `Meeting scheduled via Freelancecomm website for ${format(selectedDate, 'PPP')} at ${formatTimeForDisplay(selectedTime)}`
         })
       });
       

@@ -84,7 +84,7 @@ const Preloader = ({ onDone }: Props) => {
             transition={{ duration: 0.5 }}
             className="font-display-bold text-3xl text-dark md:text-4xl"
           >
-            freelanccomm<span className="text-gold">.in</span>
+            freelance<span className="text-gold">comm</span>
           </motion.div>
 
           <div className="mt-8 h-[2px] w-56 overflow-hidden bg-dark/10">

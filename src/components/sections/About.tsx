@@ -9,8 +9,6 @@ import {
   MapPin,
   Users,
   Quote,
-  Linkedin,
-  Dribbble,
 } from "lucide-react";
 import { revealContainer, revealItem, easePremium } from "@/lib/motion";
 import teamGroup from "@/assets/team-group.png";
@@ -32,6 +30,7 @@ const team = [
       "I love researching complex systems and\nturning technical ideas into clear insights.",
     accent: "#4AA3A3",
     image: adityaPhoto,
+    skills: ["Research", "Technical Writing", "Analysis"],
   },
   {
     name: "Barath",
@@ -41,6 +40,7 @@ const team = [
       "React Native specialist focused on\nreliability, speed, and smooth interaction.",
     accent: "#7777DD",
     image: barathPhoto,
+    skills: ["React Native", "TypeScript", "Mobile"],
   },
   {
     name: "Dhanush Kumar",
@@ -50,6 +50,7 @@ const team = [
       "I blend UI/UX craft with full-stack\nbuilds for functional, beautiful products.",
     accent: "#D07A2C",
     image: dhanushPhoto,
+    skills: ["UI/UX", "Full-Stack", "React"],
   },
   {
     name: "Jaisurya",
@@ -59,6 +60,7 @@ const team = [
       "From modeling to post, I deliver\nvisuals that feel cinematic and precise.",
     accent: "#6BA83A",
     image: jaisuryaPhoto,
+    skills: ["3D Modeling", "Animation", "VFX"],
   },
   {
     name: "Kishore",
@@ -68,6 +70,7 @@ const team = [
       "Full-stack builder focused on performance,\ncompatibility, and clean UX across devices.",
     accent: "#C9A84C",
     image: kishorePhoto,
+    skills: ["Full-Stack", "React", "Node.js"],
   },
   {
     name: "Madhan Raj",
@@ -77,6 +80,7 @@ const team = [
       "I bring ideas to life with end-to-end\nIoT builds that are practical and reliable.",
     accent: "#C93A5A",
     image: madhanPhoto,
+    skills: ["IoT", "Embedded", "Hardware"],
   },
   {
     name: "Manikandan",
@@ -86,6 +90,7 @@ const team = [
       "From embedded sensors to polished mobile apps,\nI bridge hardware and software seamlessly.",
     accent: "#3F8B6B",
     image: maniPhoto,
+    skills: ["IoT", "React Native", "Sensors"],
   },
   {
     name: "Manoj",
@@ -95,6 +100,7 @@ const team = [
       "Strategy plus structure: I use data\nmodels to guide smart, measurable decisions.",
     accent: "#8A6FD1",
     image: manojPhoto,
+    skills: ["Data Science", "ML", "Strategy"],
   },
 ];
 
@@ -291,24 +297,23 @@ const About = () => {
                   <p className="mt-6 font-body text-lg text-cream/85">
                     {m.line}
                   </p>
-                  <div className="mt-6 flex items-center gap-3">
-                    {[Linkedin, Dribbble].map((Icon, i) => (
-                      <a
-                        key={i}
-                        href="#"
-                        data-cursor-hover
-                        className="flex h-9 w-9 items-center justify-center text-gold ring-1 ring-gold/60 transition-colors hover:bg-gold/10"
+                  <div className="mt-6 flex flex-wrap items-center gap-2">
+                    {m.skills.map((skill) => (
+                      <span
+                        key={skill}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 font-mono-tag text-[11px] tracking-[0.08em] text-cream/90 transition-colors"
+                        style={{
+                          background: `${m.accent}18`,
+                          border: `1px solid ${m.accent}40`,
+                        }}
                       >
-                        <Icon className="h-4 w-4" />
-                      </a>
+                        <span
+                          className="h-1.5 w-1.5 rounded-full"
+                          style={{ background: m.accent }}
+                        />
+                        {skill}
+                      </span>
                     ))}
-                    <a
-                      href="#"
-                      data-cursor-hover
-                      className="flex h-9 w-9 items-center justify-center font-display-bold text-xs text-gold ring-1 ring-gold/60 transition-colors hover:bg-gold/10"
-                    >
-                      Bē
-                    </a>
                   </div>
                 </div>
 
